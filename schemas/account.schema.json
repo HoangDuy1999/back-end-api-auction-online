@@ -1,0 +1,18 @@
+{
+  "type": "object",
+  "properties": {
+    "account_id": { "type": "integer" },
+    "full_name": { "type": "string" },
+    "avatar": { "type": "string" },
+    "pass_word": {"type": "string"},
+    "email": { "type": "string" },
+    "address": { "type": "string" },
+    "evaluation_score": { "type": "string" },
+    "dob": { "type": "string" },
+    "role_id": { "type": "number" },
+    "rfToken": { "type": "string" },
+    "status": {"type": "number"}
+  },
+  "required": ["full_name", "pass_word", "email", "address", "role_id"],
+  "additionalProperties": false
+}

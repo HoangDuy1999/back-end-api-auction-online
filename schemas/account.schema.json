@@ -3,8 +3,10 @@
   "properties": {
     "account_id": { "type": "integer" },
     "full_name": { "type": "string" },
+    "gender": { "type": "string" },
     "avatar": { "type": "string" },
     "pass_word": {"type": "string"},
+    "phone": {"type": "string"},
     "email": { "type": "string" },
     "address": { "type": "string" },
     "evaluation_score": { "type": "string" },

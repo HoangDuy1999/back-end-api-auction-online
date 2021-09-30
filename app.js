@@ -14,6 +14,8 @@ app.get('/', async function(req, res){
 })
 // apis
 app.use('/api/accounts', require('./routes/account.route'));
+// apis
+app.use('/api/products', require('./routes/product.route'));
 
 app.use(function (req, res, next) {
   res.status(404).json({

@@ -30,7 +30,7 @@ app.use(function (err, req, res, next) {
     err_message: 'Hệ thông đang gặp sự cố. Vui lòng thực hiện thao tác lại.'
   });
 })
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3002;
 app.listen(PORT, ()=>{
   console.log(`Online auctiion backend is running at http://localhost:${PORT}`);
 })

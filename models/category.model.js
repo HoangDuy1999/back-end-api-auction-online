@@ -17,6 +17,12 @@ module.exports = {
     }
     return rows[0];
   },
+  async findByType(id) {
+    const rows = await db.select("c.*")
+    .from('category as c')
+    .where('c.status', 1).andWhere("c.type_id", id);
+    return rows;
+  },
   async add(category) {
       const rs = await db.table('category').insert(category);
       return rs;

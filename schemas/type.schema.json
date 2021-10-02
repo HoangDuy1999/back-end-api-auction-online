@@ -1,0 +1,12 @@
+{
+  "type": "object",
+  "properties": {
+    "type_id": { "type": "integer" },
+    "name": { "type": "string" },
+    "alias": { "type": "string" },
+    "description": { "type": "string" },
+    "status": {"type": "string"}
+  },
+  "required": ["type_id"],
+  "additionalProperties": false
+}

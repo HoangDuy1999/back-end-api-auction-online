@@ -17,6 +17,7 @@ app.get('/', async function(req, res){
 // apis
 app.use('/api/accounts', require('./routes/account.route'));
 app.use('/api/products', require('./routes/product.route'));
+app.use('/api/types', require('./routes/type.route'));
 app.use('/api/categorys', require('./routes/category.route'));
 
 // socket.io

@@ -7,7 +7,7 @@ const validate_email = require('../middlewares/validate_email.mdw');
 const schema = require('../schemas/account.schema.json');
 const router = express.Router();
 const randomstring = require('randomstring');
-
+const auth = require('../middlewares/auth.mdw');
 router.get('/', async (req, res) => {
   const rs = await accountModel.findAll();
   res.status(200).json(rs);
@@ -24,16 +24,16 @@ router.post('/', validate(schema), async function (req, res) {
   if (rs_email !== null) {
     return res.status(400).json({ message: "Email đã tồn tại." });
   }
-  
+
   const result = await accountModel.add(account);
-  if(!result[0]){
-    return res.statusCode(400).json({message: "Thêm tài khoản không thành công"});
+  if (!result[0]) {
+    return res.statusCode(400).json({ message: "Thêm tài khoản không thành công" });
   }
-  
+
   account.account_id = result[0];
   res.status(200).json({
     message: "Thêm tài khoản thành công.",
-    account: {...account}
+    account: { ...account }
   });
 });
 
@@ -69,6 +69,15 @@ router.post('/signin', validate(schema, ["email", "pass_word"]), async function 
     accessToken,
     refreshToken,
   });
+})
+router.post('/signout', auth, async (req, res) => {
+  const { account_id } = req.pay_load;
+  const rs = await accountModel.patch(account_id, { rf_token: null });
+  if (rs) {
+    res.status(200).json({ message: 'Đăng xuất thành công.' });
+  } else {
+    res.status(400).json({ message: 'Đăng xuất không thành công.' });
+  }
 })
 
 

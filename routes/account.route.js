@@ -37,4 +37,39 @@ router.post('/', validate(schema), async function (req, res) {
   });
 });
 
+router.post('/signin', validate(schema, ["email", "pass_word"]), async function (req, res) {
+  const account = await accountModel.findByEmail(req.body.email.trim());
+  if (account === null) {
+    return res.status(400).json({
+      "message": "email không tồn tại.",
+      authenticated: false
+    });
+  }
+  if (bcrypt.compareSync(req.body.pass_word, account.pass_word) === false) {
+    return res.status(400).json({
+      "message": "Mật khẩu không đúng.",
+      authenticated: false
+    });
+  }
+
+  const payload = { account_id: account.account_id, full_name: account.full_name, role_id: account.role_id }
+  const opts = {
+    expiresIn: 2 * 60 // seconds
+  }
+  const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET_KEY, opts);
+
+  const refreshToken = randomstring.generate(80);
+  await accountModel.patch(account.account_id, {
+    rf_token: refreshToken
+  })
+
+  return res.status(200).json({
+    message: "Đăng nhập thành công",
+    authenticated: true,
+    accessToken,
+    refreshToken,
+  });
+})
+
+
 module.exports = router;

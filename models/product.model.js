@@ -13,6 +13,7 @@ module.exports = {
         .leftJoin('type as t', 't.type_id', 'p.type_id')
         .leftJoin('category as c', 'c.category_id', 'p.category_id')
         .where('p.status', '1')
+        .orderBy('p.start_cost', 'asc')
     } else {
       return db.select('p.*', 'a.count_auction', 't.name as type_name', 't.alias as type_alias',
         'c.name as category_name', 'c.alias as category_alias',
@@ -26,6 +27,7 @@ module.exports = {
         .leftJoin('category as c', 'c.category_id', 'p.category_id')
         .whereRaw('TIMEDIFF(p.end_day, now()) > ?', 0)
         .where('p.status', '1')
+        .orderBy('p.start_cost', 'asc')
     }
   },
   findById(product_id) {
@@ -61,7 +63,7 @@ module.exports = {
       .where('p.status', '1').whereNotIn('p.product_id', [product_id])
       .andWhere('p.category_id', category_id)
       .limit(5)
-
+      .orderBy('p.start_cost', 'asc')
   },
   findAllByType_Id(type_id, condition_end_day = false) {
     if (condition_end_day) {
@@ -76,6 +78,7 @@ module.exports = {
         .leftJoin('type as t', 't.type_id', 'p.type_id')
         .leftJoin('category as c', 'c.category_id', 'p.category_id')
         .where('p.status', '1').andWhere('p.type_id', type_id)
+        .orderBy('p.start_cost', 'asc')
     } else {
       return db.select('p.*', 'a.count_auction', 't.name as type_name', 't.alias as type_alias',
         'c.name as category_name', 'c.alias as category_alias',
@@ -89,6 +92,7 @@ module.exports = {
         .leftJoin('category as c', 'c.category_id', 'p.category_id')
         .whereRaw('TIMEDIFF(p.end_day, now()) > ?', 0)
         .where('p.status', '1').andWhere('p.type_id', type_id)
+        .orderBy('p.start_cost', 'asc')
     }
   },
   findAllByCategory_Id(category_id, condition_end_day=false) {
@@ -104,6 +108,7 @@ module.exports = {
         .leftJoin('type as t', 't.type_id', 'p.type_id')
         .leftJoin('category as c', 'c.category_id', 'p.category_id')
         .where('p.status', '1').andWhere('p.category_id', category_id)
+        .orderBy('p.start_cost', 'asc')
     } else {
       return db.select('p.*', 'a.count_auction', 't.name as type_name', 't.alias as type_alias',
         'c.name as category_name', 'c.alias as category_alias',
@@ -117,6 +122,7 @@ module.exports = {
         .leftJoin('category as c', 'c.category_id', 'p.category_id')
         .whereRaw('TIMEDIFF(p.end_day, now()) > ?', 0)
         .where('p.status', '1').andWhere('p.category_id', category_id)
+        .orderBy('p.start_cost', 'asc')
     }
   },
   getInfoAuctioneer(product_id) {
@@ -126,7 +132,6 @@ module.exports = {
       .leftJoin('reject_auction as ra', 'ra.auction_detail_id', 'ad.auction_detail_id')
       .leftJoin('account as acc', 'ra.account_id', 'acc.account_id')
       .where('a.product_id', product_id).andWhere('a.status', 1)
-
   },
   top_5_time_run_out() {
     return db.select('p.*', 'a.count_auction', 't.name as type_name', 't.alias as type_alias',

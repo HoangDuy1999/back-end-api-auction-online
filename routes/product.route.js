@@ -3,14 +3,17 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const productModel = require('../models/product.model');
 const schema = require('../schemas/product.schema');
+const auth = require('../middlewares/auth.mdw');
 const router = express.Router();
-router.get('/', async (req, res) => {
+router.get('/', auth, async (req, res) => {
+  console.log(req.pay_load);
+  console.log(req.accessToken);
   const condition_end_day = req.query.condition_end_day || false;
   const rs = await productModel.findAll(condition_end_day);
   res.status(200).json(rs);
 });
 
-router.get('info/:id', async (req, res) => {
+router.get('/info/:id', async (req, res) => {
   const product_id = parseInt(req.params.id) || 0;
   const infoProduct = await productModel.findById(product_id);
   const infoAuctioneers = await productModel.getInfoAuctioneer(product_id);
@@ -46,6 +49,8 @@ router.get('/type/:id', async (req, res)=>{
 
 router.get('/category/:id', async (req, res)=>{
   const condition_end_day = req.query.condition_end_day || false;
+  const start  = req.query.start || 0;
+  const limit = req.query.limit || 5;
   const category_id = parseInt(req.params.id) || 0;
   const info_types = await productModel.findAllByCategory_Id(category_id, condition_end_day);
   res.status(200).json({info_types});

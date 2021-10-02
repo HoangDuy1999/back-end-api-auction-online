@@ -17,6 +17,13 @@ module.exports = {
     }
     return rows[0];
   },
+  async findByRefreshToken(rf_token) {
+    const rows = await db('account').where('rf_token', rf_token.trim());
+    if (rows.length === 0) {
+      return null;
+    }
+    return rows[0];
+  },
   async add(account) {
       const rs = await db.table('account').insert(account);
       return rs;

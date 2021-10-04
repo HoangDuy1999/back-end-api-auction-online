@@ -41,7 +41,7 @@ module.exports = {
     .leftJoin('account as acc2', 'acc2.account_id', 'a.bidder_id')
     .leftJoin('type as t', 't.type_id', 'p.type_id')
     .leftJoin('category as c', 'c.category_id', 'p.category_id')
-    //.whereRaw(`TIMEDIFF(p.end_day, now()) > 0 and match(p.name, p.description) again(${textSearch})`)
+    .whereRaw(`TIMEDIFF(p.end_day, now()) > 0 and match(p.name, p.description) AGAINST('${textSearch}')`)
     .where('p.status', '1')
     .orderBy('p.start_cost', 'asc')
   },

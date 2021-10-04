@@ -96,6 +96,10 @@ module.exports = {
         .orderBy('p.start_cost', 'asc')
     }
   },
+  getCategoryNameById(category_id){
+    return db.select("c.name").from("category as c")
+    .where("c.category_id", category_id).andWhere("c.status", 1);
+  },
   findAllByCategory_Id(category_id, condition_end_day=false) {
     if (condition_end_day) {
       return db.select('p.*', 'a.count_auction', 't.name as type_name', 't.alias as type_alias',

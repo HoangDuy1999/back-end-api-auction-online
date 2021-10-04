@@ -18,10 +18,10 @@ router.get('/fullinfos', async (req, res) => {
   const rs = await typeModel.findAll();
   let arrTypeInfos = [];
   for(let item of rs){
-    const infoCategorys = await categoryModel.findByType(item.type_id);
-    console.log(infoCategorys);
-    console.log("=============================")
-    arrTypeInfos.push({types: {...item}, categorys: infoCategorys});
+    const infoCategories = await categoryModel.findByType(item.type_id);
+    // console.log(infoCategorys);
+    // console.log("=============================")
+    arrTypeInfos.push({types: {...item}, categories: infoCategories});
     //console.log(item.type_id);
   }
   //console.log(rs);

@@ -52,9 +52,12 @@ router.get('/category/:id', async (req, res)=>{
   const start  = req.query.start || 0;
   const limit = req.query.limit || 5;
   const category_id = parseInt(req.params.id) || 0;
+  const infoCategory = await productModel.getCategoryNameById(category_id);
   const info_types = await productModel.findAllByCategory_Id(category_id, condition_end_day);
-  res.status(200).json({info_types});
-
+  if(!infoCategory[0]){
+    return res.status(400).json({message: "Chuyên mục không tồn tại"});
+  }
+  res.status(200).json({"name": infoCategory[0].name, info_types});
 })
 
 router.get('/home/top-5-time-run-out', async (req, res) => {

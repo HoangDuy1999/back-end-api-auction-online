@@ -30,6 +30,21 @@ module.exports = {
         .orderBy('p.start_cost', 'asc')
     }
   },
+  search(textSearch){
+    return db.select('p.*', 'a.count_auction', 't.name as type_name', 't.alias as type_alias',
+    'c.name as category_name', 'c.alias as category_alias',
+    'a.auction_id as auction_id', 'a.bidder_id', 'acc1.full_name as seller_name',
+    'acc2.full_name as bidder_name')
+    .from('product as p')
+    .leftJoin('auction as a', 'a.product_id', 'p.product_id')
+    .leftJoin('account as acc1', 'acc1.account_id', 'p.seller_id')
+    .leftJoin('account as acc2', 'acc2.account_id', 'a.bidder_id')
+    .leftJoin('type as t', 't.type_id', 'p.type_id')
+    .leftJoin('category as c', 'c.category_id', 'p.category_id')
+    //.whereRaw(`TIMEDIFF(p.end_day, now()) > 0 and match(p.name, p.description) again(${textSearch})`)
+    .where('p.status', '1')
+    .orderBy('p.start_cost', 'asc')
+  },
   findById(product_id) {
     return db.select('p.*', 'a.count_auction', 't.name as type_name', 't.alias as type_alias',
       'c.name as category_name', 'c.alias as category_alias',

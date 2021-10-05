@@ -12,7 +12,7 @@ module.exports = function (schema, arequired = null) {
       validate = ajv.compile(schema);
     }
     //console.log(req.body);
-    //console.log(schema.required);
+    console.log(schema.required);
     const valid = validate(req.body);
     //console.log(validate.errors);
     if (!valid) {

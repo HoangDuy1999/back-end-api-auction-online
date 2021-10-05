@@ -57,11 +57,18 @@ router.post('/signin', validate(schema, ["email", "pass_word"]), async function 
     expiresIn: 2 * 60 // seconds
   }
   const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET_KEY, opts);
-
-  const refreshToken = randomstring.generate(80);
-  await accountModel.patch(account.account_id, {
-    rf_token: refreshToken
-  })
+  let refreshToken = account.rf_token;
+  if (account.rf_token == null) {
+    refreshToken = randomstring.generate(80);
+    console.log(refreshToken);
+    await accountModel.patch(account.account_id, {
+      rf_token: refreshToken
+    })
+  }
+  // const refreshToken = randomstring.generate(80);
+  // await accountModel.patch(account.account_id, {
+  //   rf_token: refreshToken
+  // })
 
   return res.status(200).json({
     message: "Đăng nhập thành công",
@@ -79,6 +86,37 @@ router.post('/signout', auth, async (req, res) => {
     res.status(400).json({ message: 'Đăng xuất không thành công.' });
   }
 })
+router.post('/login-google', async(req, res) => {
+  const { email } = req.body;
+  if (email) {
+    const account = await accountModel.findByEmail(email.trim());
+    if (account) {
+      const payload = { account_id: account.account_id, full_name: account.full_name, role_id: account.role_id }
+      const opts = {
+        expiresIn: 2 * 60 // seconds
+      }
+      const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET_KEY, opts);
+      let refreshToken = account.rf_token;
+      if (account.rf_token == null) {
+        refreshToken = randomstring.generate(80);
+        console.log(refreshToken);
+        await accountModel.patch(account.account_id, {
+          rf_token: refreshToken
+        })
+      }
+      return res.status(200).json({
+        message: "Đăng nhập thành công",
+        authenticated: true,
+        accessToken,
+        refreshToken,
+      });
+    } else {
+      res.status(400).json({ message: "Tài khoản chưa đăng ký" });
+    }
+  } else {
+    res.status(400).json({ message: "Dữ liệu đầu vào không hợp lệ" });
+  }
+});
 
 
 module.exports = router;

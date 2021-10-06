@@ -31,7 +31,7 @@ router.patch('/removeProduct', async(req, res)=>{
   const rs_auction = await auctionModel.patch(p_id.trim(), {status: 0});
   const rs_detail_auction = await auctionDetailModel.patch(rs_auction, {status: 0});
   const rs_reject_auction = await rejectAuctionModel.patch(rs_auction, {status: 0});
-  console.log(rs_detail_auction);
+  //console.log(rs_detail_auction);
   res.status(200).json({message: "Gỡ sản phẩm thành công"});
 });
 

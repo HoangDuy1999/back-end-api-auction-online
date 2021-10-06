@@ -14,7 +14,7 @@ module.exports = function (schema, arequired = null) {
     console.log(arequired);
     console.log(schema.required);
     const valid = validate(req.body);
-    //console.log(validate.errors);
+    console.log(validate.errors);
     if (!valid) {
       const temp = validate.errors;
       //console.log(temp);

@@ -15,6 +15,6 @@
     "rfToken": { "type": "string" },
     "status": {"type": "number"}
   },
-  "required": ["full_name", "pass_word", "email", "address", "role_id"],
+  "required": ["full_name", "pass_word", "email", "address"],
   "additionalProperties": false
 }

@@ -7,14 +7,14 @@ module.exports = function (schema, arequired = null) {
     let validate = null;
     if (arequired != null) {
       schema.required = arequired;
+      //console.log("runnnnnnn");
       validate = ajv.compile(schema);
     } else {
       validate = ajv.compile(schema);
     }
-    console.log(arequired);
-    console.log(schema.required);
+   // console.log(schema.required);
     const valid = validate(req.body);
-    console.log(validate.errors);
+   // console.log(validate.errors);
     if (!valid) {
       const temp = validate.errors;
       //console.log(temp);

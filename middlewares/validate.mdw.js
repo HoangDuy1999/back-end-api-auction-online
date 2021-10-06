@@ -11,7 +11,7 @@ module.exports = function (schema, arequired = null) {
     } else {
       validate = ajv.compile(schema);
     }
-    //console.log(req.body);
+    console.log(arequired);
     console.log(schema.required);
     const valid = validate(req.body);
     //console.log(validate.errors);

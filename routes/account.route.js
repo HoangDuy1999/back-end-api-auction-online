@@ -39,6 +39,7 @@ router.post('/', validate(schema), async function (req, res) {
 });
 
 router.post('/signin', validate(schema, ["email", "pass_word"]), async function (req, res) {
+  console.log(1111111111);
   const account = await accountModel.findByEmail(req.body.email.trim());
   if (account === null) {
     return res.status(400).json({

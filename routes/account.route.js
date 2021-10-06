@@ -8,6 +8,7 @@ const schema = require('../schemas/account.schema.json');
 const router = express.Router();
 const randomstring = require('randomstring');
 const auth = require('../middlewares/auth.mdw');
+const mail_server = require('../middlewares/server_mail_mdw');
 router.get('/', async (req, res) => {
   const rs = await accountModel.findAll();
   res.status(200).json(rs);
@@ -65,10 +66,6 @@ router.post('/signin', validate(schema, ["email", "pass_word"]), async function 
       rf_token: refreshToken
     })
   }
-  // const refreshToken = randomstring.generate(80);
-  // await accountModel.patch(account.account_id, {
-  //   rf_token: refreshToken
-  // })
 
   return res.status(200).json({
     message: "Đăng nhập thành công",
@@ -117,6 +114,19 @@ router.post('/login-google', async(req, res) => {
     res.status(400).json({ message: "Dữ liệu đầu vào không hợp lệ" });
   }
 });
+
+router.post('/sendOtpSignUp', validate(schema, ["email", "full_name"]), async(req, res)=>{
+  const {full_name, email} = req.body;
+  if(!full_name){
+    return res.status(400).json({message: 'Thiếu trường tên người đăng ký'})
+  }
+  const rs = await accountModel.findByEmail(email.trim());
+  if(rs){
+    return res.status(400).json({message: 'Email đã đăng ký tài khoản rồi.'});
+  }
+  const otp = await mail_server.sendEmailSignUp(email, full_name);
+  res.status(200).json({message: "Gửi mã otp thành công", otp: otp});
+})
 
 
 module.exports = router;

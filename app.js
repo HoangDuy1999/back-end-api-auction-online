@@ -3,6 +3,7 @@ const morgan = require('morgan');
 const http = require('http');
 const app = express();
 const server = http.createServer(app);
+const auth = require('./middlewares/auth.mdw');
 const cors = require('cors')
 require('express-async-errors');
 require('dotenv').config();
@@ -19,6 +20,7 @@ app.use('/api/accounts', require('./routes/account.route'));
 app.use('/api/products', require('./routes/product.route'));
 app.use('/api/types', require('./routes/type.route'));
 app.use('/api/categories', require('./routes/category.route'));
+app.use('/api/admin/product', auth, require('./routes/admin/product.route'));
 
 // socket.io
 const io = require('socket.io')(server, {

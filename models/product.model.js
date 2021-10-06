@@ -30,20 +30,24 @@ module.exports = {
         .orderBy('p.start_cost', 'asc')
     }
   },
-  search(textSearch){
+  search(textSearch) {
     return db.select('p.*', 'a.count_auction', 't.name as type_name', 't.alias as type_alias',
-    'c.name as category_name', 'c.alias as category_alias',
-    'a.auction_id as auction_id', 'a.bidder_id', 'acc1.full_name as seller_name',
-    'acc2.full_name as bidder_name')
-    .from('product as p')
-    .leftJoin('auction as a', 'a.product_id', 'p.product_id')
-    .leftJoin('account as acc1', 'acc1.account_id', 'p.seller_id')
-    .leftJoin('account as acc2', 'acc2.account_id', 'a.bidder_id')
-    .leftJoin('type as t', 't.type_id', 'p.type_id')
-    .leftJoin('category as c', 'c.category_id', 'p.category_id')
-    .whereRaw(`TIMEDIFF(p.end_day, now()) > 0 and match(p.name, p.description) AGAINST('${textSearch}')`)
-    .where('p.status', '1')
-    .orderBy('p.start_cost', 'asc')
+      'c.name as category_name', 'c.alias as category_alias',
+      'a.auction_id as auction_id', 'a.bidder_id', 'acc1.full_name as seller_name',
+      'acc2.full_name as bidder_name')
+      .from('product as p')
+      .leftJoin('auction as a', 'a.product_id', 'p.product_id')
+      .leftJoin('account as acc1', 'acc1.account_id', 'p.seller_id')
+      .leftJoin('account as acc2', 'acc2.account_id', 'a.bidder_id')
+      .leftJoin('type as t', 't.type_id', 'p.type_id')
+      .leftJoin('category as c', 'c.category_id', 'p.category_id')
+      .whereRaw(`TIMEDIFF(p.end_day, now()) > 0 and match(p.name, p.description) AGAINST('${textSearch}')`)
+      .where('p.status', '1')
+      .orderBy('p.start_cost', 'asc')
+  },
+  async patch(id, product) {
+    const rs = await db('product').where('product_id', id).update(product);
+    return rs;
   },
   findById(product_id) {
     return db.select('p.*', 'a.count_auction', 't.name as type_name', 't.alias as type_alias',
@@ -111,11 +115,11 @@ module.exports = {
         .orderBy('p.start_cost', 'asc')
     }
   },
-  getCategoryNameById(category_id){
+  getCategoryNameById(category_id) {
     return db.select("c.name").from("category as c")
-    .where("c.category_id", category_id).andWhere("c.status", 1);
+      .where("c.category_id", category_id).andWhere("c.status", 1);
   },
-  findAllByCategory_Id(category_id, condition_end_day=false) {
+  findAllByCategory_Id(category_id, condition_end_day = false) {
     if (condition_end_day) {
       return db.select('p.*', 'a.count_auction', 't.name as type_name', 't.alias as type_alias',
         'c.name as category_name', 'c.alias as category_alias',

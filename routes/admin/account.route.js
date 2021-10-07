@@ -66,5 +66,38 @@ router.delete('/', async(req, res)=>{
   res.status(200).json({message: "Xóa tài khoản thành công"});
 
 });
+router.get('/bidder', async (req, res) => {
+  if (req.pay_load.role_id != 3) {
+    return res.status(401).json({ message: "Bạn không có quyền truy cập" });
+  }
+  const rs = await accountModel.findAllBidder();
+  res.status(200).json(rs);
+});
+
+router.patch('/upgrade', async (req, res) => {
+  const account_id = req.query.account_id;
+  if(!account_id){
+    return res.status(400).json({message: "Dữ liệu đầu vào không hợp lệ"});
+  }
+  const rs = await accountModel.patch(account_id, {role_id: 2});
+  if(!rs){
+    return res.status(400).json({message: "Nâng cấp tài khoản không thành công"});
+  }
+  res.status(200).json({message: "Nâng cấp tài khoản thành công"});
+});
+router.patch('/inferior', async (req, res) => {
+  const account_id = req.query.account_id;
+  if(!account_id){
+    return res.status(400).json({message: "Dữ liệu đầu vào không hợp lệ"});
+  }
+  const rs = await accountModel.patch(account_id, {role_id: 1});
+  if(!rs){
+    return res.status(400).json({message: "Hạ cấp tài khoản không thành công"});
+  }
+  res.status(200).json({message: "Hạ cấp tài khoản thành công"});
+});
+
+
+
 
 module.exports = router;

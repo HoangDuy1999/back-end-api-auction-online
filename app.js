@@ -20,7 +20,11 @@ app.use('/api/accounts', require('./routes/account.route'));
 app.use('/api/products', require('./routes/product.route'));
 app.use('/api/types', require('./routes/type.route'));
 app.use('/api/categories', require('./routes/category.route'));
+
+//admin
 app.use('/api/admin/product', auth, require('./routes/admin/product.route'));
+app.use('/api/admin/account', auth, require('./routes/admin/account.route'));
+app.use('/api/admin/role', auth, require('./routes/admin/role.route'))
 
 // socket.io
 const io = require('socket.io')(server, {

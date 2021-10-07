@@ -1,7 +1,9 @@
 const db = require('../utils/db');
 module.exports = {
   findAll() {
-    return db.table('account');
+    return db.select("acc.*", "r.name as role_name")
+    .from('account as acc')
+    .leftJoin('role as r', 'acc.role_id', 'r.role_id');
   },
   async findById(id) {
     const rows = await db.table('account').where('account_id', id);

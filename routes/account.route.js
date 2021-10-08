@@ -40,6 +40,7 @@ router.post('/', validate(schema), async function (req, res) {
 });
 
 router.post('/signin', async function (req, res) {
+  console.log("aaa");
   try {
     const { email, pass_word } = req.body;
     const account = await accountModel.findByEmail(req.body.email.trim());

@@ -13,10 +13,14 @@ router.get('/', auth, async (req, res) => {
   res.status(200).json(rs);
 });
 router.get('/search', async(req, res)=>{
+  try{
   const textSearch = req.query.textSearch.trim();
   console.log(textSearch);
   const infoProduct = await productModel.search(textSearch);
   res.status(200).json(infoProduct);
+  }catch(e){
+    res.statusCode(400).json({message: "thiếu trường dữ liệu textSearch"});
+  }
 });
 
 router.get('/info/:id', async (req, res) => {

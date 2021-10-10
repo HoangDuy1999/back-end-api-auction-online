@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1:3306
--- Thời gian đã tạo: Th10 04, 2021 lúc 04:36 AM
+-- Thời gian đã tạo: Th10 10, 2021 lúc 05:23 AM
 -- Phiên bản máy phục vụ: 5.7.31
 -- Phiên bản PHP: 7.3.21
 
@@ -41,6 +41,7 @@ CREATE TABLE IF NOT EXISTS `account` (
   `dob` datetime DEFAULT NULL,
   `role_id` int(11) NOT NULL,
   `rf_token` tinytext COLLATE utf8mb4_unicode_ci,
+  `request_update` tinyint(1) NOT NULL DEFAULT '0',
   `status` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`account_id`),
   KEY `role_id` (`role_id`)
@@ -50,13 +51,13 @@ CREATE TABLE IF NOT EXISTS `account` (
 -- Đang đổ dữ liệu cho bảng `account`
 --
 
-INSERT INTO `account` (`account_id`, `full_name`, `Gender`, `avatar`, `phone`, `pass_word`, `email`, `address`, `evaluation_score`, `dob`, `role_id`, `rf_token`, `status`) VALUES
-(1, 'Trần Hoàng Duy', 'Nam', NULL, '0938505050', '$2a$10$1CIynYA7gbyJNPufeKNhBuJFIFTs.OPiPAU4QTuQg4hfs6IWz1B3K', 'tranhoangduy.911@gmail.com', '123 cách mạng tháng 8, phường 15, quận `0, hcm', 10, NULL, 1, NULL, 1),
-(2, 'Trần Gia Hân', 'Nữ', NULL, '0938505051', '$2a$10$S9RXdsPJDkk.KzGtjQ0TVe6Zuh4kOXsbrJ7B8n573aWzsnSm.Ns56', 'hadesduy0001@gmail.com', '125/2 cách mạng tháng 8, phuong 12, quận 10, hcm', 10, NULL, 1, NULL, 1),
-(3, 'Nguyễn Trấn Hề', 'Nam', NULL, '093850502', '$2a$10$dMyuWlZPlGj4bjOqogWejeOk6H4Yd147shTEfz3UIvRW5HV8o4Slm', 'hadesduy0002@gmail.com', '342 quang trung, phuong 12, quận 10, hcm', 10, NULL, 2, NULL, 1),
-(4, 'Võ Hoài Luôn', 'Nam', NULL, '0938505054', '$2a$10$nUOs0mIHgkBoTdCSO/qZ6OmECIvaXe5K4063.uGB2r7hEtEYb/DPa', 'hadesduy0003@gmail.com', '569 bến nghé, phuong 12, quận 10, hcm', 10, NULL, 2, NULL, 1),
-(5, 'Đàm tướng cướp', 'Nam', NULL, '0938505055', '$2a$10$wuwHNF6at692plNbWbjpXeJESCTywWIkXpZaDVjh2vHkwqhE.fgR.', 'hadesduy0004@gmail.com', '378 vùng đát cấm, phuong 12, quận 10, hcm', 10, NULL, 2, NULL, 1),
-(6, 'Lê Ngọc Ân', 'Nam', NULL, '0938505056', '$2a$10$ZfYq2rJE.3PUbnaoiDxgk.40.8LknCxUFKqkT2Y/KZb2QG/PhXmym', 'an9x0010@gmail.com', '378 hòa thái đường, phuong 12, quận 10, hcm', 10, NULL, 3, NULL, 1);
+INSERT INTO `account` (`account_id`, `full_name`, `Gender`, `avatar`, `phone`, `pass_word`, `email`, `address`, `evaluation_score`, `dob`, `role_id`, `rf_token`, `request_update`, `status`) VALUES
+(1, 'Trần Hoàng Duy', 'Nam', NULL, '0938505050', '$2a$10$1CIynYA7gbyJNPufeKNhBuJFIFTs.OPiPAU4QTuQg4hfs6IWz1B3K', 'tranhoangduy.911@gmail.com', '123 cách mạng tháng 8, phường 15, quận `0, hcm', 10, NULL, 1, NULL, 1, 1),
+(2, 'Trần Gia Hân', 'Nữ', NULL, '0938505051', '$2a$10$S9RXdsPJDkk.KzGtjQ0TVe6Zuh4kOXsbrJ7B8n573aWzsnSm.Ns56', 'hadesduy0001@gmail.com', '125/2 cách mạng tháng 8, phuong 12, quận 10, hcm', 10, NULL, 1, NULL, 0, 1),
+(3, 'Nguyễn Trấn Hề', 'Nam', NULL, '093850502', '$2a$10$dMyuWlZPlGj4bjOqogWejeOk6H4Yd147shTEfz3UIvRW5HV8o4Slm', 'hadesduy0002@gmail.com', '342 quang trung, phuong 12, quận 10, hcm', 10, NULL, 2, NULL, 0, 1),
+(4, 'Võ Hoài Luôn', 'Nam', NULL, '0938505054', '$2a$10$nUOs0mIHgkBoTdCSO/qZ6OmECIvaXe5K4063.uGB2r7hEtEYb/DPa', 'hadesduy0003@gmail.com', '569 bến nghé, phuong 12, quận 10, hcm', 10, NULL, 2, NULL, 0, 1),
+(5, 'Đàm tướng cướp', 'Nam', NULL, '0938505055', '$2a$10$wuwHNF6at692plNbWbjpXeJESCTywWIkXpZaDVjh2vHkwqhE.fgR.', 'hadesduy0004@gmail.com', '378 vùng đát cấm, phuong 12, quận 10, hcm', 10, NULL, 2, NULL, 0, 1),
+(6, 'Lê Ngọc Ân', 'Nam', NULL, '0938505056', '$2a$10$ZfYq2rJE.3PUbnaoiDxgk.40.8LknCxUFKqkT2Y/KZb2QG/PhXmym', 'an9x0010@gmail.com', '378 hòa thái đường, phuong 12, quận 10, hcm', 10, NULL, 3, 'cHM6Ljbi3gSWpnWGE09Bi1G7XTGU8Tcvl9NqbqUTLMN7GtCgVYX12zWSQHxzIZXGoGXCFT4WSMRwPXI3', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -209,7 +210,7 @@ CREATE TABLE IF NOT EXISTS `product` (
 --
 
 INSERT INTO `product` (`product_id`, `seller_id`, `type_id`, `category_id`, `name`, `image`, `start_cost`, `step_cost`, `buy_now`, `start_day`, `end_day`, `created_at`, `description`, `status`) VALUES
-(1, 3, 1, 1, 'Apple iPhone 7 32GB - Black Factory Unlocked Smartphone', 'https://firebasestorage.googleapis.com/v0/b/auction-online-c77a4.appspot.com/o/1.jpg?alt=media&token=6391f76f-ffa4-4402-a5ef-5cb0574ea55f', 1000000, 100000, NULL, '2021-09-28 00:00:00', '2021-10-25 00:00:00', '2021-09-28 10:28:15', '<p>“In excellent condition UNLOCKED iPhone 7 32GB Black. This iPhone 7 32GB Black smartphone can be used with all carriers in the USA, including Verizon, T-Mobile, AT&T and more. Tested by our tech facility for full functionality. Cleaned and sanitized before shipment. Only the phone will be shipped. Accessories are not included (charging cable is included and charger is not included) Screen is free of cracks or scratches, fully functional. Minor cosmetic blemishes may exist on the body of the phone as this is a refurbished unit.”</p>', 1),
+(1, 3, 1, 1, 'Apple iPhone 7 32GB - Black Factory Unlocked Smartphone', 'https://firebasestorage.googleapis.com/v0/b/auction-online-c77a4.appspot.com/o/1.jpg?alt=media&token=6391f76f-ffa4-4402-a5ef-5cb0574ea55f', 1000000, 100000, NULL, '2021-09-28 00:00:00', '2021-10-25 00:00:00', '2021-09-28 10:28:15', '<p>“In excellent condition UNLOCKED iPhone 7 32GB Black. This iPhone 7 32GB Black smartphone can be used with all carriers in the USA, including Verizon, T-Mobile, AT&T and more. Tested by our tech facility for full functionality. Cleaned and sanitized before shipment. Only the phone will be shipped. Accessories are not included (charging cable is included and charger is not included) Screen is free of cracks or scratches, fully functional. Minor cosmetic blemishes may exist on the body of the phone as this is a refurbished unit.”</p>', 0),
 (2, 3, 1, 1, 'Apple iPhone XR White - 64GB - Unlocked', 'https://firebasestorage.googleapis.com/v0/b/auction-online-c77a4.appspot.com/o/2.jpg?alt=media&token=dd49831a-3306-4d3a-82a8-13e0cfad98e9', 2000000, 100000, 3000000, '2021-09-29 00:00:00', '2021-10-26 00:00:00', '2021-09-28 10:38:04', '<p>\r\nApple iPhone XR White - 64GB - Unlocked.\r\nRear Camera isn’t working.Face ID isn’t working.Back is cracked.Other than those issues the phone works great.\r\n</p>', 1),
 (3, 3, 1, 1, 'Apple iPhone 7 32GB Black (Verizon) A1660 (CDMA GSM) UNLOCKED Brand New SEALED', 'https://firebasestorage.googleapis.com/v0/b/auction-online-c77a4.appspot.com/o/3.jpg?alt=media&token=54bc13be-04ee-483e-8233-ae681869a438', 1234567, 100000, 12345678, '2021-09-29 00:00:00', '2021-10-30 00:00:00', '2021-09-28 10:52:51', '<p>\r\nAbout this product\r\nProduct Information\r\nThe iPhone 7 is a smartphone by Apple with a black finish. The iPhone 7 is powered by quad-core processor, a six-core graphics processor, and 2 GB of RAM. The phone features a water resistant casing with an oleophobic coating, a pressure sensitive Home button with a built-in fingerprint sensor, a 4.7 inches Retina HD display with a 750 x 1334 pixels resolution at 326 ppi pixel density, and stereo speakers. The built-in lithium-ion battery provides enough power to support up to 14 hours of talk time or mobile data usage and up to 10 days of standby. A 12 MP camera captures your precious moments with auto image stabilization and HDR while a 7 MP front facing camera allows for high quality video calls. The phone measures 138.3 x 67.1 x 7.1 mm, weighs 138 g and has a memory capacity of 32 GB. This device is locked to Verizon and compatible with Sprint, Straight Talk, U.S. Cellular, Virgin Mobile, Boost Mobile, Xfinity, TracFone Carriers.\r\n</p>', 1),
 (4, 3, 1, 1, 'Apple IPhone XS (512 GB) Boxed Inc. Accessories.', 'https://firebasestorage.googleapis.com/v0/b/auction-online-c77a4.appspot.com/o/4.jfif?alt=media&token=e470fefb-32d1-4baa-9a55-57c76453b05b', 44342453, 100000, NULL, '2021-09-30 00:00:00', '2021-10-28 00:00:00', '2021-09-28 10:57:23', '', 1),

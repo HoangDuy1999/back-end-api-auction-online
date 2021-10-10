@@ -1,10 +1,12 @@
 const express = require('express');
 const accountModel = require('../../models/account.model');
+const evaluation_historyModel = require('../../models/evaluation_history.model');
 const schema = require('../../schemas/account.schema.json');
 const validate = require('../../middlewares/validate.mdw');
 const validate_email = require('../../middlewares/validate_email.mdw');
 const bcrypt = require('bcryptjs');
 const _ = require('lodash');
+const { route } = require('./product.route');
 //const auth = require('../../middlewares/auth.mdw');
 const router = express.Router();
 router.get('/', async (req, res) => {
@@ -65,6 +67,13 @@ router.delete('/', async(req, res)=>{
   }
   res.status(200).json({message: "Xóa tài khoản thành công"});
 
+});
+router.get("/detail/:id", async(req, res) =>{
+  const account_id = req.params.id || 0;
+  const rs = await accountModel.findById(account_id);
+  //console.log(rs);
+  const rs_ev = await evaluation_historyModel.findByAccountId(account_id);
+  res.status(200).json({info_acount: rs, evaluation_history: rs_ev});
 });
 router.get('/bidder', async (req, res) => {
   if (req.pay_load.role_id != 3) {

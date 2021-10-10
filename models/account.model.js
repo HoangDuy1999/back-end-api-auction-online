@@ -12,7 +12,10 @@ module.exports = {
     .where('acc.role_id', 1).andWhere('acc.request_update', 1);
   },
   async findById(id) {
-    const rows = await db.table('account').where('account_id', id);
+    const rows = await db.select("acc.*", "r.name as role_name")
+    .from("account as acc")
+    .leftJoin('role as r', 'acc.role_id', 'r.role_id')
+    .where('account_id', id);
     if (rows.length === 0) {
       return null;
     }

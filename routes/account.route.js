@@ -2,6 +2,7 @@ const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const accountModel = require('../models/account.model');
+const evaluation_historyModel = require('../models/evaluation_history.model');
 const validate = require('../middlewares/validate.mdw');
 const validate_email = require('../middlewares/validate_email.mdw');
 const schema = require('../schemas/account.schema.json');
@@ -37,6 +38,29 @@ router.post('/', validate(schema), async function (req, res) {
     message: "Thêm tài khoản thành công.",
     account: { ...account }
   });
+});
+
+router.patch('/email', auth, validate(schema, ["account_id", "email"]), async function (req, res) {
+  const account = req.body;
+  const account_id = account.account_id || 0;
+  const rs = await accountModel.patch(account_id, {email: account.email});
+  if(!rs){
+    return res.status(200).json({
+      message: "Cập nhật email không thành công",
+      email: account.email
+    });
+  }
+  res.status(200).json({
+    message: "Cập nhật email thành công",
+    email: account.email
+  });
+});
+
+router.get('/detail/:id', auth, async(req, res)=>{
+  const account_id = req.params.id || 0;
+  const rs = await accountModel.findById(account_id);
+  const rs_ev = await evaluation_historyModel.findByAccountId(account_id);
+  res.json({info_account: rs, evaluation_history: rs_ev});
 });
 
 router.post('/signin', async function (req, res) {
@@ -122,6 +146,25 @@ router.post('/login-google', async (req, res) => {
   }
 });
 
+router.patch('/password', auth, validate(schema, ["account_id", "pass_word"]), async(req, res)=>{
+  const account = req.body;
+  const pass_word = bcrypt.hashSync(account.pass_word, parseInt(process.env.SALT));
+  const rs = await accountModel.patch(account.account_id, {pass_word: pass_word});
+  if(!rs){
+    return res.status(400).json({"message": "Cập nhật không mật khẩu thành công"});
+  }
+  res.status(200).json({"message": "Cập nhật mật khẩu thành công"})
+});
+
+router.patch('/fullname', auth, validate(schema, ["account_id", "full_name"]), async(req, res)=>{
+  const account = req.body;
+  const rs = await accountModel.patch(account.account_id, {full_name: account.full_name});
+  if(!rs){
+    return res.status(400).json({"message": "Cập nhật họ tên không thành công"});
+  }
+  res.status(200).json({"message": "Cập nhật họ tên thành công"})
+});
+
 router.post('/sendOtpSignUp', validate(schema, ["email", "full_name"]), async (req, res) => {
   const { full_name, email } = req.body;
   if (!full_name) {
@@ -132,6 +175,19 @@ router.post('/sendOtpSignUp', validate(schema, ["email", "full_name"]), async (r
     return res.status(400).json({ message: 'Email đã đăng ký tài khoản rồi.' });
   }
   const otp = await mail_server.sendEmailSignUp(email, full_name);
+  res.status(200).json({ message: "Gửi mã otp thành công", otp: otp });
+})
+
+router.post('/sendOtpChangeEmail', validate(schema, ["email", "full_name"]), async (req, res) => {
+  const { full_name, email } = req.body;
+  if (!full_name) {
+    return res.status(400).json({ message: 'Thiếu trường tên người dùng' })
+  }
+  const rs = await accountModel.findByEmail(email.trim());
+  if (!rs) {
+    return res.status(400).json({ message: 'Email không tồn tại trong hệ thống.' });
+  }
+  const otp = await mail_server.sendOtpChangeEmail(email, full_name);
   res.status(200).json({ message: "Gửi mã otp thành công", otp: otp });
 })
 

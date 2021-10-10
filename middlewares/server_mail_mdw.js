@@ -23,6 +23,18 @@ module.exports = {
       }
     });
     return otp;
+  },
+  sendOtpChangeEmail(r_email, username= "unknown") {
+    const otp = Math.floor(100000 + Math.random() * 900000);
+    transporter.sendMail(format_email.otpChangeEmail(r_email, username, otp), function (err, info) {
+      if (err) {
+        console.log(err);
+        return 0;
+      } else {
+        console.log('Message sent: ' + info.response);
+      }
+    });
+    return otp;
   }
 }
 

@@ -21,6 +21,8 @@ app.use('/api/products', require('./routes/product.route'));
 app.use('/api/types', require('./routes/type.route'));
 app.use('/api/categories', require('./routes/category.route'));
 
+//seller
+app.use('/api/seller/product', auth, require('./routes/seller/product.route'));
 //admin
 app.use('/api/admin/product', auth, require('./routes/admin/product.route'));
 app.use('/api/admin/account', auth, require('./routes/admin/account.route'));

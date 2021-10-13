@@ -4,6 +4,7 @@ const ajv = new Ajv(/*{ allErrors: true }*/);
 addFormats(ajv);
 module.exports = function (schema, arequired = null) {
   return function (req, res, next) {
+    //console.log(schema);
     let validate = null;
     if (arequired != null) {
       schema.required = arequired;
@@ -17,8 +18,9 @@ module.exports = function (schema, arequired = null) {
    // console.log(validate.errors);
     if (!valid) {
       const temp = validate.errors;
-      //console.log(temp);
+      console.log(temp);
       if (temp[0].params.missingProperty == undefined) {
+        console.log(temp[0].params.missingProperty);
         return res.status(400).json({ message: `Dư trường dữ liệu '${temp[0].params.additionalProperty}'` });
       }else{
         return res.status(400).json({ message: `Thiếu trường dữ liệu '${temp[0].params.missingProperty}'` });

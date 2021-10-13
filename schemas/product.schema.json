@@ -1,0 +1,23 @@
+{
+  "type": "object",
+  "properties": {
+    "product_id": { "type": "integer" },
+    "seller_id": { "type": "string" },
+    "type_id": { "type": "integer" },
+    "category_id": { "type": "integer" },
+    "name": {"type": "string"},
+    "image": {"type": "string"},
+    "start_cost": { "type": "number" },
+    "step_cost": { "type": "number" },
+    "buy_now": { "type": "number" },
+    "start_day": { "type": "string" },
+    "end_day": { "type": "string" },
+    "created_at": { "type": "string" },
+    "description": {"type": "string"},
+    "is_auto_renew": {"enum": [0,1]},
+    "status": {"type": "boolean"}
+  },
+  "required": ["type_id", "category_id", "name", "image", "start_cost",
+    "step_cost", "start_day", "end_day",  "description", "is_auto_renew" ],
+  "additionalProperties": false
+}

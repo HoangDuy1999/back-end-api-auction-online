@@ -46,5 +46,25 @@ router.post('/', validate(schema), async (req, res) => {
 
   res.status(200).json({message: 'thêm thành công sản phẩm'});
 });
+router.patch('/', validate(schema, ["product_id", "description"]), async(req,res)=>{
+  const product = req.body;
+  const rs = await productModel.patch(product.product_id, {description: product.description});
+  if(!rs){
+    return res.status(400).json({message: "cập nhật mô tả không thành công"});
+  }
+  res.status(400).json({message: "cập nhật mô tả thành công"});
+});
+router.get('/post_unexpired', async(req, res)=>{
+  const account_id = req.pay_load.account_id;
+  const rs = await productModel.getPostUnexpired(account_id);
+  res.status(200).json(rs);
+});
+router.get('/post_expired', async(req, res)=>{
+  const account_id = req.pay_load.account_id;
+  const rs = await productModel.getPostExpired(account_id);
+  res.status(200).json(rs);
+});
+
+
 
 module.exports = router;

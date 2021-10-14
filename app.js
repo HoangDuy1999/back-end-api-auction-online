@@ -20,6 +20,7 @@ app.use('/api/accounts', require('./routes/account.route'));
 app.use('/api/products', require('./routes/product.route'));
 app.use('/api/types', require('./routes/type.route'));
 app.use('/api/categories', require('./routes/category.route'));
+app.use('/api/evaluation_historys', require('./routes/evaluation_history.route copy'));
 
 //seller
 app.use('/api/seller/product', auth, require('./routes/seller/product.route'));

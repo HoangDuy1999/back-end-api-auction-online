@@ -8,4 +8,8 @@ module.exports = {
     .where('ev.account_id', id);
     return rows;
   },
+  async add(evaluation) {
+    const rs = await db.table('evaluation_history').insert(evaluation);
+    return rs;
+},
 }

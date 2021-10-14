@@ -1,0 +1,13 @@
+{
+  "type": "object",
+  "properties": {
+    "evaluation_id": { "type": "integer" },
+    "account_id": { "type": "integer" },
+    "assessor": { "type": "integer" },
+    "auction_id": { "type": "integer" },
+    "score": { "type": "integer" },
+    "description": {"type": "string"}
+  },
+  "required": ["account_id", "assessor", "score", "auction_id", "description"],
+  "additionalProperties": false
+}

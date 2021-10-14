@@ -1,0 +1,12 @@
+{
+  "type": "object",
+  "properties": {
+    "reject_auction_id": { "type": "integer" },
+    "auction_id": { "type": "integer" },
+    "account_id": { "type": "integer" },
+    "reason": { "type": "string" },
+    "status": {"type": "integer"}
+  },
+  "required": ["auction_id", "account_id", "reason"],
+  "additionalProperties": false
+}

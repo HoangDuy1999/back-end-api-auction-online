@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1:3306
--- Thời gian đã tạo: Th10 13, 2021 lúc 09:10 AM
+-- Thời gian đã tạo: Th10 14, 2021 lúc 05:11 AM
 -- Phiên bản máy phục vụ: 5.7.31
 -- Phiên bản PHP: 7.3.21
 
@@ -179,7 +179,17 @@ CREATE TABLE IF NOT EXISTS `evaluation_history` (
   `score` int(11) NOT NULL,
   `description` tinytext COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`evaluation_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `evaluation_history`
+--
+
+INSERT INTO `evaluation_history` (`evaluation_id`, `account_id`, `assessor`, `auction_id`, `score`, `description`) VALUES
+(1, 1, 2, 2, 1, 'acc'),
+(2, 1, 2, 2, 1, 'acc'),
+(3, 1, 2, 2, 1, 'acc'),
+(4, 1, 2, 2, 1, 'acc');
 
 -- --------------------------------------------------------
 
@@ -245,7 +255,7 @@ INSERT INTO `product` (`product_id`, `seller_id`, `type_id`, `category_id`, `nam
 (31, 5, 4, 8, '40CM EXTRA DEEP Fitted Sheet Single Double Super King Bed Size OR Pillow Covers', 'https://firebasestorage.googleapis.com/v0/b/auction-online-c77a4.appspot.com/o/giuong%20ngu%2F31.PNG?alt=media&token=ec7db3fe-7eae-4cdd-99ab-d80a91a731e1', 3333333, 100000, NULL, '2021-09-29 00:00:00', '2021-10-19 00:00:00', '2021-09-29 07:54:25', '<pre>\r\nPackage Includes : 1 x 40CM Deep Fitted Sheet ( Pillow Covers sold separately )\r\n\r\n\r\nSIZE:\r\n\r\nSingle Fitted  (91 cm Width  x 190 cm Length)\r\n\r\nDouble Fitted  (137 cm Width x  190 cm Length )\r\n\r\nKing Fitted  (152 cm width x 200 cm Length)\r\n\r\nSuper King Fitted (180 cm Width x 200 cm Length)\r\n\r\nPillowcase (50 x 75 cm)\r\n\r\nWeight :\r\n\r\nSingle : 485 gm\r\n\r\nDouble : 630 gm\r\n\r\nKing : 675 gm\r\n\r\nSuper King : 710 gm\r\n<pre>', 0, 1),
 (32, 5, 4, 8, 'Quilt Duvet Cover Bedding Set + Pillow Cases Single Double King Super King Size', 'https://firebasestorage.googleapis.com/v0/b/auction-online-c77a4.appspot.com/o/giuong%20ngu%2F32.PNG?alt=media&token=880f4e13-d820-4128-b30b-d5f79b918035', 11111111, 100000, NULL, '2021-09-30 00:00:00', '2021-10-29 00:00:00', '2021-09-29 07:59:35', '<pre>\r\n►  Machine Washable\r\n► Polycotton (50% Cotton 50% Polyester)\r\n►  Please note that shades may vary due to photographic lighting\r\n► These designs are not panel cut so the pillow cases might be different with each other\r\n\r\nSingle Duvet Set\r\n\r\nDuvet Cover 140 cm x 200 cm (55\" x 79\")\r\nPillow Cases 50 cm x 75 cm (20\" x 29\")\r\nDouble Duvet Set\r\n\r\nDuvet Cover 200 cm x 200 cm (79\" x 79\")\r\nPillow Cases 50 cm x 75 cm (20\" x 29\")\r\nKing Duvet Set\r\n\r\nDuvet Cover 220 cm x 230 cm (87\" x 90\")\r\nPillow Cases 50 cm x 75 cm (20\" x 29\")\r\nSuper King Duvet Set\r\n\r\nDuvet Cover 230 cm x 260 cm (90\" x 102\")\r\nPillow Cases 50 cm x 75 cm (20\" x 29\")\r\nNote: Single Duvet Cover with Comes only one Pillow Case\r\n<pre>', 0, 1),
 (33, 5, 4, 8, 'Seersucker Duvet Cover Set 100% Egyptian Cotton Bedding Sets Double King Size', 'https://firebasestorage.googleapis.com/v0/b/auction-online-c77a4.appspot.com/o/giuong%20ngu%2F33.PNG?alt=media&token=76f035f4-1176-4d74-a463-cfd70814e751', 4564564, 100000, NULL, '2021-09-28 00:00:00', '2021-10-21 00:00:00', '2021-09-29 08:04:13', '<pre>\r\nSeersucker Duvet Cover Set 200 Thread Count 100% Egyptian Cotton Quilt Covers Bedding Sets\r\n\r\nDouble King Super King Bed Size\r\n\r\nLuxury classic Ruched Seersucker Duvet Cover with Pillow cases Puckering Egyptian Cotton weave Bedding Set\r\n\r\nAvailable in most contrasting colors White / Silver / Charcoal / Grey / Dusky Pink Cotton Bedding Sets\r\n\r\nThis high thread count linen has a smooth touch and a substantial hand feel.\r\n\r\n\r\n Bring a touch of Luxury Hotel Quality Bedding style to your bedroom.\r\n\r\n\r\n Threads are twisted together during the manufacturing process to give the fabric extra strength, softness and durability.\r\n\r\n\r\n\r\n\r\nDuvet Cover Sizes\r\n\r\nDouble duvet cover (200 x 200 cm)\r\n\r\nKing duvet cover (230 x 220 cm)\r\n\r\nSuper king duvet cover (260 x 220 cm)\r\n\r\nHousewife Pillowcase Pair (50 x 75 cm)\r\n</pre>', 0, 1),
-(35, 6, 1, 1, 'anh', '1', 123, 100, NULL, '2021-10-14 00:10:00', '2021-10-16 00:10:00', '2021-10-13 08:52:45', 'abc', 0, 1);
+(35, 6, 1, 1, 'anh', '1', 123, 100, NULL, '2021-10-13 00:10:00', '2021-10-13 00:10:00', '2021-10-13 08:52:45', 'abc111111111', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -379,12 +389,19 @@ INSERT INTO `product_image` (`p_image_id`, `product_id`, `image`, `status`) VALU
 DROP TABLE IF EXISTS `reject_auction`;
 CREATE TABLE IF NOT EXISTS `reject_auction` (
   `reject_auction_id` int(11) NOT NULL AUTO_INCREMENT,
-  `auction_detail_id` int(11) NOT NULL,
+  `auction_id` int(11) NOT NULL,
   `account_id` int(11) NOT NULL,
   `reason` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `status` tinyint(4) NOT NULL DEFAULT '1',
   PRIMARY KEY (`reject_auction_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `reject_auction`
+--
+
+INSERT INTO `reject_auction` (`reject_auction_id`, `auction_id`, `account_id`, `reason`, `status`) VALUES
+(1, 1, 1, '1', 1);
 
 -- --------------------------------------------------------
 

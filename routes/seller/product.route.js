@@ -1,9 +1,11 @@
 const express = require('express');
 const moment = require('moment');
 const productModel = require('../../models/product.model');
+const rejectAuctionModel = require('../../models/reject_auction_model');
 const productImageModel = require('../../models/product_image.model');
 const auctionModel = require('../../models/auction_model');
 const schema = require('../../schemas/product.schema');
+const rejectAuctionSchema = require('../../schemas/reject_auction.schema.json');
 const validate = require('../../middlewares/validate.mdw');
 const auth = require('../../middlewares/auth.mdw');
 const router = express.Router();
@@ -45,6 +47,13 @@ router.post('/', validate(schema), async (req, res) => {
   productImageModel.add(product_image);
 
   res.status(200).json({message: 'thêm thành công sản phẩm'});
+});
+router.post('/reject_auction', validate(rejectAuctionSchema), async (req, res) => {
+  const rs = await rejectAuctionModel.add(req.body);
+  if(!rs){
+    return res.status(400).json({message: "Từ chối đấu giá đối với người này không thành công"})
+  }
+  res.status(400).json({message: "Từ chối đấu giá đối với người này thành công"})
 });
 router.patch('/', validate(schema, ["product_id", "description"]), async(req,res)=>{
   const product = req.body;

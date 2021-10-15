@@ -21,6 +21,7 @@ router.post('/', validate(schema), async (req, res) => {
   product.end_day = moment(product.end_day, "DD/MM/YYYY HH:MM:S").format('YYYY/MM/DD HH:MM:SS');
   if (product.start_day == "Invalid date") {
     return res.status(400).json({ message: 'Định dạng ngày bắt đầu không hợp lệ' });
+    console.log(11);
   }
   if (product.end_day == "Invalid date") {
     return res.status(400).json({ message: 'Định dạng ngày kết thúc không hợp lệ' });

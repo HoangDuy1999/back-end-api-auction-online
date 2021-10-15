@@ -9,7 +9,7 @@
     "image": {"type": "string"},
     "start_cost": { "type": "number" },
     "step_cost": { "type": "number" },
-    "buy_now": { "type": "null" },
+    "buy_now": { "type": "number" },
     "start_day": { "type": "string" },
     "end_day": { "type": "string" },
     "created_at": { "type": "string" },

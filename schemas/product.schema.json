@@ -17,7 +17,7 @@
     "is_auto_renew": {"enum": [0,1]},
     "status": {"type": "boolean"}
   },
-  "required": ["type_id", "category_id", "name", "image", "start_cost",
+  "required": ["category_id", "name", "image", "start_cost",
     "step_cost", "start_day", "end_day",  "description", "is_auto_renew" ],
   "additionalProperties": false
 }

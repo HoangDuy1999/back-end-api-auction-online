@@ -1,6 +1,7 @@
 const express = require('express');
 const moment = require('moment');
 const productModel = require('../../models/product.model');
+const categoryModel = require('../../models/category.model');
 const rejectAuctionModel = require('../../models/reject_auction_model');
 const productImageModel = require('../../models/product_image.model');
 const auctionModel = require('../../models/auction_model');
@@ -30,6 +31,12 @@ router.post('/', validate(schema), async (req, res) => {
   if (product.start_day > product.end_day) {
     return res.status(400).json({ message: 'Thời gian ngày kết thúc không hợp lệ' });
   }
+  const info_cate = await categoryModel.findById(product.category_id);
+  if(info_cate == null){
+    return res.status(400).json({message: "id chuyên mục không hợp lệ"});
+  }
+  console.log(info_cate);
+  product.type_id = info_cate.type_id;
   const a_image = product.image.split(",");
   //console.log(a_image.length);
   if (a_image.length < 3) {

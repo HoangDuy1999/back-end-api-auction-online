@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1:3306
--- Thời gian đã tạo: Th10 17, 2021 lúc 09:53 AM
+-- Thời gian đã tạo: Th10 17, 2021 lúc 01:44 PM
 -- Phiên bản máy phục vụ: 5.7.31
 -- Phiên bản PHP: 7.3.21
 
@@ -53,8 +53,8 @@ CREATE TABLE IF NOT EXISTS `account` (
 
 INSERT INTO `account` (`account_id`, `full_name`, `Gender`, `avatar`, `phone`, `pass_word`, `email`, `address`, `evaluation_score`, `dob`, `role_id`, `rf_token`, `request_update`, `status`) VALUES
 (1, 'Trần Hoàng Duy', 'Nam', NULL, '0938505050', '$2a$10$JiRxVB.aY.ur1yRM5D75Munq8rl32JwSHfBTq8eur9aa0evRqqVf6', 'tranhoangduy.911@gmail.com', '123 cách mạng tháng 8, phường 15, quận `0, hcm', 10, NULL, 1, 'FA54ZVZlRdpNib9y2EjdmBJyz11jShAYJgU1sgW82ohlv11m1HPC5hNS2QRVmFWn2NoHw5a3sJprg63l', 1, 1),
-(2, 'anh duy1', 'Nữ', NULL, '0938505051', '$2a$10$QDW6JaTfjTCawaxN1ZZlY.qdAlSmrQItYhzizNja6X2mnHltyg9vC', 'hadesduy0001@gmail.com', '125/2 cách mạng tháng 8, phuong 12, quận 10, hcm', 10, NULL, 1, '4b7FOkv7gH6QYEvyR2ePSe7lA9VCLouWvT9jqdZpPWPd2f0hHC6E5QlHw6zUxhVZxZw0epynpP5yuVcR', 0, 1),
-(3, 'Nguyễn Trấn Hề', 'Nam', NULL, '093850502', '$2a$10$dMyuWlZPlGj4bjOqogWejeOk6H4Yd147shTEfz3UIvRW5HV8o4Slm', 'hadesduy0002@gmail.com', '342 quang trung, phuong 12, quận 10, hcm', 10, NULL, 2, NULL, 0, 1),
+(2, 'anh duy1', 'Nữ', NULL, '0938505051', '$2a$10$QDW6JaTfjTCawaxN1ZZlY.qdAlSmrQItYhzizNja6X2mnHltyg9vC', 'hadesduy0001@gmail.com', '125/2 cách mạng tháng 8, phuong 12, quận 10, hcm', 10, NULL, 1, '4b7FOkv7gH6QYEvyR2ePSe7lA9VCLouWvT9jqdZpPWPd2f0hHC6E5QlHw6zUxhVZxZw0epynpP5yuVcR', 1, 1),
+(3, 'Nguyễn Trấn Hề', 'Nam', NULL, '093850502', '$2a$10$dMyuWlZPlGj4bjOqogWejeOk6H4Yd147shTEfz3UIvRW5HV8o4Slm', 'hadesduy0002@gmail.com', '342 quang trung, phuong 12, quận 10, hcm', 10, NULL, 2, 'Y40cxXVlqWeU7WNjSzV5j5ESahq3ssKM9Nsv4huFLilPJmrvQI80kDgmPe4D8IwkqoC572niWF6K2FzL', 0, 1),
 (4, 'Võ Hoài Luôn', 'Nam', NULL, '0938505054', '$2a$10$nUOs0mIHgkBoTdCSO/qZ6OmECIvaXe5K4063.uGB2r7hEtEYb/DPa', 'hadesduy0003@gmail.com', '569 bến nghé, phuong 12, quận 10, hcm', 10, NULL, 2, NULL, 0, 1),
 (5, 'Đàm tướng cướp', 'Nam', NULL, '0938505055', '$2a$10$wuwHNF6at692plNbWbjpXeJESCTywWIkXpZaDVjh2vHkwqhE.fgR.', 'hadesduy0004@gmail.com', '378 vùng đát cấm, phuong 12, quận 10, hcm', 10, NULL, 2, 'iFtY3GkfqQvBLFSMYuFZPgleMD4DryTsjYkMCMBF4Ld2gqDJ5XtFoTxKPNTsjSmimLctF8IfsZau1T0R', 0, 1),
 (6, 'Lê Ngọc Ân', 'Nam', NULL, '0938505056', '$2a$10$ZfYq2rJE.3PUbnaoiDxgk.40.8LknCxUFKqkT2Y/KZb2QG/PhXmym', 'an9x0010@gmail.com', '378 hòa thái đường, phuong 12, quận 10, hcm', 10, NULL, 3, 'cHM6Ljbi3gSWpnWGE09Bi1G7XTGU8Tcvl9NqbqUTLMN7GtCgVYX12zWSQHxzIZXGoGXCFT4WSMRwPXI3', 0, 1);

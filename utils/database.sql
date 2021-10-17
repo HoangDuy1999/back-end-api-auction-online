@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1:3306
--- Thời gian đã tạo: Th10 14, 2021 lúc 05:11 AM
+-- Thời gian đã tạo: Th10 17, 2021 lúc 02:30 AM
 -- Phiên bản máy phục vụ: 5.7.31
 -- Phiên bản PHP: 7.3.21
 
@@ -57,7 +57,7 @@ INSERT INTO `account` (`account_id`, `full_name`, `Gender`, `avatar`, `phone`, `
 (3, 'Nguyễn Trấn Hề', 'Nam', NULL, '093850502', '$2a$10$dMyuWlZPlGj4bjOqogWejeOk6H4Yd147shTEfz3UIvRW5HV8o4Slm', 'hadesduy0002@gmail.com', '342 quang trung, phuong 12, quận 10, hcm', 10, NULL, 2, NULL, 0, 1),
 (4, 'Võ Hoài Luôn', 'Nam', NULL, '0938505054', '$2a$10$nUOs0mIHgkBoTdCSO/qZ6OmECIvaXe5K4063.uGB2r7hEtEYb/DPa', 'hadesduy0003@gmail.com', '569 bến nghé, phuong 12, quận 10, hcm', 10, NULL, 2, NULL, 0, 1),
 (5, 'Đàm tướng cướp', 'Nam', NULL, '0938505055', '$2a$10$wuwHNF6at692plNbWbjpXeJESCTywWIkXpZaDVjh2vHkwqhE.fgR.', 'hadesduy0004@gmail.com', '378 vùng đát cấm, phuong 12, quận 10, hcm', 10, NULL, 2, 'iFtY3GkfqQvBLFSMYuFZPgleMD4DryTsjYkMCMBF4Ld2gqDJ5XtFoTxKPNTsjSmimLctF8IfsZau1T0R', 0, 1),
-(6, 'Lê Ngọc Ân', 'Nam', NULL, '0938505056', '$2a$10$ZfYq2rJE.3PUbnaoiDxgk.40.8LknCxUFKqkT2Y/KZb2QG/PhXmym', 'an9x0010@gmail.com', '378 hòa thái đường, phuong 12, quận 10, hcm', 10, NULL, 2, 'cHM6Ljbi3gSWpnWGE09Bi1G7XTGU8Tcvl9NqbqUTLMN7GtCgVYX12zWSQHxzIZXGoGXCFT4WSMRwPXI3', 0, 1);
+(6, 'Lê Ngọc Ân', 'Nam', NULL, '0938505056', '$2a$10$ZfYq2rJE.3PUbnaoiDxgk.40.8LknCxUFKqkT2Y/KZb2QG/PhXmym', 'an9x0010@gmail.com', '378 hòa thái đường, phuong 12, quận 10, hcm', 10, NULL, 3, 'cHM6Ljbi3gSWpnWGE09Bi1G7XTGU8Tcvl9NqbqUTLMN7GtCgVYX12zWSQHxzIZXGoGXCFT4WSMRwPXI3', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -114,8 +114,7 @@ INSERT INTO `auction` (`auction_id`, `product_id`, `bidder_id`, `current_cost`, 
 (30, 30, NULL, NULL, 0, '2021-09-29 08:13:32', 1),
 (31, 31, NULL, NULL, 0, '2021-09-29 08:13:32', 1),
 (32, 32, NULL, NULL, 0, '2021-09-29 08:13:32', 1),
-(33, 33, NULL, NULL, 0, '2021-09-29 08:13:32', 1),
-(34, 35, NULL, NULL, 0, '2021-10-13 08:52:45', 1);
+(33, 33, NULL, NULL, 0, '2021-09-29 08:13:32', 1);
 
 -- --------------------------------------------------------
 
@@ -177,6 +176,7 @@ CREATE TABLE IF NOT EXISTS `evaluation_history` (
   `assessor` int(11) NOT NULL,
   `auction_id` int(11) NOT NULL,
   `score` int(11) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `description` tinytext COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`evaluation_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -185,11 +185,11 @@ CREATE TABLE IF NOT EXISTS `evaluation_history` (
 -- Đang đổ dữ liệu cho bảng `evaluation_history`
 --
 
-INSERT INTO `evaluation_history` (`evaluation_id`, `account_id`, `assessor`, `auction_id`, `score`, `description`) VALUES
-(1, 1, 2, 2, 1, 'acc'),
-(2, 1, 2, 2, 1, 'acc'),
-(3, 1, 2, 2, 1, 'acc'),
-(4, 1, 2, 2, 1, 'acc');
+INSERT INTO `evaluation_history` (`evaluation_id`, `account_id`, `assessor`, `auction_id`, `score`, `created_at`, `description`) VALUES
+(1, 1, 2, 2, 1, '2021-10-17 09:14:44', 'acc'),
+(2, 1, 2, 2, 1, '2021-10-17 09:14:44', 'acc'),
+(3, 1, 2, 2, 1, '2021-10-17 09:14:44', 'acc'),
+(4, 1, 2, 2, 1, '2021-10-17 09:14:44', 'acc');
 
 -- --------------------------------------------------------
 
@@ -254,8 +254,7 @@ INSERT INTO `product` (`product_id`, `seller_id`, `type_id`, `category_id`, `nam
 (30, 5, 4, 7, '15 Inches Marble Coffee Table Top Royal Chess Board table with King Size 2.5\"', 'https://firebasestorage.googleapis.com/v0/b/auction-online-c77a4.appspot.com/o/ban%20ghe%2F30.PNG?alt=media&token=d5a7161a-5f55-4131-9407-42f0dd63852b', 444444, 100000, NULL, '2021-09-29 00:00:00', '2021-10-22 00:00:00', '2021-09-29 07:39:31', '<pre>\r\nThis Table Top experience will add charm to your indoor & outdoor space and you can enjoy dinner, coffee, tea with your guest.\r\n\r\nThis Table Top has a polished finish. Simply Wipe the Table with a Damp Cloth to keep it Looking Beautiful with Minimal Maintenance.\r\n\r\nAdds high-style to any Dining Room, Drawing Room, Hallway, Balcony, Kitchen, Office, Patio, Lawn & Garden with this Elegant and Contemporary Table Top, which can be used as Coffee Table, Side Table, End Table, Patio Table, Restaurant & Bar Tables.\r\n\r\n\r\n</pre>', 0, 1),
 (31, 5, 4, 8, '40CM EXTRA DEEP Fitted Sheet Single Double Super King Bed Size OR Pillow Covers', 'https://firebasestorage.googleapis.com/v0/b/auction-online-c77a4.appspot.com/o/giuong%20ngu%2F31.PNG?alt=media&token=ec7db3fe-7eae-4cdd-99ab-d80a91a731e1', 3333333, 100000, NULL, '2021-09-29 00:00:00', '2021-10-19 00:00:00', '2021-09-29 07:54:25', '<pre>\r\nPackage Includes : 1 x 40CM Deep Fitted Sheet ( Pillow Covers sold separately )\r\n\r\n\r\nSIZE:\r\n\r\nSingle Fitted  (91 cm Width  x 190 cm Length)\r\n\r\nDouble Fitted  (137 cm Width x  190 cm Length )\r\n\r\nKing Fitted  (152 cm width x 200 cm Length)\r\n\r\nSuper King Fitted (180 cm Width x 200 cm Length)\r\n\r\nPillowcase (50 x 75 cm)\r\n\r\nWeight :\r\n\r\nSingle : 485 gm\r\n\r\nDouble : 630 gm\r\n\r\nKing : 675 gm\r\n\r\nSuper King : 710 gm\r\n<pre>', 0, 1),
 (32, 5, 4, 8, 'Quilt Duvet Cover Bedding Set + Pillow Cases Single Double King Super King Size', 'https://firebasestorage.googleapis.com/v0/b/auction-online-c77a4.appspot.com/o/giuong%20ngu%2F32.PNG?alt=media&token=880f4e13-d820-4128-b30b-d5f79b918035', 11111111, 100000, NULL, '2021-09-30 00:00:00', '2021-10-29 00:00:00', '2021-09-29 07:59:35', '<pre>\r\n►  Machine Washable\r\n► Polycotton (50% Cotton 50% Polyester)\r\n►  Please note that shades may vary due to photographic lighting\r\n► These designs are not panel cut so the pillow cases might be different with each other\r\n\r\nSingle Duvet Set\r\n\r\nDuvet Cover 140 cm x 200 cm (55\" x 79\")\r\nPillow Cases 50 cm x 75 cm (20\" x 29\")\r\nDouble Duvet Set\r\n\r\nDuvet Cover 200 cm x 200 cm (79\" x 79\")\r\nPillow Cases 50 cm x 75 cm (20\" x 29\")\r\nKing Duvet Set\r\n\r\nDuvet Cover 220 cm x 230 cm (87\" x 90\")\r\nPillow Cases 50 cm x 75 cm (20\" x 29\")\r\nSuper King Duvet Set\r\n\r\nDuvet Cover 230 cm x 260 cm (90\" x 102\")\r\nPillow Cases 50 cm x 75 cm (20\" x 29\")\r\nNote: Single Duvet Cover with Comes only one Pillow Case\r\n<pre>', 0, 1),
-(33, 5, 4, 8, 'Seersucker Duvet Cover Set 100% Egyptian Cotton Bedding Sets Double King Size', 'https://firebasestorage.googleapis.com/v0/b/auction-online-c77a4.appspot.com/o/giuong%20ngu%2F33.PNG?alt=media&token=76f035f4-1176-4d74-a463-cfd70814e751', 4564564, 100000, NULL, '2021-09-28 00:00:00', '2021-10-21 00:00:00', '2021-09-29 08:04:13', '<pre>\r\nSeersucker Duvet Cover Set 200 Thread Count 100% Egyptian Cotton Quilt Covers Bedding Sets\r\n\r\nDouble King Super King Bed Size\r\n\r\nLuxury classic Ruched Seersucker Duvet Cover with Pillow cases Puckering Egyptian Cotton weave Bedding Set\r\n\r\nAvailable in most contrasting colors White / Silver / Charcoal / Grey / Dusky Pink Cotton Bedding Sets\r\n\r\nThis high thread count linen has a smooth touch and a substantial hand feel.\r\n\r\n\r\n Bring a touch of Luxury Hotel Quality Bedding style to your bedroom.\r\n\r\n\r\n Threads are twisted together during the manufacturing process to give the fabric extra strength, softness and durability.\r\n\r\n\r\n\r\n\r\nDuvet Cover Sizes\r\n\r\nDouble duvet cover (200 x 200 cm)\r\n\r\nKing duvet cover (230 x 220 cm)\r\n\r\nSuper king duvet cover (260 x 220 cm)\r\n\r\nHousewife Pillowcase Pair (50 x 75 cm)\r\n</pre>', 0, 1),
-(35, 6, 1, 1, 'anh', '1', 123, 100, NULL, '2021-10-13 00:10:00', '2021-10-13 00:10:00', '2021-10-13 08:52:45', 'abc111111111', 0, 1);
+(33, 5, 4, 8, 'Seersucker Duvet Cover Set 100% Egyptian Cotton Bedding Sets Double King Size', 'https://firebasestorage.googleapis.com/v0/b/auction-online-c77a4.appspot.com/o/giuong%20ngu%2F33.PNG?alt=media&token=76f035f4-1176-4d74-a463-cfd70814e751', 4564564, 100000, NULL, '2021-09-28 00:00:00', '2021-10-21 00:00:00', '2021-09-29 08:04:13', '<pre>\r\nSeersucker Duvet Cover Set 200 Thread Count 100% Egyptian Cotton Quilt Covers Bedding Sets\r\n\r\nDouble King Super King Bed Size\r\n\r\nLuxury classic Ruched Seersucker Duvet Cover with Pillow cases Puckering Egyptian Cotton weave Bedding Set\r\n\r\nAvailable in most contrasting colors White / Silver / Charcoal / Grey / Dusky Pink Cotton Bedding Sets\r\n\r\nThis high thread count linen has a smooth touch and a substantial hand feel.\r\n\r\n\r\n Bring a touch of Luxury Hotel Quality Bedding style to your bedroom.\r\n\r\n\r\n Threads are twisted together during the manufacturing process to give the fabric extra strength, softness and durability.\r\n\r\n\r\n\r\n\r\nDuvet Cover Sizes\r\n\r\nDouble duvet cover (200 x 200 cm)\r\n\r\nKing duvet cover (230 x 220 cm)\r\n\r\nSuper king duvet cover (260 x 220 cm)\r\n\r\nHousewife Pillowcase Pair (50 x 75 cm)\r\n</pre>', 0, 1);
 
 -- --------------------------------------------------------
 
@@ -375,10 +374,7 @@ INSERT INTO `product_image` (`p_image_id`, `product_id`, `image`, `status`) VALU
 (98, 32, 'https://firebasestorage.googleapis.com/v0/b/auction-online-c77a4.appspot.com/o/giuong%20ngu%2F32.2.PNG?alt=media&token=cce4fcbc-44d0-4925-b116-1594010a4f84', 1),
 (99, 33, 'https://firebasestorage.googleapis.com/v0/b/auction-online-c77a4.appspot.com/o/giuong%20ngu%2F33.1.PNG?alt=media&token=cf30c853-a5b5-4c9e-8ad7-0ee18d748f8c', 1),
 (100, 33, 'https://firebasestorage.googleapis.com/v0/b/auction-online-c77a4.appspot.com/o/giuong%20ngu%2F33.2.PNG?alt=media&token=cd398a94-f20a-4cd9-a289-ec6147d2cacd', 1),
-(101, 33, 'https://firebasestorage.googleapis.com/v0/b/auction-online-c77a4.appspot.com/o/giuong%20ngu%2F33.3.PNG?alt=media&token=28edd2a7-b294-42b9-9547-fcbc6aa6c73a', 1),
-(110, 35, ' 3', 1),
-(109, 35, '2', 1),
-(108, 35, '1', 1);
+(101, 33, 'https://firebasestorage.googleapis.com/v0/b/auction-online-c77a4.appspot.com/o/giuong%20ngu%2F33.3.PNG?alt=media&token=28edd2a7-b294-42b9-9547-fcbc6aa6c73a', 1);
 
 -- --------------------------------------------------------
 
@@ -452,6 +448,21 @@ INSERT INTO `type` (`type_id`, `name`, `alias`, `description`, `status`) VALUES
 (2, 'Thời Trang', 'thoi-trang', NULL, 1),
 (3, 'Đồ Chơi ', 'do-choi', NULL, 1),
 (4, 'Đồ Dùng Nội Thất', 'do-dung-noi-that', NULL, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `watch_list`
+--
+
+DROP TABLE IF EXISTS `watch_list`;
+CREATE TABLE IF NOT EXISTS `watch_list` (
+  `watch_list_id` int(11) NOT NULL,
+  `account_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `status` int(11) NOT NULL DEFAULT '1'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Chỉ mục cho các bảng đã đổ

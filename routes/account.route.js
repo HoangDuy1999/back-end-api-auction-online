@@ -56,8 +56,8 @@ router.patch('/email', auth, validate(schema, ["account_id", "email"]), async fu
   });
 });
 
-router.get('/detail/:id', auth, async(req, res)=>{
-  const account_id = req.params.id || 0;
+router.get('/detail', auth, async(req, res)=>{
+  const account_id = req.pay_load.account_id;
   const rs = await accountModel.findById(account_id);
   const rs_ev = await evaluation_historyModel.findByAccountId(account_id);
   res.json({info_account: rs, evaluation_history: rs_ev});

@@ -26,12 +26,11 @@ router.get('/search', async(req, res)=>{
 router.get('/info/:id', async (req, res) => {
   const product_id = parseInt(req.params.id) || 0;
   const infoProduct = await productModel.findById(product_id);
-  if(!infoProduct.lenght){
+  console.log(infoProduct.length);
+  if(!infoProduct.length){
     return res.status(400).json({message: "Sản phẩm đã bị xóa"});
   }
-  console.log(infoProduct);
   const infoAuctioneers = await productModel.getInfoAuctioneer(product_id);
-  console.log(infoAuctioneers);
   if (!infoProduct) {
     return res.status(400).json({ message: 'Không tìm thấy thông tin sản phẩm' });
   }

@@ -13,7 +13,8 @@
     "dob": { "type": "string" },
     "role_id": { "type": "number" },
     "rfToken": { "type": "string" },
-    "status": {"type": "number"}
+    "status": {"type": "number"},
+    "request_update": {"type": "number"}
   },
   "required": ["full_name", "pass_word", "email", "address"],
   "additionalProperties": false

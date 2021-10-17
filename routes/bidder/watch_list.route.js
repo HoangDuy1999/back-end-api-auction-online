@@ -6,17 +6,11 @@ const auth = require('../../middlewares/auth.mdw');
 const watch_listModel = require('../../models/watch_list.model');
 const router = express.Router();
 router.get('/', async (req, res) => {
-  if(req.pay_load.role_id != 1){
-    return res.status(400).json({message: "bạn không có quyền truy cập chức năng này"});
-  }
   const account_id = req.pay_load.account_id;
   const rs = await watchListModel.findById(account_id) || [];
   res.status(200).json({watch_list: rs, message: "thành công"});
 });
 router.post('/', validate(schema), async (req, res) => {
-  if(req.pay_load.role_id != 1){
-    return res.status(400).json({message: "bạn không có quyền truy cập chức năng này"});
-  }
   const watch_list = req.body;
   const isProductExist = await watchListModel.findByProductId(watch_list.product_id);
 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1:3306
--- Thời gian đã tạo: Th10 17, 2021 lúc 02:30 AM
+-- Thời gian đã tạo: Th10 17, 2021 lúc 09:53 AM
 -- Phiên bản máy phục vụ: 5.7.31
 -- Phiên bản PHP: 7.3.21
 
@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS `account` (
 --
 
 INSERT INTO `account` (`account_id`, `full_name`, `Gender`, `avatar`, `phone`, `pass_word`, `email`, `address`, `evaluation_score`, `dob`, `role_id`, `rf_token`, `request_update`, `status`) VALUES
-(1, 'Trần Hoàng Duy', 'Nam', NULL, '0938505050', '$2a$10$JiRxVB.aY.ur1yRM5D75Munq8rl32JwSHfBTq8eur9aa0evRqqVf6', 'tranhoangduy.911@gmail.com', '123 cách mạng tháng 8, phường 15, quận `0, hcm', 10, NULL, 1, NULL, 1, 1),
+(1, 'Trần Hoàng Duy', 'Nam', NULL, '0938505050', '$2a$10$JiRxVB.aY.ur1yRM5D75Munq8rl32JwSHfBTq8eur9aa0evRqqVf6', 'tranhoangduy.911@gmail.com', '123 cách mạng tháng 8, phường 15, quận `0, hcm', 10, NULL, 1, 'FA54ZVZlRdpNib9y2EjdmBJyz11jShAYJgU1sgW82ohlv11m1HPC5hNS2QRVmFWn2NoHw5a3sJprg63l', 1, 1),
 (2, 'anh duy1', 'Nữ', NULL, '0938505051', '$2a$10$QDW6JaTfjTCawaxN1ZZlY.qdAlSmrQItYhzizNja6X2mnHltyg9vC', 'hadesduy0001@gmail.com', '125/2 cách mạng tháng 8, phuong 12, quận 10, hcm', 10, NULL, 1, '4b7FOkv7gH6QYEvyR2ePSe7lA9VCLouWvT9jqdZpPWPd2f0hHC6E5QlHw6zUxhVZxZw0epynpP5yuVcR', 0, 1),
 (3, 'Nguyễn Trấn Hề', 'Nam', NULL, '093850502', '$2a$10$dMyuWlZPlGj4bjOqogWejeOk6H4Yd147shTEfz3UIvRW5HV8o4Slm', 'hadesduy0002@gmail.com', '342 quang trung, phuong 12, quận 10, hcm', 10, NULL, 2, NULL, 0, 1),
 (4, 'Võ Hoài Luôn', 'Nam', NULL, '0938505054', '$2a$10$nUOs0mIHgkBoTdCSO/qZ6OmECIvaXe5K4063.uGB2r7hEtEYb/DPa', 'hadesduy0003@gmail.com', '569 bến nghé, phuong 12, quận 10, hcm', 10, NULL, 2, NULL, 0, 1),
@@ -457,12 +457,26 @@ INSERT INTO `type` (`type_id`, `name`, `alias`, `description`, `status`) VALUES
 
 DROP TABLE IF EXISTS `watch_list`;
 CREATE TABLE IF NOT EXISTS `watch_list` (
-  `watch_list_id` int(11) NOT NULL,
+  `watch_list_id` int(11) NOT NULL AUTO_INCREMENT,
   `account_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `status` int(11) NOT NULL DEFAULT '1'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `status` int(11) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`watch_list_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `watch_list`
+--
+
+INSERT INTO `watch_list` (`watch_list_id`, `account_id`, `product_id`, `created_at`, `status`) VALUES
+(1, 1, 1, '2021-10-17 10:07:09', 0),
+(2, 1, 2, '2021-10-17 10:08:03', 1),
+(3, 1, 3, '2021-10-17 10:17:33', 1),
+(4, 1, 4, '2021-10-17 10:18:27', 1),
+(5, 1, 5, '2021-10-17 10:19:42', 1),
+(6, 1, 620, '2021-10-17 10:19:45', 0),
+(7, 1, 8, '2021-10-17 16:49:49', 1);
 
 --
 -- Chỉ mục cho các bảng đã đổ

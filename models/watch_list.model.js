@@ -2,7 +2,7 @@ const db = require('../utils/db');
 module.exports = {
   async findById(id) {
     return db.select("wl.*", "pr.name as product_name", "pr.image as product_image",
-      "pr.start_cost", "pr.step_cost", "pr.seller_id", "acc.full_name as seller_name",
+      "pr.start_cost", "pr.step_cost", "pr.seller_id", "pr.start_day", "pr.end_day", "acc.full_name as seller_name",
       "t.name as type_name", "t.type_id", "c.name as category_name", "c.category_id")
       .from('watch_list as wl')
       .rightJoin('product as pr', 'wl.product_id', 'pr.product_id')

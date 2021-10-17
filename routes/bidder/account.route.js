@@ -4,6 +4,9 @@ const validate = require('../../middlewares/validate.mdw');
 const schema = require('../../schemas/account.schema.json');
 const router = express.Router();
 router.post('/requestUpgrade', async (req, res) => {
+  if(req.pay_load.role_id != 1){
+    return res.status(400).json({message: "Bạn không có quyền nâng cấp tài khoản"});
+  }
   const account_id = req.pay_load.account_id;
   const rs = await accountModel.patch(account_id, {request_update: 1});
   if(!rs){

@@ -150,10 +150,10 @@ module.exports = {
     }
   },
   getInfoAuctioneer(product_id) {
-    return db.select('ad.*', 'ra.account_id', 'acc.full_name', 'ra.reason')
+    return db.select('ad.*')//, 'ra.account_id', 'acc.full_name', 'ra.reason')
       .from('auction as a')
       .rightJoin('auction_detail as ad', 'a.auction_id', 'ad.auction_id')
-      .leftJoin('reject_auction as ra', 'ra.auction_detail_id', 'ad.auction_detail_id')
+      .leftJoin('reject_auction as ra', 'ra.auction_id', 'a.auction_id')
       .leftJoin('account as acc', 'ra.account_id', 'acc.account_id')
       .where('a.product_id', product_id).andWhere('a.status', 1)
   },

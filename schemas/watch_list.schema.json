@@ -1,0 +1,12 @@
+{
+  "type": "object",
+  "properties": {
+    "watch_list_id": { "type": "integer" },
+    "account_id": { "type": "integer" },
+    "product_id": { "type": "integer" },
+    "created_at": { "type": "string" },
+    "status": {"type": "integer"}
+  },
+  "required": ["product_id"],
+  "additionalProperties": false
+}

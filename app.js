@@ -7,10 +7,39 @@ const auth = require('./middlewares/auth.mdw');
 const cors = require('cors')
 require('express-async-errors');
 require('dotenv').config();
+const autoCheckAuctionOver = require('./middlewares/auto_check_auction_over.mdw.js');
 app.use(express.json());
 app.use(morgan('dev'));
 app.use(cors());
-app.get('/', async function(req, res){
+autoCheckAuctionOver.Init();
+app.get('/', async function (req, res) {
+  const a = [
+    {
+      "Address": 25,
+      "AlertType": 1,
+      "Area": "North",
+      "MeasureDate": "2019-02-01T00:01:01.001Z",
+      "MeasureValue": -1
+    },
+    {
+      "Address": 26,
+      "AlertType": 1,
+      "Area": "West",
+      "MeasureDate": "2016-04-12T15:13:11.733Z",
+      "MeasureValue": -1
+    },
+    {
+      "Address": 25,
+      "AlertType": 1,
+      "Area": "North",
+      "MeasureDate": "2017-02-01T00:01:01.001Z",
+      "MeasureValue": -1
+    }
+  ];
+  const rs = a.reduce((a, b) => {
+    return new Date(a.MeasureDate) < new Date(b.MeasureDate) ? a : b;
+  });
+  console.log(rs);
   res.json({
     message: 'Hello online auction backend'
   });
@@ -38,11 +67,11 @@ const io = require('socket.io')(server, {
   }
 });
 io.on('connection', (socket) => {
-  socket.on("insert-auction", (data)=>{
+  socket.on("insert-auction", (data) => {
     console.log(data);
   })
   console.log(`${socket.id} connected`);
-  socket.on("disconnect", ()=>{
+  socket.on("disconnect", () => {
     console.log(`${socket.id} disconnect`)
   })
 });
@@ -63,6 +92,6 @@ app.use(function (err, req, res, next) {
 })
 const PORT = process.env.PORT || 3002;
 
-server.listen(PORT, ()=>{
+server.listen(PORT, () => {
   console.log(`Online auctiion backend is running at http://localhost:${PORT}`);
 })

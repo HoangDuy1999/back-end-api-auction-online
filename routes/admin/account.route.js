@@ -88,7 +88,7 @@ router.patch('/upgrade', async (req, res) => {
   if(!account_id){
     return res.status(400).json({message: "Dữ liệu đầu vào không hợp lệ"});
   }
-  const rs = await accountModel.patch(account_id, {role_id: 2});
+  const rs = await accountModel.patch(account_id, {role_id: 2, request_update: 0});
   if(!rs){
     return res.status(400).json({message: "Nâng cấp tài khoản không thành công"});
   }

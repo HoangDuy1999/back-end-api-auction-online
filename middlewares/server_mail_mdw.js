@@ -35,6 +35,42 @@ module.exports = {
       }
     });
     return otp;
+  },
+  sendEmailSellerTimeAuctionOverNoBidder(emailReceive, username="unknow", product_name, product_id) {
+    transporter.sendMail(format_email.sendEmailSellerTimeAuctionOverNoBidder(
+      emailReceive, username, product_name, product_id), function (err, info) {
+      if (err) {
+        console.log(err);
+        return 0;
+      } else {
+        console.log('Message sent: ' + info.response);
+      }
+    });
+    return 1;
+  },
+  sendEmailSellerTimeAuctionOverHasBidder(emailReceive, username, bidder_name, product_name, product_id, cost){
+    transporter.sendMail(format_email.sendEmailSellerTimeAuctionOverHasBidder(
+      emailReceive, username, bidder_name, product_name, product_id, cost), function (err, info) {
+      if (err) {
+        console.log(err);
+        return 0;
+      } else {
+        console.log('Message sent: ' + info.response);
+      }
+    });
+    return 1;
+  },
+  sendEmailBidderSuccessAuction(emailReceive, username, seller_name, product_name, product_id, cost){
+    transporter.sendMail(format_email.sendEmailBidderSuccessAuction(
+      emailReceive, username, seller_name, product_name, product_id, cost), function (err, info) {
+      if (err) {
+        console.log(err);
+        return 0;
+      } else {
+        console.log('Message sent: ' + info.response);
+      }
+    });
+    return 1;
   }
 }
 

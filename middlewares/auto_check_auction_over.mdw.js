@@ -1,6 +1,7 @@
 const _ = require('lodash');
 const Async = require('async');
 const auctionModel = require('../models/auction_model');
+const mail_server = require('../middlewares/server_mail_mdw');
 const Variable = {
   POOL_LOAD: null,
   POOL_EXECUTE: null,
@@ -21,7 +22,10 @@ const Module = {
       try {
         (async () => {
           console.log("pool_load");
+          //console.log(Variable.LIST_AUCTIONS.length);
           if (Variable.LIST_AUCTIONS.length < 1) {
+            await Private.Delay(10000);
+            console.log("length: ", Variable.LIST_AUCTIONS.length);
             const auctionLists = await auctionModel.getAuctionExpired();
             //console.log(auctionLists);
             // console.log("pooload: ", auctionLists[0].product_id);
@@ -40,17 +44,28 @@ const Module = {
       }
       return true;
     });
-    Variable.POOL_EXECUTE = Async.cargo((tasks, callback) => {
+    Variable.POOL_EXECUTE = Async.cargo(async(tasks, callback) => {
       try {
         if (tasks[0] !== null) {
           const task = tasks[0];
-          (async () => {
-            console.log("product_id: ", task.product_id);
-            console.log("pool_excute");
-            await auctionModel.patch(task.auction_id, { is_send_notification: true });
-            callback();
-            return true;
-          })();
+          // console.log("product_id: ", task);
+          await auctionModel.patch(task.auction_id, { is_send_notification: true });
+          console.log("pool_excute111111111111111");
+          //trường hợp không ai mua
+          if (task.current_cost == null || task.current_cost == 0) {
+            mail_server.sendEmailSellerTimeAuctionOverNoBidder(
+              task.seller_email, task.seller_name, task.name, task.product_id);
+          }
+          //trường hợp có người mua
+          console.log(task.bidder_email);
+          console.log(task.seller_email);
+          if (task.current_cost != null && task.current_cost > 0) {
+            mail_server.sendEmailSellerTimeAuctionOverHasBidder(
+              task.seller_email, task.seller_name, task.bidder_name, task.name, task.product_id, task.current_cost);
+            mail_server.sendEmailBidderSuccessAuction(
+              task.bidder_email, task.bidder_name, task.seller_name, task.name, task.product_id, task.current_cost);
+          }
+          callback();
         } else {
           callback();
           return false;
@@ -61,19 +76,19 @@ const Module = {
     }, 1);
     Variable.POOL_LOAD.drain(async () => {
       console.log("pool_load_rain");
-      await Private.Delay(10000);
       if (Variable.LIST_AUCTIONS.length > 0) {
-        console.log("=================================")
         const linkInfo = Variable.LIST_AUCTIONS.shift();
-        console.log("=================================")
         Variable.POOL_EXECUTE.push(linkInfo);
-      } else Variable.POOL_EXECUTE.push(null);
+      } else {
+        await Private.Delay(5000);
+        Variable.POOL_EXECUTE.push(null)
+      };
     });
 
     Variable.POOL_EXECUTE.drain(() => {
-      console.log("pool_excute_rain");
+      console.log("pool_excute_drain");
       (async () => {
-        // await Private.Delay(10000);
+        await Private.Delay(2000);
         Variable.POOL_LOAD.push(1);
       })();
     });

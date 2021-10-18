@@ -26,10 +26,11 @@ module.exports = {
     return db('auction').where('auction_id', id).del();
   },
   getAuctionExpired() {
-    return db.select('p.*', 'a.count_auction', 't.name as type_name', 't.alias as type_alias',
+    return db.select('p.*', 'a.current_cost','a.count_auction', 't.name as type_name', 't.alias as type_alias',
       'c.name as category_name', 'c.alias as category_alias',
-      'a.auction_id as auction_id', 'a.bidder_id', 'acc1.full_name as seller_name',
-      'acc2.full_name as bidder_name')
+      'a.auction_id as auction_id', 'a.bidder_id', 'acc1.full_name as seller_name', 
+      'acc1.email as seller_email', 'acc2.full_name as bidder_name', 
+      'acc2.email as bidder_email')
       .from('product as p')
       .leftJoin('auction as a', 'a.product_id', 'p.product_id')
       .leftJoin('account as acc1', 'acc1.account_id', 'p.seller_id')

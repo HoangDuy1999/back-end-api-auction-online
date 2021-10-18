@@ -26,5 +26,52 @@ module.exports = {
             <div>Chào bạn</div>
             `
     }
-  }
+  },
+  sendEmailSellerTimeAuctionOverNoBidder(emailReceive, username, product_name, product_id) { // thiết lập đối tượng, nội dung gửi mail
+    return {
+      from: 'hadesduy0004.911@gmail.com',
+      to: emailReceive,
+      subject: 'Sàn đấu giá S_auction',
+      text: 'Chạo bạn',
+      html: `<p>Chào Bạn <b>${username}</b>,</p>
+            <p>Sản phẩm đăng bán: <b> ${product_name}</b> </p>
+            <p>Tình trạng: Phiên đấu giá đã kết thúc</p>
+            <p>Người mua: <b>Không có ai mua</b></p>
+            <p>Xem chi tiết tại đường dẫn: <a href="http://localhost:3000/product/detail/${product_id}"> ấn vô đây</a></p>
+            <div>Thân</div>`
+    }
+  },
+  sendEmailSellerTimeAuctionOverHasBidder(
+    emailReceive, username, bidder_name, product_name, product_id, cost) { 
+    return {
+      from: 'hadesduy0004.911@gmail.com',
+      to: emailReceive,
+      subject: 'Sàn đấu giá S_auction',
+      text: 'Chạo bạn',
+      html: `<p>Chào Bạn <b>${username}</b>,</p>
+            <p>Sản phẩm đăng bán: <b> ${product_name}</b> </p>
+            <p>Tình trạng: Phiên đấu giá đã kết thúc</p>
+            <p>Người mua: <b>${bidder_name}</b></p>
+            <p>Giá bán: <b>${cost} đ</b></p>
+            <p>Xem chi tiết tại đường dẫn: <a href="http://localhost:3000/product/detail/${product_id}">ấn vô đây</a></p>
+            <div>Thân</div>`
+    }
+  },
+  sendEmailBidderSuccessAuction(
+    emailReceive, username, seller_name, product_name, product_id, cost) { 
+    return {
+      from: 'hadesduy0004.911@gmail.com',
+      to: emailReceive,
+      subject: 'Sàn đấu giá S_auction',
+      text: 'Chạo bạn',
+      html: `<p>Chào Bạn <b>${username}</b>,</p>
+            <p>Sản phẩm: <b> ${product_name}</b> </p>
+            <p>Tình trạng: Bạn đã chiến thắng đấu giá sản phẩm này.</p>
+            <p>Người bán: <b>${seller_name}</b></p>
+            <p>Giá mua: <b>${cost} đ</b></p>
+            <p>Xem chi tiết tại đường dẫn: <a href="http://localhost:3000/product/detail/${product_id}">ấn vô đây</a></p>
+            <div>Thân</div>`
+    }
+  },
+
 }

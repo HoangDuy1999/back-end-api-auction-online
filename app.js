@@ -49,7 +49,7 @@ app.use('/api/accounts', require('./routes/account.route'));
 app.use('/api/products', require('./routes/product.route'));
 app.use('/api/types', require('./routes/type.route'));
 app.use('/api/categories', require('./routes/category.route'));
-app.use('/api/evaluation_historys', require('./routes/evaluation_history.route copy'));
+app.use('/api/evaluation_historys', require('./routes/evaluation_history.route'));
 //bidder
 app.use('/api/bidder/watch_list', auth, require('./routes/bidder/watch_list.route'));
 app.use('/api/bidder/account', auth, require('./routes/bidder/account.route'))

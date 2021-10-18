@@ -30,7 +30,7 @@ router.delete('/', async(req, res)=>{
   if(!rs){
     return res.status(400).json({message: "Xóa sản phẩm ra khởi watch_list không thành công"});
   }
-  res.status(400).json({message: "Xóa sản phẩm ra khởi watch_list thành công"});
+  res.status(200).json({message: "Xóa sản phẩm ra khởi watch_list thành công"});
 });
 
 

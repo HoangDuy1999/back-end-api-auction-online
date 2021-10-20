@@ -24,7 +24,6 @@ const Module = {
           console.log("pool_load");
           //console.log(Variable.LIST_AUCTIONS.length);
           if (Variable.LIST_AUCTIONS.length < 1) {
-            await Private.Delay(10000);
             console.log("length: ", Variable.LIST_AUCTIONS.length);
             const auctionLists = await auctionModel.getAuctionExpired();
             //console.log(auctionLists);
@@ -80,7 +79,7 @@ const Module = {
         const linkInfo = Variable.LIST_AUCTIONS.shift();
         Variable.POOL_EXECUTE.push(linkInfo);
       } else {
-        await Private.Delay(5000);
+        await Private.Delay(15000);
         Variable.POOL_EXECUTE.push(null)
       };
     });

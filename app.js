@@ -8,10 +8,11 @@ const cors = require('cors')
 require('express-async-errors');
 require('dotenv').config();
 const autoCheckAuctionOver = require('./middlewares/auto_check_auction_over.mdw.js');
+const handle_socket_io = require('./middlewares/handle_socket.mdw');
 app.use(express.json());
 app.use(morgan('dev'));
 app.use(cors());
-autoCheckAuctionOver.Init();
+//autoCheckAuctionOver.Init();
 app.get('/', async function (req, res) {
   const a = [
     {
@@ -66,17 +67,7 @@ const io = require('socket.io')(server, {
     origin: '*',
   }
 });
-io.on('connection', (socket) => {
-  socket.on("insert-auction", (data) => {
-    console.log(data);
-  })
-  console.log(`${socket.id} connected`);
-  socket.on("disconnect", () => {
-    console.log(`${socket.id} disconnect`)
-  })
-});
-
-
+handle_socket_io.handle_io(io);
 app.use(function (req, res, next) {
   res.status(404).json({
     err_message: 'Đỉa chị đường dẫn không hợp lệ.'

@@ -6,6 +6,7 @@ const evaluation_historyModel = require('../models/evaluation_history.model');
 const validate = require('../middlewares/validate.mdw');
 const validate_email = require('../middlewares/validate_email.mdw');
 const schema = require('../schemas/account.schema.json');
+const changePassWordschema = require('../schemas/change_password.schema.json');
 const router = express.Router();
 const randomstring = require('randomstring');
 const auth = require('../middlewares/auth.mdw');
@@ -40,9 +41,12 @@ router.post('/', validate(schema), async function (req, res) {
   });
 });
 
-router.patch('/email', auth, validate(schema, ["account_id", "email"]), async function (req, res) {
+router.patch('/email', auth, validate(schema, ["email"]), async function (req, res) {
   const account = req.body;
-  const account_id = account.account_id || 0;
+  const account_id = req.pay_load.account_id;
+  if (!validate_email(account.email)) {
+    return res.status(400).json({ message: "Email không hợp lệ." });
+  }
   const rs = await accountModel.patch(account_id, {email: account.email});
   if(!rs){
     return res.status(200).json({
@@ -146,9 +150,22 @@ router.post('/login-google', async (req, res) => {
   }
 });
 
-router.patch('/password', auth, validate(schema, ["account_id", "pass_word"]), async(req, res)=>{
+router.patch('/password', auth, validate(changePassWordschema), async(req, res)=>{
   const account = req.body;
-  const pass_word = bcrypt.hashSync(account.pass_word, parseInt(process.env.SALT));
+  account.account_id = req.pay_load.account_id;
+  const info_account = await accountModel.findById(account.account_id);
+  if(info_account == null){
+    return res.status(400).json({
+      "message": "Đổi mật khẩu không thành công",
+    });
+  }
+  if (bcrypt.compareSync(account.pass_word, info_account.pass_word) === false) {
+    return res.status(400).json({
+      "message": "Mật khẩu cũ không đúng.",
+      authenticated: false
+    });
+  }
+  const pass_word = bcrypt.hashSync(account.new_pass_word, parseInt(process.env.SALT));
   const rs = await accountModel.patch(account.account_id, {pass_word: pass_word});
   if(!rs){
     return res.status(400).json({"message": "Cập nhật không mật khẩu thành công"});
@@ -156,8 +173,9 @@ router.patch('/password', auth, validate(schema, ["account_id", "pass_word"]), a
   res.status(200).json({"message": "Cập nhật mật khẩu thành công"})
 });
 
-router.patch('/fullname', auth, validate(schema, ["account_id", "full_name"]), async(req, res)=>{
+router.patch('/fullname', auth, validate(schema, ["full_name"]), async(req, res)=>{
   const account = req.body;
+  account.account_id = req.pay_load.account_id;
   const rs = await accountModel.patch(account.account_id, {full_name: account.full_name});
   if(!rs){
     return res.status(400).json({"message": "Cập nhật họ tên không thành công"});

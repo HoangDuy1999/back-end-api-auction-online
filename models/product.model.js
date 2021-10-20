@@ -50,7 +50,7 @@ module.exports = {
     return rs;
   },
   findById(product_id) {
-    return db.select('p.*', 'a.count_auction', 't.name as type_name', 't.alias as type_alias',
+    return db.select('p.*', 'a.count_auction', 'a.is_buy_now', 't.name as type_name', 't.alias as type_alias',
       'c.name as category_name', 'c.alias as category_alias',
       'a.auction_id as auction_id', 'a.bidder_id', 'acc1.full_name as seller_name',
       'acc1.evaluation_score',

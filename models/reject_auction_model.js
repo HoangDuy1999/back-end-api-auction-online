@@ -10,6 +10,15 @@ module.exports = {
     }
     return rows[0];
   },
+  async findByAuctionIdAndAccountId(auction_id, acount_id) {
+    const rows = await db.table('reject_auction').
+    where('auction_id', auction_id).andWhere('account_id', acount_id)
+    .andWhere('status', 1);
+    if (rows.length === 0) {
+      return null;
+    }
+    return rows[0];
+  },
   async add(reject_auction) {
     const rs = await db.table('reject_auction').insert(reject_auction);
     return rs;

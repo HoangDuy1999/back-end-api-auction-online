@@ -1,10 +1,18 @@
 const db = require('../utils/db');
+const { findByProductId } = require('./watch_list.model');
 module.exports = {
   findAll() {
     return db.table('auction');
   },
   async findById(id) {
     const rows = await db.table('auction').where('auction_id', id);
+    if (rows.length === 0) {
+      return null;
+    }
+    return rows[0];
+  },
+  async findByProductId(product_id) {
+    const rows = await db.table('auction').where('product_id', product_id);
     if (rows.length === 0) {
       return null;
     }

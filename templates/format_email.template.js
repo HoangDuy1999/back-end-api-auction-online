@@ -42,7 +42,7 @@ module.exports = {
     }
   },
   sendEmailSellerTimeAuctionOverHasBidder(
-    emailReceive, username, bidder_name, product_name, product_id, cost) { 
+    emailReceive, username, bidder_name, product_name, product_id, cost) {
     return {
       from: 'hadesduy0004.911@gmail.com',
       to: emailReceive,
@@ -58,7 +58,7 @@ module.exports = {
     }
   },
   sendEmailBidderSuccessAuction(
-    emailReceive, username, seller_name, product_name, product_id, cost) { 
+    emailReceive, username, seller_name, product_name, product_id, cost) {
     return {
       from: 'hadesduy0004.911@gmail.com',
       to: emailReceive,
@@ -71,6 +71,66 @@ module.exports = {
             <p>Giá mua: <b>${cost} đ</b></p>
             <p>Xem chi tiết tại đường dẫn: <a href="http://localhost:3000/product/detail/${product_id}">ấn vô đây</a></p>
             <div>Thân</div>`
+    }
+  },
+  sendEmailBidderSuccessTemporaryAuction(
+    emailReceive, username, seller_name, product_name, product_id, cost) {
+    return {
+      from: 'hadesduy0004.911@gmail.com',
+      to: emailReceive,
+      subject: 'Sàn đấu giá S_auction',
+      text: 'Chạo bạn',
+      html: `<p>Chào Bạn <b>${username}</b>,</p>
+            <p>Sản phẩm: <b> ${product_name}</b> </p>
+            <p>Tình trạng: <b>Bạn hiện đang giữ giá đấu giá của sản phẩm này.</b></p>
+            <p>Người bán: <b>${seller_name}</b></p>
+            <p>Giá mua hiện tại: <b>${cost} đ</b></p>
+            <p>Xem chi tiết tại đường dẫn: <a href="http://localhost:3000/product/detail/${product_id}">ấn vô đây</a></p>
+            <div>Thân</div>`
+    }
+  },
+  sendEmailBidderSuccessTemporaryBeforeAuction(
+    emailReceive, username, product_name, product_id) {
+    return {
+      from: 'hadesduy0004.911@gmail.com',
+      to: emailReceive,
+      subject: 'Sàn đấu giá S_auction',
+      text: 'Chạo bạn',
+      html: `<p>Chào Bạn <b>${username}</b>,</p>
+            <p>Sản phẩm: <b> ${product_name}</b> </p>
+            <p>Tình trạng: <b>Có người ra giá cao hơn bạn</b></p>
+            <p>Xem chi tiết tại đường dẫn: <a href="http://localhost:3000/product/detail/${product_id}">ấn vô đây</a></p>
+            <div>Thân</div>`
+    }
+  },
+  sendEmailSellerWhenSomeOneAuctionProduct(
+    emailReceive, username, bidder_name, product_name, product_id, cost) {
+    return {
+      from: 'hadesduy0004.911@gmail.com',
+      to: emailReceive,
+      subject: 'Sàn đấu giá S_auction',
+      text: 'Chạo bạn',
+      html: `<p>Chào Bạn <b>${username}</b>,</p>
+              <p>Sản phẩm đăng bán: <b> ${product_name}</b> </p>
+              <p>Tình trạng: Ai đó đã đấu giá sản phẩm của bạn</p>
+              <p>Người mua: <b>${bidder_name}</b></p>
+              <p>Giá bán: <b>${cost} đ</b></p>
+              <p>Xem chi tiết tại đường dẫn: <a href="http://localhost:3000/product/detail/${product_id}">ấn vô đây</a></p>
+              <div>Thân</div>`
+    }
+  },
+  sendEmailBidderWhenSellerRejectAuction(
+    emailReceive, username, product_name, product_id) {
+    return {
+      from: 'hadesduy0004.911@gmail.com',
+      to: emailReceive,
+      subject: 'Sàn đấu giá S_auction',
+      text: 'Chạo bạn',
+      html: `<p>Chào Bạn <b>${username}</b>,</p>
+              <p>Sản phẩm: <b> ${product_name}</b> </p>
+              <p>Tình trạng: Người mua từ chối bạn được tham gia đấu giá</p>
+              <p>Xem chi tiết tại đường dẫn: <a href="http://localhost:3000/product/detail/${product_id}">ấn vô đây</a></p>
+              <div>Thân</div>`
     }
   },
 

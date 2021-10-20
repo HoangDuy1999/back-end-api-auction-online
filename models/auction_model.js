@@ -12,7 +12,10 @@ module.exports = {
     return rows[0];
   },
   async findByProductId(product_id) {
-    const rows = await db.table('auction').where('product_id', product_id);
+    const rows = await db.select('a.*', 'acc.full_name as bidder_name', 'acc.email as bidder_email')
+    .from('auction as a')
+    .leftJoin('account as acc', 'a.bidder_id', 'acc.account_id')
+    .where('product_id', product_id);
     if (rows.length === 0) {
       return null;
     }

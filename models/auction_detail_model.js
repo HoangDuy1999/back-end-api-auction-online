@@ -1,7 +1,14 @@
+const { select } = require('async');
 const db = require('../utils/db');
 module.exports = {
   findAll() {
     return db.table('auction_detail');
+  },
+  findMaxCostByAuctionId(auction_id){
+     return db.select('ad.bidder_id')
+     .from('auction_detail as ad')
+     .max({ max_cost: ['ad.cost'] })
+     .where('ad.status', 1);
   },
   async findById(id) {
     const rows = await db.table('auction_detail').where('auction_detail_id', id);
@@ -9,6 +16,14 @@ module.exports = {
       return null;
     }
     return rows[0];
+  },
+  async findAuctionId(auction_id) {
+    const rows = await db.select('ad.*', 'acc.full_name')
+    .from ('auction_detail as ad')
+    .leftJoin('account as acc', 'ad.bidder_id', 'acc.account_id')
+    .where('ad.auction_id', auction_id)
+    .andWhere('ad.status', 1);
+    return rows;
   },
   async add(auction_detail) {
     const rs = await db.table('auction_detail').insert(auction_detail);

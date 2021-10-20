@@ -63,6 +63,12 @@ module.exports = {
           return io.emit("ket_qua_dau_gia_nguoi_mua", { status_code: 403, account_id: bidder_id, message: "Người bán cấm bạn đấu giá sản phẩm này" });
         }
         //B3: Kiểm tra xem đã có ai ra giá chưa
+        console.log(11111)
+        const info_product_expied = await productModel.checkExpired(data.product_id);
+        console.log(2222222);
+        if(info_product_expied.length > 0){
+          return io.emit("ket_qua_dau_gia_nguoi_mua", { status_code: 410, account_id: bidder_id, message: "Sản phẩm này đã hết hạn đấu giá" });
+        }
         const info_product = await productModel.findById(data.product_id);
         if (info_product[0] == undefined) {
           return io.emit("ket_qua_dau_gia_nguoi_mua", { status_code: 400, account_id: bidder_id, message: "Đấu giá sản phẩm không thành công" });

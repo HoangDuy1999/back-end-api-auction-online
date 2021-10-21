@@ -81,26 +81,26 @@
       setTimeout(function () {
         if (socket.connected) {
           // thông tin đấu giá gửi lên server
-          socket.emit("dau_gia_san_pham", { product_id: 1, cost: 1300002 });
-          socket.on("ket_qua_dau_gia_nguoi_mua", (data) => {
-            console.log(data);
-          });
-          socket.on(
-            "cap_nhat_giao_dien_xem_chi_tiet_san_pham_nguoi_ban",
-            (data) => {
-              console.log(data);
-            }
-          );
+          // socket.emit("dau_gia_san_pham", { product_id: 1, cost: 1300002 });
+          // socket.on("ket_qua_dau_gia_nguoi_mua", (data) => {
+          //   console.log(data);
+          // });
+          // socket.on(
+          //   "cap_nhat_giao_dien_xem_chi_tiet_san_pham_nguoi_ban",
+          //   (data) => {
+          //     console.log(data);
+          //   }
+          // );
           //MUA NGAY
-        //   socket.emit("mua_ngay", {product_id: 1, cost: 3000000});
-				// 	socket.on("ket_qua_dau_gia_nguoi_mua_ngay", (data) => {
-				// 		console.log(data);
-				// 	});
-				// 	socket.on("cap_nhat_giao_dien_xem_chi_tiet_san_pham_nguoi_ban", (data) => {
-				// 		console.log(data);
-				// 	});
-        // } else {
-        //   console.log("không thể kết nối đến server");
+          socket.emit("mua_ngay", {product_id: 1, cost: 3000000});
+					socket.on("ket_qua_dau_gia_nguoi_mua_ngay", (data) => {
+						console.log(data);
+					});
+					socket.on("cap_nhat_giao_dien_xem_chi_tiet_san_pham_nguoi_ban", (data) => {
+						console.log(data);
+					});
+        } else {
+          console.log("không thể kết nối đến server");
          }
       }, 2000);
     </script>

@@ -1,7 +1,7 @@
 module.exports = {
   otpSignUp(emailReceive, username, otp) { // thiết lập đối tượng, nội dung gửi mail
     return {
-      from: 'hadesduy0004.911@gmail.com',
+      from: 'sandaugiaduythien@gmail.com',
       to: emailReceive,
       subject: 'Sàn đấu giá S_auction',
       text: 'Chạo bạn',
@@ -15,7 +15,7 @@ module.exports = {
   },
   otpChangeEmail(emailReceive, username, otp) { // thiết lập đối tượng, nội dung gửi mail
     return {
-      from: 'hadesduy0004.911@gmail.com',
+      from: 'sandaugiaduythien@gmail.com',
       to: emailReceive,
       subject: 'Sàn đấu giá S_auction',
       text: 'Chạo bạn',
@@ -29,7 +29,7 @@ module.exports = {
   },
   sendEmailSellerTimeAuctionOverNoBidder(emailReceive, username, product_name, product_id) { // thiết lập đối tượng, nội dung gửi mail
     return {
-      from: 'hadesduy0004.911@gmail.com',
+      from: 'sandaugiaduythien@gmail.com',
       to: emailReceive,
       subject: 'Sàn đấu giá S_auction',
       text: 'Chạo bạn',
@@ -44,7 +44,7 @@ module.exports = {
   sendEmailSellerTimeAuctionOverHasBidder(
     emailReceive, username, bidder_name, product_name, product_id, cost) {
     return {
-      from: 'hadesduy0004.911@gmail.com',
+      from: 'sandaugiaduythien@gmail.com',
       to: emailReceive,
       subject: 'Sàn đấu giá S_auction',
       text: 'Chạo bạn',
@@ -60,7 +60,7 @@ module.exports = {
   sendEmailBidderSuccessAuction(
     emailReceive, username, seller_name, product_name, product_id, cost) {
     return {
-      from: 'hadesduy0004.911@gmail.com',
+      from: 'sandaugiaduythien@gmail.com',
       to: emailReceive,
       subject: 'Sàn đấu giá S_auction',
       text: 'Chạo bạn',
@@ -76,7 +76,7 @@ module.exports = {
   sendEmailBidderSuccessTemporaryAuction(
     emailReceive, username, seller_name, product_name, product_id, cost) {
     return {
-      from: 'hadesduy0004.911@gmail.com',
+      from: 'sandaugiaduythien@gmail.com',
       to: emailReceive,
       subject: 'Sàn đấu giá S_auction',
       text: 'Chạo bạn',
@@ -89,10 +89,24 @@ module.exports = {
             <div>Thân</div>`
     }
   },
+  sendEmailBidderSuccessTemporaryBeforeAuctionBuyNow(
+    emailReceive, username, product_name, product_id) {
+      return {
+        from: 'sandaugiaduythien@gmail.com',
+        to: emailReceive,
+        subject: 'Sàn đấu giá S_auction',
+        text: 'Chạo bạn',
+        html: `<p>Chào Bạn <b>${username}</b>,</p>
+              <p>Sản phẩm: <b> ${product_name}</b> </p>
+              <p>Tình trạng: <b>Sản phẩm đã được bán theo hình thức mua ngay</b></p>
+              <p>Xem chi tiết tại đường dẫn: <a href="http://localhost:3000/product/detail/${product_id}">ấn vô đây</a></p>
+              <div>Thân</div>`
+      }
+    },
   sendEmailBidderSuccessTemporaryBeforeAuction(
     emailReceive, username, product_name, product_id) {
     return {
-      from: 'hadesduy0004.911@gmail.com',
+      from: 'sandaugiaduythien@gmail.com',
       to: emailReceive,
       subject: 'Sàn đấu giá S_auction',
       text: 'Chạo bạn',
@@ -106,7 +120,7 @@ module.exports = {
   sendEmailSellerWhenSomeOneAuctionProduct(
     emailReceive, username, bidder_name, product_name, product_id, cost) {
     return {
-      from: 'hadesduy0004.911@gmail.com',
+      from: 'sandaugiaduythien@gmail.com',
       to: emailReceive,
       subject: 'Sàn đấu giá S_auction',
       text: 'Chạo bạn',
@@ -122,7 +136,7 @@ module.exports = {
   sendEmailBidderWhenSellerRejectAuction(
     emailReceive, username, product_name, product_id) {
     return {
-      from: 'hadesduy0004.911@gmail.com',
+      from: 'sandaugiaduythien@gmail.com',
       to: emailReceive,
       subject: 'Sàn đấu giá S_auction',
       text: 'Chạo bạn',

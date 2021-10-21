@@ -7,8 +7,8 @@ var username = ""
 const transporter = nodemailer.createTransport({ // config mail server
   service: 'Gmail',
   auth: {
-    user: 'hadesduy0004@gmail.com',
-    pass: 'duy13051999'
+    user: 'sandaugiaduythien',
+    pass: 'hadesduy13051999'
   }
 });
 module.exports = {
@@ -75,6 +75,18 @@ module.exports = {
   sendEmailBidderSuccessTemporaryAuction(emailReceive, username, seller_name, product_name, product_id, cost){
     transporter.sendMail(format_email.sendEmailBidderSuccessTemporaryAuction(
       emailReceive, username, seller_name, product_name, product_id, cost), function (err, info) {
+      if (err) {
+        console.log(err);
+        return 0;
+      } else {
+        console.log('Message sent: ' + info.response);
+      }
+    });
+    return 1;
+  },
+  sendEmailBidderSuccessTemporaryBeforeAuctionBuyNow(emailReceive, username, product_name, product_id){
+    transporter.sendMail(format_email.sendEmailBidderSuccessTemporaryBeforeAuctionBuyNow(
+      emailReceive, username, product_name, product_id), function (err, info) {
       if (err) {
         console.log(err);
         return 0;

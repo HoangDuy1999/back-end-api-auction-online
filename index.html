@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Socket.IO chat</title>
+    <style>
+      body {
+        margin: 0;
+        padding-bottom: 3rem;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Helvetica, Arial, sans-serif;
+      }
+
+      #form {
+        background: rgba(0, 0, 0, 0.15);
+        padding: 0.25rem;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        display: flex;
+        height: 3rem;
+        box-sizing: border-box;
+        backdrop-filter: blur(10px);
+      }
+      #input {
+        border: none;
+        padding: 0 1rem;
+        flex-grow: 1;
+        border-radius: 2rem;
+        margin: 0.25rem;
+      }
+      #input:focus {
+        outline: none;
+      }
+      #form > button {
+        background: #333;
+        border: none;
+        padding: 0 1rem;
+        margin: 0.25rem;
+        border-radius: 3px;
+        outline: none;
+        color: #fff;
+      }
+
+      #messages {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+      }
+      #messages > li {
+        padding: 0.5rem 1rem;
+      }
+      #messages > li:nth-child(odd) {
+        background: #efefef;
+      }
+    </style>
+  </head>
+  <body>
+    <ul id="messages"></ul>
+    <form id="form" action="">
+      <input id="input" autocomplete="off" /><button onclick="myFunction()">
+        Send
+      </button>
+    </form>
+
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.js"
+      integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+      crossorigin="anonymous"
+    ></script>
+    <script src="http://localhost:3002/socket.io/socket.io.js"></script>
+    <script>
+      //kết nối lên server
+      const socket = io.connect("http://localhost:3002", {
+        query: {
+          token:
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50X2lkIjoyLCJmdWxsX25hbWUiOiJhbmggZHV5MSIsInJvbGVfaWQiOjEsImlhdCI6MTYzNDcxMjEzOCwiZXhwIjoxNjM1OTEyMTM4fQ.LmtFXZPdDikdrHgy2Tjn2oPS4FxfK-6x4MWo7TgU008",
+        },
+      });
+      // chờ 1 khoảng thời gian để nhận phần hồi từ server
+      setTimeout(function () {
+        if (socket.connected) {
+          // thông tin đấu giá gửi lên server
+          socket.emit("dau_gia_san_pham", { product_id: 1, cost: 1200001 });
+          socket.on("ket_qua_dau_gia_nguoi_mua", (data) => {
+            console.log(data);
+          });
+          socket.on(
+            "cap_nhat_giao_dien_xem_chi_tiet_san_pham_nguoi_ban",
+            (data) => {
+              console.log(data);
+            }
+          );
+          //MUA NGAY
+        //   socket.emit("mua_ngay", {product_id: 1, cost: 3000000});
+				// 	socket.on("ket_qua_dau_gia_nguoi_mua_ngay", (data) => {
+				// 		console.log(data);
+				// 	});
+				// 	socket.on("cap_nhat_giao_dien_xem_chi_tiet_san_pham_nguoi_ban", (data) => {
+				// 		console.log(data);
+				// 	});
+        // } else {
+        //   console.log("không thể kết nối đến server");
+         }
+      }, 2000);
+    </script>
+  </body>
+</html>

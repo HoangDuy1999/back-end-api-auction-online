@@ -112,7 +112,7 @@ module.exports = {
           }
           const cost_now = parseFloat(rs[0].max_cost) + parseFloat(info_product[0].step_cost);
           if (data.cost <= cost_now) {
-            return io.emit("ket_qua_dau_gia_nguoi_mua", { status_code: 406, account_id: bidder_id, message: "Giá của bạn thấp hơn người giữ giá trước đó" });
+            return io.emit("ket_qua_dau_gia_nguoi_mua", { status_code: 405, account_id: bidder_id, message: "Giá của bạn thấp hơn người giữ giá trước đó" });
           }
           const rs_auction = await auctionModel.patch(info_auction.auction_id, { bidder_id: bidder_id, current_cost: cost_now, count_auction: info_auction.count_auction + 1 });
           // console.log("rs  " + rs);

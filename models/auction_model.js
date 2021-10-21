@@ -12,10 +12,13 @@ module.exports = {
     return rows[0];
   },
   async findByProductId(product_id) {
-    const rows = await db.select('a.*', 'acc.full_name as bidder_name', 'acc.email as bidder_email')
+    const rows = await db.select('a.*', 'acc.full_name as bidder_name', 
+    'acc.email as bidder_email', 'acc1.full_name as seller_name', 'p.seller_id')
     .from('auction as a')
     .leftJoin('account as acc', 'a.bidder_id', 'acc.account_id')
-    .where('product_id', product_id);
+    .leftJoin('product as p', 'a.product_id', 'p.product_id')
+    .leftJoin('account as acc1', 'p.seller_id', 'acc1.account_id')
+    .where('a.product_id', product_id);
     if (rows.length === 0) {
       return null;
     }

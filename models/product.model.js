@@ -53,7 +53,7 @@ module.exports = {
     return db.select('p.*', 'a.count_auction', 'a.is_buy_now', 't.name as type_name', 't.alias as type_alias',
       'c.name as category_name', 'c.alias as category_alias',
       'a.auction_id as auction_id', 'a.bidder_id', 'acc1.full_name as seller_name',
-      'acc1.evaluation_score', 'acc1.email as seller_email',
+      'acc1.evaluation_score', 'acc1.email as seller_email', 'a.current_cost',
       'acc2.full_name as bidder_name')
       .from('product as p')
       .leftJoin('auction as a', 'a.product_id', 'p.product_id')

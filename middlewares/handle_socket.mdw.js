@@ -76,6 +76,16 @@ module.exports = {
         if (info_product[0].seller_id == bidder_id) {
           return io.emit("ket_qua_dau_gia_nguoi_mua", { status: 409, account_id: bidder_id, message: "Bạn không được phép đấu giá chính sản phẩm của mình" });
         }
+        // gia hạn
+        //console.log((info_product[0].end_day - new Date())/1000);
+        if ((info_product[0].end_day - new Date())/1000 <= 300) {
+          var d1 = new Date(info_product[0].end_day);
+          d2 = new Date(d1);
+          d2.setMinutes(d1.getMinutes() + 10);
+          // console.log(info_product[0].end_day);
+          // console.log(d2);
+          productModel.patch(info_product[0].product_id, {end_day: d2});
+        }
         //console.log(info_product[0].product_id);
         //TH1: CHƯA AI RA GIÁ
         if (info_auction.bidder_id == null || info_auction.current) {
@@ -125,7 +135,7 @@ module.exports = {
             }
             return io.emit("ket_qua_dau_gia_nguoi_mua", { status: 400, account_id: bidder_id, message: "Đấu giá không thành công." });
           }
-          if (data.cost > parseFloat(rs[0].max_cost) && data.cost <= cost_now){
+          if (data.cost > parseFloat(rs[0].max_cost) && data.cost <= cost_now) {
             // thêm vô auction_detail giá đó
             const result_temp = await auctionDetailModel.add({ auction_id: info_auction.auction_id, bidder_id: bidder_id, cost: data.cost, description: 'Đấu giá' });
             //nếu thêm thành công

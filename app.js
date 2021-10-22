@@ -53,7 +53,8 @@ app.use('/api/categories', require('./routes/category.route'));
 app.use('/api/evaluation_historys', require('./routes/evaluation_history.route'));
 //bidder
 app.use('/api/bidder/watch_list', auth, require('./routes/bidder/watch_list.route'));
-app.use('/api/bidder/account', auth, require('./routes/bidder/account.route'))
+app.use('/api/bidder/account', auth, require('./routes/bidder/account.route'));
+app.use('/api/bidder/product', auth, require('./routes/bidder/product.route'))
 //seller
 app.use('/api/seller/product', auth, require('./routes/seller/product.route'));
 //admin

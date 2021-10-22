@@ -81,7 +81,7 @@
       setTimeout(function () {
         if (socket.connected) {
           //thông tin đấu giá gửi lên server
-          socket.emit("dau_gia_san_pham", { product_id: 1, cost: 2300002 });
+          socket.emit("dau_gia_san_pham", { product_id: 1, cost: 2700002 });
           socket.on("ket_qua_dau_gia_nguoi_mua", (data) => {
             console.log(data);
           });

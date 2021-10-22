@@ -17,6 +17,32 @@ module.exports = {
     }
     return rows[0];
   },
+  async findHistoryAuctionBidder(account_id){
+    return db
+    .distinct('ad.auction_id', 'a.bidder_id', 'a.count_auction','a.product_id', 'a.current_cost',
+    'acc1.full_name as bidder_name', 'p.name', 'p.seller_id', 'acc2.full_name as seller_name',
+    'p.start_cost', 'p.start_day', 'p.end_day')
+    .from('auction_detail as ad')
+    .leftJoin('auction as a', 'ad.auction_id', 'a.auction_id')
+    .leftJoin('account as acc1', 'a.bidder_id', 'acc1.account_id')
+    .leftJoin('product as p', 'a.product_id', 'p.product_id')
+    .leftJoin('account as acc2', 'p.seller_id', 'acc2.account_id')
+    .where('ad.status', 1).andWhere('ad.bidder_id', account_id)
+    .whereRaw('TIMEDIFF(p.end_day, now()) <= ?', 0)
+  },
+  async findHistoryAuctionProgressBidder(account_id){
+    return db
+    .distinct('ad.auction_id', 'a.bidder_id', 'a.count_auction','a.product_id', 'a.current_cost',
+    'acc1.full_name as bidder_name', 'p.name', 'p.seller_id', 'acc2.full_name as seller_name',
+    'p.start_cost', 'p.start_day', 'p.end_day')
+    .from('auction_detail as ad')
+    .leftJoin('auction as a', 'ad.auction_id', 'a.auction_id')
+    .leftJoin('account as acc1', 'a.bidder_id', 'acc1.account_id')
+    .leftJoin('product as p', 'a.product_id', 'p.product_id')
+    .leftJoin('account as acc2', 'p.seller_id', 'acc2.account_id')
+    .where('ad.status', 1).andWhere('ad.bidder_id', account_id)
+    .whereRaw('TIMEDIFF(p.end_day, now()) > ?', 0)
+  },
   async findAuctionId(auction_id) {
     const rows = await db.select('ad.*', 'acc.full_name')
     .from ('auction_detail as ad')

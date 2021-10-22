@@ -79,7 +79,7 @@ module.exports = {
         //console.log(info_product[0].product_id);
         //TH1: CHƯA AI RA GIÁ
         if (info_auction.bidder_id == null || info_auction.current) {
-          const product_cost = parseFloat(info_product[0].start_cost) + parseFloat(info_product[0].step_cost);
+          const product_cost = parseFloat(info_product[0].start_cost); //+ parseFloat(info_product[0].step_cost);
           console.log(product_cost);
           if (data.cost < product_cost) {
             return io.emit("ket_qua_dau_gia_nguoi_mua", { status: 400, account_id: bidder_id, message: "giá đấu giá sản phẩm không hợp lệ." });
@@ -111,9 +111,35 @@ module.exports = {
             return io.emit("ket_qua_dau_gia_nguoi_mua", { status: 400, account_id: bidder_id, message: "Đấu giá không thành công." });
           }
           const cost_now = parseFloat(rs[0].max_cost) + parseFloat(info_product[0].step_cost);
-          if (data.cost <= cost_now) {
-            return io.emit("ket_qua_dau_gia_nguoi_mua", { status: 405, account_id: bidder_id, message: "Giá của bạn thấp hơn người giữ giá trước đó" });
+          if (data.cost <= parseFloat(rs[0].max_cost)) {
+            // thêm vô auction_detail giá đó
+            const result_temp = await auctionDetailModel.add({ auction_id: info_auction.auction_id, bidder_id: bidder_id, cost: data.cost, description: 'Đấu giá' });
+            //nếu thêm thành công
+            if (result_temp) {
+              // nêu giá này lơn hơn bidder_id thì cập nhật lại giá mua
+              if (info_auction.current_cost < data.cost) {
+                await auctionModel.patch(info_auction.auction_id, { current_cost: data.cost, count_auction: info_auction.count_auction + 1 });
+              }
+              const result = await auctionDetailModel.findMaxCostByAuctionId(info_auction.auction_id);
+              return io.emit("ket_qua_dau_gia_nguoi_mua", { status: 405, account_id: bidder_id, message: "Giá của bạn thấp hơn người giữ giá trước đó" });
+            }
+            return io.emit("ket_qua_dau_gia_nguoi_mua", { status: 400, account_id: bidder_id, message: "Đấu giá không thành công." });
           }
+          if (data.cost > parseFloat(rs[0].max_cost) && data.cost <= cost_now){
+            // thêm vô auction_detail giá đó
+            const result_temp = await auctionDetailModel.add({ auction_id: info_auction.auction_id, bidder_id: bidder_id, cost: data.cost, description: 'Đấu giá' });
+            //nếu thêm thành công
+            if (result_temp) {
+              // nêu giá này lơn hơn bidder_id thì cập nhật lại giá mua
+              if (info_auction.current_cost < data.cost) {
+                await auctionModel.patch(info_auction.auction_id, { current_cost: parseFloat(rs[0].max_cost), count_auction: info_auction.count_auction + 1 });
+              }
+              const result = await auctionDetailModel.findMaxCostByAuctionId(info_auction.auction_id);
+              return io.emit("ket_qua_dau_gia_nguoi_mua", { status: 405, account_id: bidder_id, message: "Giá của bạn thấp hơn người giữ giá trước đó" });
+            }
+            return io.emit("ket_qua_dau_gia_nguoi_mua", { status: 400, account_id: bidder_id, message: "Đấu giá không thành công." });
+          }
+
           const rs_auction = await auctionModel.patch(info_auction.auction_id, { bidder_id: bidder_id, current_cost: cost_now, count_auction: info_auction.count_auction + 1 });
           // console.log("rs  " + rs);
           if (!rs_auction) {
@@ -212,7 +238,7 @@ module.exports = {
         const date = today.getFullYear() + '/' + (today.getMonth() + 1) + '/' + today.getDate();
         const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
         today = date + ' ' + time;
-        await productModel.patch(data.product_id, {end_day: today});
+        await productModel.patch(data.product_id, { end_day: today });
         //gửi mail
         console.log("mail người bán:" + info_product[0].seller_email);
         console.log("mail người mua:" + info_account.email);

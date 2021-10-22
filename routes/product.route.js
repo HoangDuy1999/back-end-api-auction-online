@@ -30,9 +30,6 @@ router.get('/info/:id', async (req, res) => {
     return res.status(400).json({message: "Sản phẩm đã bị xóa"});
   }
   const date = new Date();
-  console.log(date);
-  console.log(infoProduct[0].end_day);
-  console.log(infoProduct[0].end_day - date);
   infoProduct[0].compare_day = infoProduct[0].end_day - date;
   const infoAuctioneers = await productModel.getInfoAuctioneer(product_id);
   if (!infoProduct) {

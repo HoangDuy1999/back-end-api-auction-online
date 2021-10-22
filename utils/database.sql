@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1:3306
--- Thời gian đã tạo: Th10 22, 2021 lúc 03:01 AM
+-- Thời gian đã tạo: Th10 22, 2021 lúc 01:24 PM
 -- Phiên bản máy phục vụ: 5.7.31
 -- Phiên bản PHP: 7.3.21
 
@@ -84,7 +84,7 @@ CREATE TABLE IF NOT EXISTS `auction` (
 --
 
 INSERT INTO `auction` (`auction_id`, `product_id`, `bidder_id`, `is_buy_now`, `is_send_notification`, `current_cost`, `count_auction`, `created_at`, `status`) VALUES
-(1, 1, NULL, 0, 0, NULL, 3, '2021-09-29 08:11:52', 1),
+(1, 1, 1, 0, 0, 6500000, 5, '2021-09-29 08:11:52', 1),
 (2, 2, NULL, 0, 0, NULL, 0, '2021-09-29 08:11:52', 1),
 (3, 3, NULL, 0, 0, NULL, 0, '2021-09-29 08:13:32', 1),
 (4, 4, NULL, 0, 0, NULL, 0, '2021-09-29 08:13:32', 1),
@@ -140,7 +140,19 @@ CREATE TABLE IF NOT EXISTS `auction_detail` (
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `status` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`auction_detail_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `auction_detail`
+--
+
+INSERT INTO `auction_detail` (`auction_detail_id`, `auction_id`, `bidder_id`, `cost`, `description`, `created_at`, `status`) VALUES
+(7, 1, 1, 5000000, 'Đấu giá', '2021-10-22 13:15:26', 1),
+(8, 1, 2, 5000000, 'Đấu giá', '2021-10-22 13:17:05', 1),
+(9, 1, 2, 6000000, 'Đấu giá', '2021-10-22 13:18:57', 1),
+(10, 1, 1, 5600000, 'Đấu giá', '2021-10-22 13:19:53', 1),
+(11, 1, 1, 6500000, 'Đấu giá', '2021-10-22 13:22:37', 1),
+(12, 1, 2, 6550000, 'Đấu giá', '2021-10-22 13:23:20', 1);
 
 -- --------------------------------------------------------
 
@@ -232,7 +244,7 @@ CREATE TABLE IF NOT EXISTS `product` (
 --
 
 INSERT INTO `product` (`product_id`, `seller_id`, `type_id`, `category_id`, `name`, `image`, `start_cost`, `step_cost`, `buy_now`, `start_day`, `end_day`, `created_at`, `description`, `is_auto_renew`, `status`) VALUES
-(1, 3, 1, 1, 'Apple iPhone 7 32GB - Black Factory Unlocked Smartphone', 'https://firebasestorage.googleapis.com/v0/b/auction-online-c77a4.appspot.com/o/1.jpg?alt=media&token=6391f76f-ffa4-4402-a5ef-5cb0574ea55f', 1000000, 100000, 3000000, '2021-09-28 00:00:00', '2021-10-22 10:51:02', '2021-09-28 10:28:15', '<p>“In excellent condition UNLOCKED iPhone 7 32GB Black. This iPhone 7 32GB Black smartphone can be used with all carriers in the USA, including Verizon, T-Mobile, AT&T and more. Tested by our tech facility for full functionality. Cleaned and sanitized before shipment. Only the phone will be shipped. Accessories are not included (charging cable is included and charger is not included) Screen is free of cracks or scratches, fully functional. Minor cosmetic blemishes may exist on the body of the phone as this is a refurbished unit.”</p>', 0, 1),
+(1, 3, 1, 1, 'Apple iPhone 7 32GB - Black Factory Unlocked Smartphone', 'https://firebasestorage.googleapis.com/v0/b/auction-online-c77a4.appspot.com/o/1.jpg?alt=media&token=6391f76f-ffa4-4402-a5ef-5cb0574ea55f', 5000000, 100000, 8000000, '2021-09-28 00:00:00', '2021-10-23 10:51:02', '2021-09-28 10:28:15', '<p>“In excellent condition UNLOCKED iPhone 7 32GB Black. This iPhone 7 32GB Black smartphone can be used with all carriers in the USA, including Verizon, T-Mobile, AT&T and more. Tested by our tech facility for full functionality. Cleaned and sanitized before shipment. Only the phone will be shipped. Accessories are not included (charging cable is included and charger is not included) Screen is free of cracks or scratches, fully functional. Minor cosmetic blemishes may exist on the body of the phone as this is a refurbished unit.”</p>', 0, 1),
 (2, 3, 1, 1, 'Apple iPhone XR White - 64GB - Unlocked', 'https://firebasestorage.googleapis.com/v0/b/auction-online-c77a4.appspot.com/o/2.jpg?alt=media&token=dd49831a-3306-4d3a-82a8-13e0cfad98e9', 2000000, 100000, 3000000, '2021-09-29 00:00:00', '2021-10-26 00:00:00', '2021-09-28 10:38:04', '<p>\r\nApple iPhone XR White - 64GB - Unlocked.\r\nRear Camera isn’t working.Face ID isn’t working.Back is cracked.Other than those issues the phone works great.\r\n</p>', 0, 1),
 (3, 3, 1, 1, 'Apple iPhone 7 32GB Black (Verizon) A1660 (CDMA GSM) UNLOCKED Brand New SEALED', 'https://firebasestorage.googleapis.com/v0/b/auction-online-c77a4.appspot.com/o/3.jpg?alt=media&token=54bc13be-04ee-483e-8233-ae681869a438', 1234567, 100000, 12345678, '2021-09-29 00:00:00', '2021-10-30 00:00:00', '2021-09-28 10:52:51', '<p>\r\nAbout this product\r\nProduct Information\r\nThe iPhone 7 is a smartphone by Apple with a black finish. The iPhone 7 is powered by quad-core processor, a six-core graphics processor, and 2 GB of RAM. The phone features a water resistant casing with an oleophobic coating, a pressure sensitive Home button with a built-in fingerprint sensor, a 4.7 inches Retina HD display with a 750 x 1334 pixels resolution at 326 ppi pixel density, and stereo speakers. The built-in lithium-ion battery provides enough power to support up to 14 hours of talk time or mobile data usage and up to 10 days of standby. A 12 MP camera captures your precious moments with auto image stabilization and HDR while a 7 MP front facing camera allows for high quality video calls. The phone measures 138.3 x 67.1 x 7.1 mm, weighs 138 g and has a memory capacity of 32 GB. This device is locked to Verizon and compatible with Sprint, Straight Talk, U.S. Cellular, Virgin Mobile, Boost Mobile, Xfinity, TracFone Carriers.\r\n</p>', 0, 1),
 (4, 3, 1, 1, 'Apple IPhone XS (512 GB) Boxed Inc. Accessories.', 'https://firebasestorage.googleapis.com/v0/b/auction-online-c77a4.appspot.com/o/4.jfif?alt=media&token=e470fefb-32d1-4baa-9a55-57c76453b05b', 44342453, 100000, NULL, '2021-09-30 00:00:00', '2021-10-28 00:00:00', '2021-09-28 10:57:23', '', 0, 1),

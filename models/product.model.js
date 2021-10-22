@@ -62,7 +62,7 @@ module.exports = {
       .leftJoin('type as t', 't.type_id', 'p.type_id')
       .leftJoin('category as c', 'c.category_id', 'p.category_id')
       .where('p.status', '1').andWhere('p.product_id', product_id)
-      .whereRaw('TIMEDIFF(p.end_day, now()) > ?', 0)
+      //.whereRaw('TIMEDIFF(p.end_day, now()) > ?', 0)
   },
   findByIdNoCheckExpired(product_id) {
     return db.select('p.*', 'a.count_auction', 'a.is_buy_now', 't.name as type_name', 't.alias as type_alias',

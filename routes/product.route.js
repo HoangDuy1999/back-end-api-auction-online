@@ -32,6 +32,9 @@ router.get('/info/:id', async (req, res) => {
   const date = new Date();
   infoProduct[0].compare_day = infoProduct[0].end_day - date;
   const infoAuctioneers = await productModel.getInfoAuctioneer(product_id);
+  if(infoAuctioneers.length < 1){
+    infoProduct[0].compare_day = 0;
+  }
   if (!infoProduct) {
     return res.status(400).json({ message: 'Không tìm thấy thông tin sản phẩm' });
   }

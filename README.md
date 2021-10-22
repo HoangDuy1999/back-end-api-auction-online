@@ -24,3 +24,21 @@
 411: giá mua ngay ko hop lệ
 200: thành công
 
+#### NGƯỜI MUA
+- Lấy lịch sử đấu giá: những sản phẩm mình có đấu giá và đã kết thúc
+Get: http://localhost:3002/api/bidder/product/history_auction
+- Lấy danh sách sản phẩm đang đấu giá mà mình có tham gia và chưa kết thúc:
+Get: http://localhost:3002/api/bidder/product/auction_progress
+
+#### NGƯỜI BÁN
+##### ĐẤU GIÁ
+- LẤY DANH SÁCH BÀI ĐĂNG ĐẤU GIÁ CÒN HẠN:
+Get: http://localhost:3002/api/seller/product/post_unexpired
+- LẤY DANH SÁCH SẢN PHẨM MÌNH ĐANG ĐẤU GIÁ CHƯA KẾT THÚC: dùng api của bidder vì seller là nâng cấp của bidder
+Get: http://localhost:3002/api/bidder/product/auction_progress
+#### Lịch sử đấu giá
+- LẤY DANH SÁCH BÀI ĐĂNG ĐÃ HẾT HẠN
+GET: http://localhost:3002/api/seller/product/post_expired
+- LẤY DANH SÁCH SẢN PHẨM MÌNH ĐẤU GIÁ ĐÃ KẾT THÚC: dùng api của bidder vì seller là nâng cấp của bidder
+Get: http://localhost:3002/api/bidder/product/history_auction
+

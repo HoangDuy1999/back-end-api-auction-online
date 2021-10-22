@@ -60,7 +60,8 @@ app.use('/api/seller/product', auth, require('./routes/seller/product.route'));
 //admin
 app.use('/api/admin/product', auth, require('./routes/admin/product.route'));
 app.use('/api/admin/account', auth, require('./routes/admin/account.route'));
-app.use('/api/admin/role', auth, require('./routes/admin/role.route'))
+app.use('/api/admin/role', auth, require('./routes/admin/role.route'));
+app.use('/api/admin/category', auth, require('./routes/admin/category.route'));
 
 // socket.io
 const io = require('socket.io')(server, {

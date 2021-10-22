@@ -1,13 +1,13 @@
 {
   "type": "object",
   "properties": {
-    "catogy_id": { "type": "integer" },
+    "category_id": { "type": "integer" },
     "name": { "type": "string" },
     "alias": { "type": "string" },
     "description": { "type": "string" },
     "status": {"type": "integer"},
     "type_id": {"type": "string"}
   },
-  "required": ["catogy_id", "type_id"],
+  "required": ["category_id", "type_id"],
   "additionalProperties": false
 }

@@ -1,16 +1,50 @@
 const express = require('express');
-const roleModel = require('../../models/role.model');
-//const schema = require('../../schemas/account.schema.json');
-//const auth = require('../../middlewares/auth.mdw');
+const categoryModel = require('../../models/category.model');
+const typeModel = require('../../models/type.model');
+const schema = require('../../schemas/category.schema.json');
+const validate = require('../../middlewares/validate.mdw');
 const router = express.Router();
 router.get('/', async (req, res) => {
   if(req.pay_load.role_id != 3){
     return res.status(401).json({message: "Bạn không có quyền truy cập"});
   }
- // console.log(req.pay_load);
-//  console.log(req.accessToken);
-  const rs = await roleModel.findAll();
+  const rs = await categoryModel.findAll();
   res.status(200).json(rs);
 });
+router.get('/type_and_category', async (req, res) => {
+  if(req.pay_load.role_id != 3){
+    return res.status(401).json({message: "Bạn không có quyền truy cập"});
+  }
+  const rs = await typeModel.findAll();
+ for(val of rs){
+   const info_categorys = await categoryModel.findByType(val.type_id);
+   val.categoy_id = info_categorys;
+   console.log(rs);
+ }
+  res.status(200).json(rs);
+});
+router.post('/', validate(schema), async(req, res)=>{
+  const rs = await categoryModel.add(schema);
+  if(!rs){
+    return res.status(400).json({message: "Thêm chuyên mục không thành công"});
+  }
+  return res.status(200).json({message: "Thêm chuyên mục thành công"});
+})
 
+router.patch('/', validate(schema, ["name", "category_id"]), async(req, res)=>{
+  const rs = await categoryModel.patch(req.body.categoy_id, {name: req.body.name});
+  if(!rs){
+    return res.status(400).json({message: "Cập nhật tên chuyên mục không thành công"});
+  }
+  return res.status(200).json({message: "Cập nhật tên chuyên mục thành công"});
+})
+
+router.delete('/', async(req, res)=>{
+  const categoy_id = req.query.categoy_id;
+  const rs = await categoryModel.patch(categoy_id, {status: 0});
+  if(!rs){
+    return res.status(400).json({message: "Xóa chuyên mục không thành công"});
+  }
+  return res.status(200).json({message: " Xóa chuyên mục thành công"});
+});
 module.exports = router;

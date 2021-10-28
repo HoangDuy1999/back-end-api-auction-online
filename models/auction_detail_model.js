@@ -34,7 +34,7 @@ module.exports = {
     return db
     .distinct('ad.auction_id', 'a.bidder_id', 'a.count_auction','a.product_id', 'a.current_cost',
     'acc1.full_name as bidder_name', 'p.name', 'p.seller_id', 'acc2.full_name as seller_name',
-    'p.start_cost', 'p.start_day', 'p.end_day')
+    'p.start_cost', 'p.start_day', 'p.image', 'p.end_day')
     .from('auction_detail as ad')
     .leftJoin('auction as a', 'ad.auction_id', 'a.auction_id')
     .leftJoin('account as acc1', 'a.bidder_id', 'acc1.account_id')

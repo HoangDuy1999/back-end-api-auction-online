@@ -195,9 +195,9 @@ module.exports = {
         if (!data.product_id) {
           return io.emit("ket_qua_dau_gia_nguoi_mua_ngay", { status: 400, account_id: bidder_id, message: "Thiếu trường product_id" });
         }
-        if (isNaN(data.cost)) {
-          return io.emit("ket_qua_dau_gia_nguoi_mua_ngay", { status: 400, account_id: bidder_id, message: "Thiếu trường dữ liệu cost" });
-        }
+        // if (isNaN(data.cost)) {
+        //   return io.emit("ket_qua_dau_gia_nguoi_mua_ngay", { status: 400, account_id: bidder_id, message: "Thiếu trường dữ liệu cost" });
+        // }
         const info_account = await accountModel.findById(bidder_id);
         if (info_account == null) {
           return io.emit("ket_qua_dau_gia_nguoi_mua_ngay", { status: 400, account_id: bidder_id, message: "Đấu giá không thành công" });
@@ -230,9 +230,9 @@ module.exports = {
         if (info_product[0].seller_id == bidder_id) {
           return io.emit("ket_qua_dau_gia_nguoi_mua_ngay", { status: 409, account_id: bidder_id, message: "Bạn không được phép đấu giá chính sản phẩm của mình" });
         }
-        if (info_product[0].buy_now != data.cost) {
-          return io.emit("ket_qua_dau_gia_nguoi_mua_ngay", { status: 411, account_id: bidder_id, message: "Giá mua ngay sản phẩm không hợp lệ" });
-        }
+        // if (info_product[0].buy_now != data.cost) {
+        //   return io.emit("ket_qua_dau_gia_nguoi_mua_ngay", { status: 411, account_id: bidder_id, message: "Giá mua ngay sản phẩm không hợp lệ" });
+        // }
         // cập nhật
         const rs_auction = await auctionModel.patch(info_auction.auction_id,
           { bidder_id: bidder_id, is_buy_now: 1, current_cost: info_product[0].buy_now });
@@ -240,7 +240,7 @@ module.exports = {
           return io.emit("ket_qua_dau_gia_nguoi_mua_ngay", { status: 400, account_id: bidder_id, message: "Mua ngay không thành công" });
         }
         await auctionDetailModel.add({
-          auction_id: info_auction.auction_id, bidder_id: bidder_id, cost: data.cost,
+          auction_id: info_auction.auction_id, bidder_id: bidder_id, cost: info_product[0].buy_now,
           description: 'Mua Ngay'
         });
         // set het han san pham

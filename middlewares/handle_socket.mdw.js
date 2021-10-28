@@ -256,12 +256,12 @@ module.exports = {
         //người bán
         mail_server.sendEmailSellerWhenSomeOneAuctionProduct(
           info_product[0].seller_email, info_product[0].seller_name, info_account.full_name,
-          info_product[0].name, info_product[0].product_id, data.cost
+          info_product[0].name, info_product[0].product_id, info_product[0].buy_now
         );
         // người mua
         mail_server.sendEmailBidderSuccessTemporaryAuction(
           info_account.email, info_account.full_name, info_product[0].seller_name,
-          info_product[0].name, info_product[0].product_id, data.cost);
+          info_product[0].name, info_product[0].product_id, info_product[0].buy_now);
         if (info_auction.bidder_email != null) {
           // người giữ giá trước đó
           mail_server.sendEmailBidderSuccessTemporaryBeforeAuctionBuyNow(

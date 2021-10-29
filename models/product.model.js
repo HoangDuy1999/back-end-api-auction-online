@@ -12,6 +12,7 @@ module.exports = {
         .leftJoin('account as acc2', 'acc2.account_id', 'a.bidder_id')
         .leftJoin('type as t', 't.type_id', 'p.type_id')
         .leftJoin('category as c', 'c.category_id', 'p.category_id')
+        .whereRaw('TIMEDIFF(p.start_day, now()) <= ?', 0)
         .where('p.status', '1')
         .orderBy('p.start_cost', 'asc')
     } else {
@@ -42,6 +43,7 @@ module.exports = {
       .leftJoin('type as t', 't.type_id', 'p.type_id')
       .leftJoin('category as c', 'c.category_id', 'p.category_id')
       .whereRaw(`TIMEDIFF(p.end_day, now()) > 0 and match(p.name, p.description) AGAINST('${textSearch}')`)
+      .whereRaw('TIMEDIFF(p.start_day, now()) <= ?', 0)
       .where('p.status', '1')
       .orderBy('p.start_cost', 'asc')
   },
@@ -61,6 +63,7 @@ module.exports = {
       .leftJoin('account as acc2', 'acc2.account_id', 'a.bidder_id')
       .leftJoin('type as t', 't.type_id', 'p.type_id')
       .leftJoin('category as c', 'c.category_id', 'p.category_id')
+      .whereRaw('TIMEDIFF(p.start_day, now()) <= ?', 0)
       .where('p.status', '1').andWhere('p.product_id', product_id)
       //.whereRaw('TIMEDIFF(p.end_day, now()) > ?', 0)
   },
@@ -92,6 +95,7 @@ module.exports = {
       .leftJoin('category as c', 'c.category_id', 'p.category_id')
       .where('p.status', '1').andWhere('p.product_id', product_id)
       .whereRaw('TIMEDIFF(p.end_day, now()) <= ?', 0)
+      
   },
   findImageByProductId(product_id) {
     return db.select('pi.image')
@@ -128,6 +132,7 @@ module.exports = {
         .leftJoin('type as t', 't.type_id', 'p.type_id')
         .leftJoin('category as c', 'c.category_id', 'p.category_id')
         .where('p.status', '1').andWhere('p.type_id', type_id)
+        .whereRaw('TIMEDIFF(p.start_day, now()) <= ?', 0)
         .orderBy('p.start_cost', 'asc')
     } else {
       return db.select('p.*', 'a.count_auction', 't.name as type_name', 't.alias as type_alias',
@@ -141,6 +146,7 @@ module.exports = {
         .leftJoin('type as t', 't.type_id', 'p.type_id')
         .leftJoin('category as c', 'c.category_id', 'p.category_id')
         .whereRaw('TIMEDIFF(p.end_day, now()) > ?', 0)
+        .whereRaw('TIMEDIFF(p.start_day, now()) <= ?', 0)
         .where('p.status', '1').andWhere('p.type_id', type_id)
         .orderBy('p.start_cost', 'asc')
     }
@@ -162,6 +168,7 @@ module.exports = {
         .leftJoin('type as t', 't.type_id', 'p.type_id')
         .leftJoin('category as c', 'c.category_id', 'p.category_id')
         .where('p.status', '1').andWhere('p.category_id', category_id)
+        .whereRaw('TIMEDIFF(p.start_day, now()) <= ?', 0)
         .orderBy('p.start_cost', 'asc')
     } else {
       return db.select('p.*', 'a.count_auction', 't.name as type_name', 't.alias as type_alias',
@@ -175,6 +182,7 @@ module.exports = {
         .leftJoin('type as t', 't.type_id', 'p.type_id')
         .leftJoin('category as c', 'c.category_id', 'p.category_id')
         .whereRaw('TIMEDIFF(p.end_day, now()) > ?', 0)
+        .whereRaw('TIMEDIFF(p.start_day, now()) <= ?', 0)
         .where('p.status', '1').andWhere('p.category_id', category_id)
         .orderBy('p.start_cost', 'asc')
     }
@@ -220,6 +228,7 @@ module.exports = {
       // .limit(5)
   },
   top_5_time_run_out() {
+    console.log("run");
     return db.select('p.*', 'a.count_auction', 't.name as type_name', 't.alias as type_alias',
       'c.name as category_name', 'c.alias as category_alias',
       'a.auction_id as auction_id', 'a.bidder_id', 'acc1.full_name as seller_name',
@@ -231,6 +240,7 @@ module.exports = {
       .leftJoin('type as t', 't.type_id', 'p.type_id')
       .leftJoin('category as c', 'c.category_id', 'p.category_id')
       .whereRaw('TIMEDIFF(p.end_day, now()) > ?', 0)
+      .whereRaw('TIMEDIFF(p.start_day, now()) <= ?', 0)
       .where('p.status', 1)
       .orderBy('p.end_day', 'asc')
       .limit(5)
@@ -247,6 +257,7 @@ module.exports = {
       .leftJoin('type as t', 't.type_id', 'p.type_id')
       .leftJoin('category as c', 'c.category_id', 'p.category_id')
       .whereRaw('TIMEDIFF(p.end_day, now()) > ?', 0)
+      .whereRaw('TIMEDIFF(p.start_day, now()) <= ?', 0)
       .where('p.status', 1)
       .orderBy('p.start_cost ', 'desc')
       .limit(5)
@@ -263,6 +274,7 @@ module.exports = {
       .leftJoin('type as t', 't.type_id', 'p.type_id')
       .leftJoin('category as c', 'c.category_id', 'p.category_id')
       .whereRaw('TIMEDIFF(p.end_day, now()) > ?', 0)
+      .whereRaw('TIMEDIFF(p.start_day, now()) <= ?', 0)
       .where('p.status', 1)
       .orderBy('count_auction', 'desc')
       .limit(5)

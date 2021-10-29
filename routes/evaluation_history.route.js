@@ -13,9 +13,10 @@ router.get('/:account_id', async (req, res) => {
   const rs = await evaluationHistoryModel.findByAccountId(account_id);
   res.status(200).json(rs);
 });
-router.post('/', validate(schema),async (req, res) => {
+router.post('/', validate(schema, ["account_id", "score", "auction_id", "description"]),async (req, res) => {
   const data = req.body;
   const account_id = data.account_id || 0;
+  data.assessor = req.pay_load.account_id;
   const rs_acc = await accountModel.findById(account_id);
   if(rs_acc == null){
     res.status(400).json({message: "thêm lịch sử đánh giá không thành công"});

@@ -14,12 +14,15 @@ const router = express.Router();
 router.post('/', validate(schema), async (req, res) => {
   let product = req.body;
   let today = new Date();
-  product.seller_id = req.pay_load.account_id;
-  const date = today.getFullYear() + '/' + (today.getMonth() + 1) + '/' + today.getDate();
-  const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-  today = date + ' ' + time;
-  product.start_day = moment(product.start_day, "DD/MM/YYYY HH:MM:S").format('YYYY/MM/DD HH:MM:SS');
-  product.end_day = moment(product.end_day, "DD/MM/YYYY HH:MM:S").format('YYYY/MM/DD HH:MM:SS');
+  req.body.seller_id = req.pay_load.account_id;
+  // product.seller_id = req.pay_load.account_id;
+  // const date = today.getFullYear() + '/' + (today.getMonth() + 1) + '/' + today.getDate();
+  // const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+  today = moment(today).format('YYYY-MM-DD HH:MM:SS');;
+  product.start_day = new Date(product.start_day);
+  product.end_day = new Date(product.end_day);
+  product.start_day = moment(product.start_day).format('YYYY-MM-DD HH:MM:SS');
+  product.end_day = moment(product.end_day, "DD/MM/YYYY HH:MM:SS").format('YYYY-MM-DD HH:MM:SS');
   if (product.start_day == "Invalid date") {
     return res.status(400).json({ message: 'Định dạng ngày bắt đầu không hợp lệ' });
     console.log(11);

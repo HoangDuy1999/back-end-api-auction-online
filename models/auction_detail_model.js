@@ -44,9 +44,13 @@ module.exports = {
     .whereRaw('TIMEDIFF(p.end_day, now()) > ?', 0)
   },
   async findAuctionId(auction_id) {
-    const rows = await db.select('ad.*', 'acc.full_name')
+    const rows = await db.select('ad.*', 'acc.full_name', 'eh.description as evaluation_value')
     .from ('auction_detail as ad')
     .leftJoin('account as acc', 'ad.bidder_id', 'acc.account_id')
+    .leftJoin('evaluation_history as eh',function() {
+      this.on('ad.auction_id', '=', 'eh.auction_id')
+      .andOn('ad.bidder_id', '=', 'eh.auction_id')
+    })
     .where('ad.auction_id', auction_id)
     .andWhere('ad.status', 1);
     return rows;

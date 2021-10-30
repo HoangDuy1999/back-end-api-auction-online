@@ -187,12 +187,17 @@ module.exports = {
     }
   },
   getInfoAuctioneer(product_id) {
-    return db.select('ad.*', 'acc.full_name as bidder_name')//, 'ra.account_id', 'acc.full_name', 'ra.reason')
+    return db.select('ad.*', 'acc.full_name as bidder_name', 'eh.description as evaluation_value')//, 'ra.account_id', 'acc.full_name', 'ra.reason')
       .from('auction as a')
       .rightJoin('auction_detail as ad', 'a.auction_id', 'ad.auction_id')
     //  .rightJoin('reject_auction as ra', 'a.auction_id',  'ra.auction_id')
       .leftJoin('account as acc', 'ad.bidder_id', 'acc.account_id')
+      .leftJoin('evaluation_history as eh',function() {
+        this.on('ad.auction_id', '=', 'eh.auction_id')
+        .andOn('ad.bidder_id', '=', 'eh.auction_id')
+      })
       .where('a.product_id', product_id).andWhere('a.status', 1)
+      //.andWhere('acc.account_id', 'eh.account_id')
   },
   getPostUnexpired(account_id) {
     return db.select('p.*', 'a.count_auction', 't.name as type_name', 't.alias as type_alias',

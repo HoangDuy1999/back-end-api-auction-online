@@ -99,7 +99,7 @@ router.patch('/', validate(schema, ["product_id", "description"]), async (req, r
   if (!rs) {
     return res.status(400).json({ message: "cập nhật mô tả không thành công" });
   }
-  res.status(400).json({ message: "cập nhật mô tả thành công" });
+  res.status(200).json({ message: "cập nhật mô tả thành công" });
 });
 router.get('/post_unexpired', async (req, res) => {
   const account_id = req.pay_load.account_id;

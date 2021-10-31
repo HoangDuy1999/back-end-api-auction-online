@@ -10,6 +10,12 @@ module.exports = {
     .where('ev.account_id', id);
     return rows;
   },
+  findByAccountAndAssensor(bidder_id, seller_id){
+    return db.select('eh.description')
+    .from('evaluation_history as eh')
+    .where('eh.assessor', bidder_id)
+    .andWhere('eh.account_id', seller_id)
+  },
   async add(evaluation) {
     const rs = await db.table('evaluation_history').insert(evaluation);
     return rs;

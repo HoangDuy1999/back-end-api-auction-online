@@ -6,7 +6,7 @@
     "alias": { "type": "string" },
     "description": { "type": "string" },
     "status": {"type": "integer"},
-    "type_id": {"type": "string"}
+    "type_id": {"type": "integer"}
   },
   "required": ["type_id"],
   "additionalProperties": false

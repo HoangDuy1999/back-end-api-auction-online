@@ -25,7 +25,8 @@ router.get('/type_and_category', async (req, res) => {
   res.status(200).json(rs);
 });
 router.post('/', validate(schema), async(req, res)=>{
-  const rs = await categoryModel.add(schema);
+  //console.log(req.body)
+  const rs = await categoryModel.add(req.body);
   if(!rs){
     return res.status(400).json({message: "Thêm chuyên mục không thành công"});
   }

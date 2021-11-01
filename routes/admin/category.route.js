@@ -45,7 +45,7 @@ router.delete('/', async(req, res)=>{
   const products = await productModel.findAllByCategory_Id(categoy_id, true);
   console.log("product")
   if(products.length > 0){
-    return res.status(400).json({message: 'Sản phẩm đã có sản phẩm, nên không được xóa chuyên mục'});
+    return res.status(400).json({message: 'Chuyên mục đã có sản phẩm, nên không được xóa chuyên mục'});
   }
   const rs = await categoryModel.patch(categoy_id, {status: 0});
   if(!rs){

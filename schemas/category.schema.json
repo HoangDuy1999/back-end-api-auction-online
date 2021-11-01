@@ -8,6 +8,6 @@
     "status": {"type": "integer"},
     "type_id": {"type": "string"}
   },
-  "required": ["category_id", "type_id"],
+  "required": ["type_id"],
   "additionalProperties": false
 }

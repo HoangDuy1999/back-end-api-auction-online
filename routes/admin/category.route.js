@@ -3,6 +3,7 @@ const categoryModel = require('../../models/category.model');
 const typeModel = require('../../models/type.model');
 const schema = require('../../schemas/category.schema.json');
 const validate = require('../../middlewares/validate.mdw');
+const productModel = require('../../models/product.model');
 const router = express.Router();
 router.get('/', async (req, res) => {
   if(req.pay_load.role_id != 3){
@@ -32,7 +33,7 @@ router.post('/', validate(schema), async(req, res)=>{
 })
 
 router.patch('/', validate(schema, ["name", "category_id"]), async(req, res)=>{
-  const rs = await categoryModel.patch(req.body.categoy_id, {name: req.body.name});
+  const rs = await categoryModel.patch(req.body.category_id, {name: req.body.name});
   if(!rs){
     return res.status(400).json({message: "Cập nhật tên chuyên mục không thành công"});
   }
@@ -40,7 +41,12 @@ router.patch('/', validate(schema, ["name", "category_id"]), async(req, res)=>{
 })
 
 router.delete('/', async(req, res)=>{
-  const categoy_id = req.query.categoy_id;
+  const categoy_id = req.query.categoy_id || 0;
+  const products = await productModel.findAllByCategory_Id(categoy_id, true);
+  console.log("product")
+  if(products.length > 0){
+    return res.status(400).json({message: 'Sản phẩm đã có sản phẩm, nên không được xóa chuyên mục'});
+  }
   const rs = await categoryModel.patch(categoy_id, {status: 0});
   if(!rs){
     return res.status(400).json({message: "Xóa chuyên mục không thành công"});

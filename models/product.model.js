@@ -113,6 +113,7 @@ module.exports = {
       .leftJoin('type as t', 't.type_id', 'p.type_id')
       .leftJoin('category as c', 'c.category_id', 'p.category_id')
       .whereRaw('TIMEDIFF(p.end_day, now()) > ?', 0)
+      .whereRaw('TIMEDIFF(p.start_day, now()) <= ?', 0)
       .where('p.status', '1').whereNotIn('p.product_id', [product_id])
       .andWhere('p.category_id', category_id)
       .limit(5)

@@ -66,6 +66,22 @@ module.exports = {
       .where('p.status', '1').andWhere('p.product_id', product_id)
       //.whereRaw('TIMEDIFF(p.end_day, now()) > ?', 0)
   },
+  findByIdWithAuth(product_id) {
+    return db.select('p.*', 'a.count_auction', 'a.is_buy_now', 't.name as type_name', 't.alias as type_alias',
+      'c.name as category_name', 'c.alias as category_alias',
+      'a.auction_id as auction_id', 'a.bidder_id', 'acc1.full_name as seller_name',
+      'acc1.evaluation_score', 'acc1.email as seller_email', 'a.current_cost',
+      'acc2.full_name as bidder_name')
+      .from('product as p')
+      .leftJoin('auction as a', 'a.product_id', 'p.product_id')
+      .leftJoin('account as acc1', 'acc1.account_id', 'p.seller_id')
+      .leftJoin('account as acc2', 'acc2.account_id', 'a.bidder_id')
+      .leftJoin('type as t', 't.type_id', 'p.type_id')
+      .leftJoin('category as c', 'c.category_id', 'p.category_id')
+     // .whereRaw('TIMEDIFF(p.start_day, now()) <= ?', 0)
+      .where('p.status', '1').andWhere('p.product_id', product_id)
+      //.whereRaw('TIMEDIFF(p.end_day, now()) > ?', 0)
+  },
   findByIdNoCheckExpired(product_id) {
     return db.select('p.*', 'a.count_auction', 'a.is_buy_now', 't.name as type_name', 't.alias as type_alias',
       'c.name as category_name', 'c.alias as category_alias',

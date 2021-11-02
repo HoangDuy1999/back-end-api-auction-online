@@ -11,6 +11,41 @@ const rejectAuctionSchema = require('../../schemas/reject_auction.schema.json');
 const validate = require('../../middlewares/validate.mdw');
 const auth = require('../../middlewares/auth.mdw');
 const router = express.Router();
+
+router.get('/info/:id', async (req, res) => {
+  const product_id = parseInt(req.params.id) || 0;
+  const infoProduct = await productModel.findByIdWithAuth(product_id);
+  if(!infoProduct.length){
+    return res.status(400).json({message: "Sản phẩm đã bị xóa"});
+  }
+  const date = new Date();
+  infoProduct[0].compare_day = infoProduct[0].end_day - date;
+  const infoAuctioneers = await productModel.getInfoAuctioneer(product_id);
+  if(infoAuctioneers.length < 1){
+    infoProduct[0].compare_day = 0;
+  }
+  if (!infoProduct) {
+    return res.status(400).json({ message: 'Không tìm thấy thông tin sản phẩm' });
+  }
+  //get full images
+  const p_images = await productModel.findImageByProductId(product_id);
+  let image = [infoProduct[0].image];
+  for (let i = 0; i < p_images.size; i++) {
+    console.log(p_images[i]);
+  }
+  for (let item of p_images) {
+    image.push(item.image);
+  }
+  //relation product
+  const relation_product = await productModel.findRelationCategory(infoProduct[0].category_id, product_id);
+  infoProduct[0].image = image;
+  res.status(200).json({
+    infoProduct: infoProduct[0],
+    infoAuctioneers: infoAuctioneers,
+    relation_product: relation_product
+  });
+});
+
 router.post('/', validate(schema), async (req, res) => {
   let product = req.body;
   let today = new Date();

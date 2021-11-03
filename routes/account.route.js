@@ -10,6 +10,7 @@ const changePassWordschema = require('../schemas/change_password.schema.json');
 const router = express.Router();
 const randomstring = require('randomstring');
 const auth = require('../middlewares/auth.mdw');
+const auth_refresh = require('../middlewares/auth_refresh.mdw');
 const mail_server = require('../middlewares/server_mail_mdw');
 router.get('/', async (req, res) => {
   const rs = await accountModel.findAll();
@@ -87,7 +88,7 @@ router.post('/signin', async function (req, res) {
 
     const payload = { account_id: account.account_id, full_name: account.full_name, role_id: account.role_id }
     const opts = {
-      expiresIn: 200 * 6000 // seconds
+      expiresIn: 2 * 60 // seconds
     }
     const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET_KEY, opts);
     let refreshToken = account.rf_token;
@@ -109,6 +110,32 @@ router.post('/signin', async function (req, res) {
     return res.status(400).json({ message: "Dữ liệu đầu vào không hợp lệ" });
   }
 })
+router.post('/refreshToken', auth_refresh, async(req, res) =>{
+  console.log(req.pay_load);
+  const account_id = req.pay_load.account_id || 0;
+  const account = await accountModel.findById(account_id);
+  if(account == null){
+    return res.status(400).json({message: 'Không tìm thấy thông tin tài khoản'});
+  }
+  if(account.rf_token != req.refreshToken){
+    return res.status(400).json({message: 'refreshToken không hợp lệ'});
+  }
+  const payload = { account_id: account.account_id, full_name: account.full_name, role_id: account.role_id }
+  const opts = {
+    expiresIn: 2 * 60 // seconds
+  }
+  const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET_KEY, opts);
+  //let refreshToken = account.rf_token;
+  // if (account.rf_token == null) {
+  //   refreshToken = randomstring.generate(80);
+  //   console.log(refreshToken);
+  //   await accountModel.patch(account.account_id, {
+  //     rf_token: refreshToken
+  //   })
+  // }
+  res.status(200).json({accessToken})
+});
+
 router.post('/signout', auth, async (req, res) => {
   const { account_id } = req.pay_load;
   const rs = await accountModel.patch(account_id, { rf_token: null });
@@ -208,6 +235,4 @@ router.post('/sendOtpChangeEmail', validate(schema, ["email", "full_name"]), asy
   const otp = await mail_server.sendOtpChangeEmail(email, full_name);
   res.status(200).json({ message: "Gửi mã otp thành công", otp: otp });
 })
-
-
 module.exports = router;

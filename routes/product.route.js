@@ -14,7 +14,7 @@ router.get('/', auth, async (req, res) => {
 });
 router.get('/search', async(req, res)=>{
   try{
-  const textSearch = req.query.textSearch.trim();
+  const textSearch = req.query.textSearch ? req.query.textSearch.trim() : "";
   console.log(textSearch);
   const infoProduct = await productModel.search(textSearch);
   res.status(200).json(infoProduct);

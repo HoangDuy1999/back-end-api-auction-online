@@ -74,7 +74,8 @@
       const socket = io.connect("http://localhost:3002", {
         query: {
           token:
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50X2lkIjoyLCJmdWxsX25hbWUiOiJhbmggZHV5MSIsInJvbGVfaWQiOjEsImlhdCI6MTYzNDcxMjEzOCwiZXhwIjoxNjM1OTEyMTM4fQ.LmtFXZPdDikdrHgy2Tjn2oPS4FxfK-6x4MWo7TgU008"
+          //"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50X2lkIjoxLCJmdWxsX25hbWUiOiJUcuG6p24gSG_DoG5nIER1eSIsInJvbGVfaWQiOjEsImlhdCI6MTYzNjEwMTQ3OCwiZXhwIjoxNjM2MTAxNTk4fQ.YAbTIuLDKDDWO6Da2ttitSwMIKPmjeMeGTgCkvnw8bo"
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50X2lkIjoxLCJmdWxsX25hbWUiOiJUcuG6p24gSG_DoG5nIER1eSIsInJvbGVfaWQiOjEsImlhdCI6MTYzNjEwMzk3NywiZXhwIjoxNjM2MTA0MDk3fQ.kuAvV7jM1pdo0-tzZfzjVIwnkCRDQpA69ZlaozLRKms"
         //"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50X2lkIjoxLCJmdWxsX25hbWUiOiJUcuG6p24gSG_DoG5nIER1eSIsInJvbGVfaWQiOjEsImlhdCI6MTYzNDcxNDg1OSwiZXhwIjoxNjM1OTE0ODU5fQ.EwjQW8c2QJIjMybnabEx8ByQxXY5vGx34ft4yoGunhU" 
         },
       });
@@ -82,7 +83,7 @@
       setTimeout(function () {
         if (socket.connected) {
           //thông tin đấu giá gửi lên server
-          socket.emit("dau_gia_san_pham", { product_id: 1, cost: 7550000 });
+          socket.emit("dau_gia_san_pham", { product_id: 1, cost: 5450000 });
           socket.on("ket_qua_dau_gia_nguoi_mua", (data) => {
             console.log(data);
           });

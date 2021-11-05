@@ -77,13 +77,10 @@ module.exports = {
           return io.emit("ket_qua_dau_gia_nguoi_mua", { status: 409, account_id: bidder_id, message: "Bạn không được phép đấu giá chính sản phẩm của mình" });
         }
         // gia hạn
-        //console.log((info_product[0].end_day - new Date())/1000);
         if ((info_product[0].end_day - new Date())/1000 <= 300) {
           var d1 = new Date(info_product[0].end_day);
           d2 = new Date(d1);
           d2.setMinutes(d1.getMinutes() + 10);
-          // console.log(info_product[0].end_day);
-          // console.log(d2);
           productModel.patch(info_product[0].product_id, {end_day: d2});
         }
         //console.log(info_product[0].product_id);
@@ -111,8 +108,8 @@ module.exports = {
           mail_server.sendEmailBidderSuccessTemporaryAuction(
             info_account.email, info_account.full_name, info_product[0].seller_name,
             info_product[0].name, info_product[0].product_id, product_cost);
-        } else {// TH2: ĐÃ CÓ NGƯỜI RA GIÁ
-          // console.log(info_auction.current_cost);
+        } else {
+          // TH2: ĐÃ CÓ NGƯỜI RA GIÁ
           if (info_auction.bidder_id == bidder_id) {
             return io.emit("ket_qua_dau_gia_nguoi_mua", { status: 408, account_id: bidder_id, message: "Bạn đánh là người giữ giá nên không cần đấu giá tiếp" });
           }
@@ -121,7 +118,7 @@ module.exports = {
             return io.emit("ket_qua_dau_gia_nguoi_mua", { status: 400, account_id: bidder_id, message: "Đấu giá không thành công." });
           }
           const cost_now = parseFloat(rs[0].max_cost) + parseFloat(info_product[0].step_cost);
-          if (data.cost <= parseFloat(rs[0].max_cost)) {
+          if (data.cost <= parseFloat(rs[0].max_cost) || data.cost >= parseFloat(rs[0].max_cost) && data.cost < cost_now) {
             // thêm vô auction_detail giá đó
             const result_temp = await auctionDetailModel.add({ auction_id: info_auction.auction_id, bidder_id: bidder_id, cost: data.cost, description: 'Đấu giá' });
             //nếu thêm thành công
@@ -135,20 +132,21 @@ module.exports = {
             }
             return io.emit("ket_qua_dau_gia_nguoi_mua", { status: 400, account_id: bidder_id, message: "Đấu giá không thành công." });
           }
-          if (data.cost > parseFloat(rs[0].max_cost) && data.cost <= cost_now) {
-            // thêm vô auction_detail giá đó
-            const result_temp = await auctionDetailModel.add({ auction_id: info_auction.auction_id, bidder_id: bidder_id, cost: data.cost, description: 'Đấu giá' });
-            //nếu thêm thành công
-            if (result_temp) {
-              // nêu giá này lơn hơn bidder_id thì cập nhật lại giá mua
-              if (info_auction.current_cost < data.cost) {
-                await auctionModel.patch(info_auction.auction_id, { current_cost: parseFloat(rs[0].max_cost), count_auction: info_auction.count_auction + 1 });
-              }
-              const result = await auctionDetailModel.findMaxCostByAuctionId(info_auction.auction_id);
-              return io.emit("ket_qua_dau_gia_nguoi_mua", { status: 405, account_id: bidder_id, message: "Giá của bạn thấp hơn người giữ giá trước đó" });
-            }
-            return io.emit("ket_qua_dau_gia_nguoi_mua", { status: 400, account_id: bidder_id, message: "Đấu giá không thành công." });
-          }
+          //if (data.cost > parseFloat(rs[0].max_cost) && data.cost <= cost_now) {
+          // if(data.cost >= cost_now)
+          //   // thêm vô auction_detail giá đó
+          //   const result_temp = await auctionDetailModel.add({ auction_id: info_auction.auction_id, bidder_id: bidder_id, cost: data.cost, description: 'Đấu giá' });
+          //   //nếu thêm thành công
+          //   if (result_temp) {
+          //     // nêu giá này lơn hơn bidder_id thì cập nhật lại giá mua
+          //     if (info_auction.current_cost < data.cost) {
+          //       await auctionModel.patch(info_auction.auction_id, { bidder_id: bidder_id, current_cost: cost_now, count_auction: info_auction.count_auction + 1 });
+          //     }
+          //     const result = await auctionDetailModel.findMaxCostByAuctionId(info_auction.auction_id);
+          //     return io.emit("ket_qua_dau_gia_nguoi_mua", { status: 405, account_id: bidder_id, message: "Giá của bạn thấp hơn người giữ giá trước đó" });
+          //   }
+          //   return io.emit("ket_qua_dau_gia_nguoi_mua", { status: 400, account_id: bidder_id, message: "Đấu giá không thành công." });
+          // }
 
           const rs_auction = await auctionModel.patch(info_auction.auction_id, { bidder_id: bidder_id, current_cost: cost_now, count_auction: info_auction.count_auction + 1 });
           // console.log("rs  " + rs);

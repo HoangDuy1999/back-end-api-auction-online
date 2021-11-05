@@ -126,7 +126,9 @@ router.post('/reject_auction', validate(rejectAuctionSchema), async (req, res) =
     }
   }
   await auctionDetailModel.patchByAuctionAndAccountId(rs_auction.auction_id, req.body.account_id, {status: 0});
-  res.status(200).json({ message: "Từ chối đấu giá đối thành công" })
+  const infomation_auction = await auctionModel.findByProductId(rs_auction.product_id);
+  const information_auction_detail = await auctionDetailModel.findAuctionId(info_auction.auction_id);
+  res.status(200).json({ message: "Từ chối đấu giá đối thành công", info_auction: infomation_auction, information_auction_detail: information_auction_detail })
 });
 router.patch('/', validate(schema, ["product_id", "description"]), async (req, res) => {
   const product = req.body;

@@ -77,11 +77,11 @@ module.exports = {
           return io.emit("ket_qua_dau_gia_nguoi_mua", { status: 409, account_id: bidder_id, message: "Bạn không được phép đấu giá chính sản phẩm của mình" });
         }
         // gia hạn
-        if ((info_product[0].end_day - new Date())/1000 <= 300) {
+        if ((info_product[0].end_day - new Date()) / 1000 <= 300) {
           var d1 = new Date(info_product[0].end_day);
           d2 = new Date(d1);
           d2.setMinutes(d1.getMinutes() + 10);
-          productModel.patch(info_product[0].product_id, {end_day: d2});
+          productModel.patch(info_product[0].product_id, { end_day: d2 });
         }
         //console.log(info_product[0].product_id);
         //TH1: CHƯA AI RA GIÁ
@@ -128,6 +128,13 @@ module.exports = {
                 await auctionModel.patch(info_auction.auction_id, { current_cost: data.cost, count_auction: info_auction.count_auction + 1 });
               }
               const result = await auctionDetailModel.findMaxCostByAuctionId(info_auction.auction_id);
+              const infomation_auction = await auctionModel.findByProductId(info_product[0].product_id);
+              const information_auction_detail = await auctionDetailModel.findAuctionId(info_auction.auction_id);
+              io.emit('cap_nhat_giao_dien_xem_chi_tiet_san_pham_nguoi_ban', {
+                status: 200,
+                product_id: info_product[0].product_id, info_auction: infomation_auction,
+                info_auction_detail: information_auction_detail
+              })
               return io.emit("ket_qua_dau_gia_nguoi_mua", { status: 405, account_id: bidder_id, message: "Giá của bạn thấp hơn người giữ giá trước đó" });
             }
             return io.emit("ket_qua_dau_gia_nguoi_mua", { status: 400, account_id: bidder_id, message: "Đấu giá không thành công." });

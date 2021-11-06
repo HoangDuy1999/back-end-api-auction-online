@@ -75,7 +75,7 @@
         query: {
           token:
           //"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50X2lkIjoxLCJmdWxsX25hbWUiOiJUcuG6p24gSG_DoG5nIER1eSIsInJvbGVfaWQiOjEsImlhdCI6MTYzNjEwMTQ3OCwiZXhwIjoxNjM2MTAxNTk4fQ.YAbTIuLDKDDWO6Da2ttitSwMIKPmjeMeGTgCkvnw8bo"
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50X2lkIjoyLCJmdWxsX25hbWUiOiJhbmggZHV5MSIsInJvbGVfaWQiOjEsImlhdCI6MTYzNjExNTc5OSwiZXhwIjoxNjM2MTE1OTE5fQ.NI7QmwGBur47Q2Oa1rlEcoqbQ-AXuJy9ZvG1m7TJ0rg"
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50X2lkIjozLCJmdWxsX25hbWUiOiJOZ3V54buFbiBUcuG6pW4gSOG7gSIsInJvbGVfaWQiOjIsImlhdCI6MTYzNjE3NzcyMiwiZXhwIjoxNjM2MTc3ODQyfQ.3VfhR1AB4hwSHWWcSu4G01KCDVJc0UzJN2dSsAMWMok"
         //"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2NvdW50X2lkIjoxLCJmdWxsX25hbWUiOiJUcuG6p24gSG_DoG5nIER1eSIsInJvbGVfaWQiOjEsImlhdCI6MTYzNDcxNDg1OSwiZXhwIjoxNjM1OTE0ODU5fQ.EwjQW8c2QJIjMybnabEx8ByQxXY5vGx34ft4yoGunhU" 
         },
       });
@@ -83,16 +83,20 @@
       setTimeout(function () {
         if (socket.connected) {
           //thông tin đấu giá gửi lên server
-          socket.emit("dau_gia_san_pham", { product_id: 2, cost: 5450000 });
-          socket.on("ket_qua_dau_gia_nguoi_mua", (data) => {
+          // socket.emit("dau_gia_san_pham", { product_id: 2, cost: 5450000 });
+          // socket.on("ket_qua_dau_gia_nguoi_mua", (data) => {
+          //   console.log(data);
+          // });
+          // socket.on(
+          //   "cap_nhat_giao_dien_xem_chi_tiet_san_pham_nguoi_ban",
+          //   (data) => {
+          //     console.log(data);
+          //   }
+          // );
+          socket.emit("lay_thong_tin_dau_gia", { product_id: 1});
+          socket.on("thong_tin_dau_gia", (data) => {
             console.log(data);
           });
-          socket.on(
-            "cap_nhat_giao_dien_xem_chi_tiet_san_pham_nguoi_ban",
-            (data) => {
-              console.log(data);
-            }
-          );
           //MUA NGAY
           // socket.emit("mua_ngay", {product_id: 1, cost: 3000000});
 					// socket.on("ket_qua_dau_gia_nguoi_mua_ngay", (data) => {
@@ -101,6 +105,13 @@
 					// socket.on("cap_nhat_giao_dien_xem_chi_tiet_san_pham_nguoi_ban", (data) => {
 					// 	console.log(data);
 					// });
+                  // socket.emit("mua_ngay", {product_id: 1, cost: 3000000});
+					// socket.on("ket_qua_dau_gia_nguoi_mua_ngay", (data) => {
+					// 	console.log(data);
+					// });
+					// socket.on("cap_nhat_giao_dien_xem_chi_tiet_san_pham_nguoi_ban", (data) => {
+					// 	console.log(data);
+					// }
         } else {
           console.log("không thể kết nối đến server");
          }

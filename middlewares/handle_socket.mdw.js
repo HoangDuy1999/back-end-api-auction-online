@@ -26,6 +26,22 @@ module.exports = {
 
     //listening
     io.on('connection', async (socket) => {
+      //lấy thông tin giữ giá
+      socket.on("lay_thong_tin_dau_gia", async (data) => {
+        const info = socket.decoded;
+        if (info.role_id == 3) {
+          return io.emit("thong_tin_dau_gia", { status: 400, account_id: bidder_id, message: "Quản trị viên không có quyền đấu giá" });
+        }
+        if (!data.product_id) {
+          return io.emit({ info_auction: {}, info_auction_detail: [] });
+        }
+        console.log(1111);
+        const infomation_auction = await auctionModel.findByProductId(data.product_id);
+        const information_auction_detail = await auctionDetailModel.findAuctionId(infomation_auction.auction_id);
+        console.log(infomation_auction);
+        console.log(information_auction_detail);
+        return io.emit("thong_tin_dau_gia", { "info_auction": infomation_auction, "info_auction_detail": information_auction_detail });
+      });
       // chức năng đấu giá
       socket.on("dau_gia_san_pham", async (data) => {
         const info = socket.decoded;

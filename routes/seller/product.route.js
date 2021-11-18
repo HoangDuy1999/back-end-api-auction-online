@@ -46,6 +46,13 @@ router.get('/info/:id', async (req, res) => {
   });
 });
 
+router.get('/listProductHasBidder', async(req, res) => {
+  const account_id = req.pay_load.account_id;
+  console.log(account_id);
+  const rs = await productModel.getlistProductHasBidder(account_id);
+  res.status(200).json(rs);
+});
+
 router.post('/', validate(schema), async (req, res) => {
   let product = req.body;
   let today = new Date();

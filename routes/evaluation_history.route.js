@@ -13,7 +13,14 @@ router.get('/:account_id', async (req, res) => {
   const rs = await evaluationHistoryModel.findByAccountId(account_id);
   res.status(200).json(rs);
 });
-router.post('/', validate(schema, ["account_id", "score", "auction_id", "description"]),async (req, res) => {
+
+router.get('/', validate(schema, ["account_id"]), async (req, res) => {
+  const account_id = req.body.account_id;
+  const rs = await evaluationHistoryModel.findByAccountId(account_id);
+  res.status(200).json(rs);
+});
+
+router.post('/', auth, validate(schema, ["account_id", "score", "auction_id", "description"]),async (req, res) => {
   const data = req.body;
   const account_id = data.account_id || 0;
   data.assessor = req.pay_load.account_id;

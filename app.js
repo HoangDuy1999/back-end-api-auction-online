@@ -14,33 +14,6 @@ app.use(morgan('dev'));
 app.use(cors());
 //autoCheckAuctionOver.Init();
 app.get('/', async function (req, res) {
-  const a = [
-    {
-      "Address": 25,
-      "AlertType": 1,
-      "Area": "North",
-      "MeasureDate": "2019-02-01T00:01:01.001Z",
-      "MeasureValue": -1
-    },
-    {
-      "Address": 26,
-      "AlertType": 1,
-      "Area": "West",
-      "MeasureDate": "2016-04-12T15:13:11.733Z",
-      "MeasureValue": -1
-    },
-    {
-      "Address": 25,
-      "AlertType": 1,
-      "Area": "North",
-      "MeasureDate": "2017-02-01T00:01:01.001Z",
-      "MeasureValue": -1
-    }
-  ];
-  const rs = a.reduce((a, b) => {
-    return new Date(a.MeasureDate) < new Date(b.MeasureDate) ? a : b;
-  });
-  console.log(rs);
   res.json({
     message: 'Hello online auction backend'
   });
@@ -50,7 +23,7 @@ app.use('/api/accounts', require('./routes/account.route'));
 app.use('/api/products', require('./routes/product.route'));
 app.use('/api/types', require('./routes/type.route'));
 app.use('/api/categories', require('./routes/category.route'));
-app.use('/api/evaluation_historys', auth, require('./routes/evaluation_history.route'));
+app.use('/api/evaluation_historys', require('./routes/evaluation_history.route'));
 //bidder
 app.use('/api/bidder/watch_list', auth, require('./routes/bidder/watch_list.route'));
 app.use('/api/bidder/account', auth, require('./routes/bidder/account.route'));

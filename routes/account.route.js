@@ -130,7 +130,7 @@ router.post('/refreshToken', auth_refresh, async(req, res) =>{
   }
   const payload = { account_id: account.account_id, full_name: account.full_name, role_id: account.role_id }
   const opts = {
-    expiresIn: 2 * 60 // seconds
+    expiresIn: 10 * 60 // seconds
   }
   const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET_KEY, opts);
   //let refreshToken = account.rf_token;

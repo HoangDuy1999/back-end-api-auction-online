@@ -17,6 +17,13 @@ router.get('/', async (req, res) => {
   res.status(200).json(rs);
 });
 
+router.get('/check_email', validate(schema, ["email"]), async(req, res) =>{
+  const rs = await accountModel.findByEmail(req.body.email);
+  if(rs === null){
+    return res.json(400).json({message: "Email chưa đăng ký tài khoản"});
+  }
+  return res.status(200).json({message: "Email đã đăng ký tài khoản"});
+});
 router.post('/', validate(schema), async function (req, res) {
   let account = req.body;
   account.role_id = 1;

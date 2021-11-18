@@ -30,6 +30,18 @@ module.exports = {
         .orderBy('p.start_cost', 'asc')
     }
   },
+  getWonList(account_id){
+    return db
+    .distinct('a.auction_id', 'a.bidder_id', 'a.count_auction','a.product_id', 'a.current_cost',
+    'acc1.full_name as bidder_name', 'p.name', 'p.seller_id', 'acc2.full_name as seller_name',
+    'p.start_cost', 'p.start_day', 'p.image', 'p.end_day')
+    .from('auction as a')
+    .leftJoin('account as acc1', 'a.bidder_id', 'acc1.account_id')
+    .leftJoin('product as p', 'a.product_id', 'p.product_id')
+    .leftJoin('account as acc2', 'p.seller_id', 'acc2.account_id')
+    .where('a.status', 1).andWhere('a.bidder_id', account_id)
+    .whereRaw('TIMEDIFF(p.end_day, now()) <= ?', 0)
+  },
   search(textSearch) {
     return db.select('p.*', 'a.count_auction', 't.name as type_name', 't.alias as type_alias',
       'c.name as category_name', 'c.alias as category_alias',

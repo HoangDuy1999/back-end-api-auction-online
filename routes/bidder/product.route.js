@@ -27,6 +27,14 @@ router.get('/evaluation', async(req, res) => {
   return res.status(200).json(rs);
 });
 
+router.get('/won_list', async(req, res)=>{
+  const account_id = req.pay_load.account_id;
+  console.log(account_id);
+  const rs = await productModel.getWonList(account_id);
+  console.log(rs);
+  return res.status(200).json(rs);
+});
+
 router.get('/auction_progress', async (req, res) => {
   const account_id = req.pay_load.account_id;
   console.log(account_id);

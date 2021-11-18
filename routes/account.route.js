@@ -20,7 +20,7 @@ router.get('/', async (req, res) => {
 router.get('/check_email', validate(schema, ["email"]), async(req, res) =>{
   const rs = await accountModel.findByEmail(req.body.email);
   if(rs === null){
-    return res.json(400).json({message: "Email chưa đăng ký tài khoản"});
+    return res.status(400).json({message: "Email chưa đăng ký tài khoản"});
   }
   return res.status(200).json({message: "Email đã đăng ký tài khoản"});
 });

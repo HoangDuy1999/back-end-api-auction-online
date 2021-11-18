@@ -27,6 +27,20 @@ module.exports = {
             `
     }
   },
+  sendOtpResetPassWord(emailReceive, username, otp) { // thiết lập đối tượng, nội dung gửi mail
+    return {
+      from: 'sandaugiaduythien@gmail.com',
+      to: emailReceive,
+      subject: 'Sàn đấu giá S_auction',
+      text: 'Chạo bạn',
+      html: `<p>Chào Bạn <b>${username}</b>,</p>
+            <p>Mã otp dưới đây là dùng để đổi reset mật khẩu tại website: <b>S_auction</b> </p>
+            <p>Mã OTP: <b>${otp}</b></p>
+            <div style="color: red;  font-style: italic;">Vui lòng không cung cấp mã OTP này cho ai khác. Xin cảm ơn! </div>
+            <div>Chào bạn</div>
+            `
+    }
+  },
   sendEmailSellerTimeAuctionOverNoBidder(emailReceive, username, product_name, product_id) { // thiết lập đối tượng, nội dung gửi mail
     return {
       from: 'sandaugiaduythien@gmail.com',

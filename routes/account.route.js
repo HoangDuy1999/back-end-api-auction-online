@@ -223,6 +223,7 @@ router.post('/sendOtpSignUp', validate(schema, ["email", "full_name"]), async (r
   res.status(200).json({ message: "Gửi mã otp thành công", otp: otp });
 })
 
+
 router.post('/sendOtpChangeEmail', validate(schema, ["email", "full_name"]), async (req, res) => {
   const { full_name, email } = req.body;
   if (!full_name) {
@@ -235,4 +236,20 @@ router.post('/sendOtpChangeEmail', validate(schema, ["email", "full_name"]), asy
   const otp = await mail_server.sendOtpChangeEmail(email, full_name);
   res.status(200).json({ message: "Gửi mã otp thành công", otp: otp });
 })
+router.post("/sendOtpResetPassWord",validate(schema, ["email"]), async(req, res)=>{
+  const rs = await accountModel.findByEmail(req.body.email);
+  if(rs === null){
+    return res.status(400).json({message: "Email không hợp lệ."});
+  }
+  const otp = await mail_server.sendOtpResetPassWord(req.body.email, rs.full_name);
+  res.status(200).json({ message: "Gửi mã otp thành công", otp: otp, info: rs });
+});
+router.patch("/reset_password", validate(schema, ["account_id", "pass_word"]), async(req, res)=>{
+  req.body.pass_word = bcrypt.hashSync(req.body.pass_word, parseInt(process.env.SALT));
+  const rs = await accountModel.patch(req.body.account_id, {pass_word: req.body.pass_word, rf_token: null});
+  if(rs < 1){
+    return res.status(400).json({message: "Tạo mật khẩu mới không thành công."});
+  }
+  res.status(400).json({message: "Tạo mật khẩu mới thành công."});
+});
 module.exports = router;

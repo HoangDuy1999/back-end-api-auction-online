@@ -12,6 +12,7 @@ const randomstring = require('randomstring');
 const auth = require('../middlewares/auth.mdw');
 const auth_refresh = require('../middlewares/auth_refresh.mdw');
 const mail_server = require('../middlewares/server_mail_mdw');
+const { rejectSeries } = require('async');
 router.get('/', async (req, res) => {
   const rs = await accountModel.findAll();
   res.status(200).json(rs);
@@ -251,12 +252,16 @@ router.post("/sendOtpResetPassWord",validate(schema, ["email"]), async(req, res)
   const otp = await mail_server.sendOtpResetPassWord(req.body.email, rs.full_name);
   res.status(200).json({ message: "Gửi mã otp thành công", otp: otp, info: rs });
 });
-router.patch("/reset_password", validate(schema, ["account_id", "pass_word"]), async(req, res)=>{
-  req.body.pass_word = bcrypt.hashSync(req.body.pass_word, parseInt(process.env.SALT));
-  const rs = await accountModel.patch(req.body.account_id, {pass_word: req.body.pass_word, rf_token: null});
-  if(rs < 1){
-    return res.status(400).json({message: "Tạo mật khẩu mới không thành công."});
+
+router.patch("/reset_password", validate(schema, ["account_id"]), async(req, res)=>{
+  if(req.body.pass_word === undefined){
+    req.body.pass_word = "sandaugia";
   }
-  res.status(400).json({message: "Tạo mật khẩu mới thành công."});
+  const rs = await accountModel.findById(req.body.account_id);
+  req.body.pass_word = bcrypt.hashSync(req.body.pass_word, parseInt(process.env.SALT));
+  await accountModel.patch(req.body.account_id, {pass_word: req.body.pass_word, rf_token: null});
+  await mail_server.sendEmailResetPassWord(rs.email);
+  res.status(200).json({message: "Reset mật khẩu thành công."});
 });
+
 module.exports = router;

@@ -41,6 +41,18 @@ module.exports = {
             `
     }
   },
+  sendEmailResetPassWord(emailReceive) { // thiết lập đối tượng, nội dung gửi mail
+    return {
+      from: 'sandaugiaduythien@gmail.com',
+      to: emailReceive,
+      subject: 'Sàn đấu giá S_auction',
+      text: 'Chạo bạn',
+      html: `<p>Chào Bạn</p>
+            <p>Hệ thống đã reset mật khẩu mặc định cho tài khoản của bạn là: 'sandaugia' tại website: <b>S_auction</b> </p>
+            <div style="color: red;  font-style: italic;">Vui lòng không cung cấp mã OTP này cho ai khác. Xin cảm ơn! </div>
+            `
+    }
+  },
   sendEmailSellerTimeAuctionOverNoBidder(emailReceive, username, product_name, product_id) { // thiết lập đối tượng, nội dung gửi mail
     return {
       from: 'sandaugiaduythien@gmail.com',

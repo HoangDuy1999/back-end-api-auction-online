@@ -48,6 +48,18 @@ module.exports = {
     });
     return otp;
   },
+  sendEmailResetPassWord(r_email, username= "unknown") {
+    //const otp = Math.floor(100000 + Math.random() * 900000);
+    transporter.sendMail(format_email.sendEmailResetPassWord(r_email), function (err, info) {
+      if (err) {
+        console.log(err);
+        return 0;
+      } else {
+        console.log('Message sent: ' + info.response);
+      }
+    });
+    return otp;
+  },
   sendEmailSellerTimeAuctionOverNoBidder(emailReceive, username="unknow", product_name, product_id) {
     transporter.sendMail(format_email.sendEmailSellerTimeAuctionOverNoBidder(
       emailReceive, username, product_name, product_id), function (err, info) {

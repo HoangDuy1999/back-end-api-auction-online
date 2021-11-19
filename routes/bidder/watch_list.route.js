@@ -6,8 +6,10 @@ const auth = require('../../middlewares/auth.mdw');
 const watch_listModel = require('../../models/watch_list.model');
 const router = express.Router();
 router.get('/', async (req, res) => {
+  console.log("watch_list");
   const account_id = req.pay_load.account_id;
   const rs = await watchListModel.findById(account_id) || [];
+  
   res.status(200).json({watch_list: rs, message: "thành công"});
 });
 router.post('/', validate(schema), async (req, res) => {

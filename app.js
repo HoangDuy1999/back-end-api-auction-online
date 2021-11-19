@@ -12,7 +12,9 @@ const handle_socket_io = require('./middlewares/handle_socket.mdw');
 app.use(express.json());
 app.use(morgan('dev'));
 app.use(cors());
-//autoCheckAuctionOver.Init();
+
+autoCheckAuctionOver.Init();
+
 app.get('/', async function (req, res) {
   res.json({
     message: 'Hello online auction backend'

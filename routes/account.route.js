@@ -77,7 +77,6 @@ router.get('/detail', auth, async(req, res)=>{
 });
 
 router.post('/signin', async function (req, res) {
-  console.log("aaa");
   try {
     const { email, pass_word } = req.body;
     const account = await accountModel.findByEmail(req.body.email.trim());
@@ -96,7 +95,7 @@ router.post('/signin', async function (req, res) {
 
     const payload = { account_id: account.account_id, full_name: account.full_name, role_id: account.role_id }
     const opts = {
-      expiresIn: 10 * 60 // seconds
+      expiresIn: 100 * 60 // seconds
     }
     const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET_KEY, opts);
     let refreshToken = account.rf_token;

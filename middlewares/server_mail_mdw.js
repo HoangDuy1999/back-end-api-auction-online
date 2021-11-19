@@ -133,6 +133,19 @@ module.exports = {
     });
     return 1;
   },
+  sendEmailBidderSuccessWhenChangeDescription(product_id, name, email, full_name){
+    transporter.sendMail(format_email.sendEmailBidderSuccessWhenChangeDescription(
+      product_id, name, email, full_name), function (err, info) {
+      if (err) {
+        console.log("===============================")
+        console.log(err);
+        return 0;
+      } else {
+        console.log('Message sent: ' + info.response);
+      }
+    });
+    return 1;
+  },
   sendEmailSellerWhenSomeOneAuctionProduct(emailReceive, username, bidder_name, product_name, product_id, cost){
     transporter.sendMail(format_email.sendEmailSellerWhenSomeOneAuctionProduct(
       emailReceive, username, bidder_name, product_name, product_id, cost), function (err, info) {

@@ -130,6 +130,8 @@ module.exports = {
           if (info_auction.bidder_id == bidder_id) {
             return io.emit("ket_qua_dau_gia_nguoi_mua", { status: 408, account_id: bidder_id, message: "Bạn đánh là người giữ giá nên không cần đấu giá tiếp" });
           }
+          console.log(data.product_id);
+          console.log(info_auction.auction_id);
           const rs = await auctionDetailModel.findMaxCostByAuctionId(info_auction.auction_id);
 
           if (!rs[0]) {
@@ -150,7 +152,7 @@ module.exports = {
               product_id: info_product[0].product_id, info_auction: infomation_auction,
               info_auction_detail: information_auction_detail
             })
-
+            console.log("thâp hơn giá được chọn");
             return io.emit("ket_qua_dau_gia_nguoi_mua", { status: 405, account_id: bidder_id, message: "Giá của bạn thấp hơn người giữ giá trước đó" });
           }
 
@@ -166,7 +168,8 @@ module.exports = {
               product_id: info_product[0].product_id, info_auction: infomation_auction,
               info_auction_detail: information_auction_detail
             })
-
+            console.log(rs[0].max_cost);
+            console.log("// thâp hơn giá được chọn 2222");
             return io.emit("ket_qua_dau_gia_nguoi_mua", { status: 405, account_id: bidder_id, message: "Giá của bạn thấp hơn người giữ giá trước đó" });
           }
 
@@ -182,7 +185,9 @@ module.exports = {
               product_id: info_product[0].product_id, info_auction: infomation_auction,
               info_auction_detail: information_auction_detail
             })
-
+            console.log(rs[0].max_cost);
+            console.log(cost_now);
+            console.log("// thâp hơn giá được chọn 3333");
             return io.emit("ket_qua_dau_gia_nguoi_mua", { status: 405, account_id: bidder_id, message: "Giá của bạn thấp hơn người giữ giá trước đó" });
           }
 

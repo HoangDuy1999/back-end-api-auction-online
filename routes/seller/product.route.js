@@ -11,7 +11,7 @@ const rejectAuctionSchema = require('../../schemas/reject_auction.schema.json');
 const validate = require('../../middlewares/validate.mdw');
 const auth = require('../../middlewares/auth.mdw');
 const router = express.Router();
-
+const mail_server = require('../../middlewares/server_mail_mdw');
 router.get('/info/:id', async (req, res) => {
   const product_id = parseInt(req.params.id) || 0;
   const infoProduct = await productModel.findByIdWithAuth(product_id);
@@ -143,6 +143,13 @@ router.patch('/', validate(schema, ["product_id", "description"]), async (req, r
   if (!rs) {
     return res.status(400).json({ message: "cập nhật mô tả không thành công" });
   }
+  const info_auction_detail = await auctionDetailModel.findEmailByProductId(product.product_id);
+  for (item of info_auction_detail){
+    // console.log(item);
+    mail_server.sendEmailBidderSuccessWhenChangeDescription(
+      item.product_id, item.name, item.email, item.full_name);
+  }
+
   res.status(200).json({ message: "cập nhật mô tả thành công" });
 });
 router.get('/post_unexpired', async (req, res) => {

@@ -63,7 +63,7 @@ module.exports = {
             <p>Sản phẩm đăng bán: <b> ${product_name}</b> </p>
             <p>Tình trạng: Phiên đấu giá đã kết thúc</p>
             <p>Người mua: <b>Không có ai mua</b></p>
-            <p>Xem chi tiết tại đường dẫn: <a href="http://localhost:3000/product/detail/${product_id}"> ấn vô đây</a></p>
+            <p>Xem chi tiết tại đường dẫn: <a href="http://localhost:3000/product/detail?productid=${product_id}"> ấn vô đây</a></p>
             <div>Thân</div>`
     }
   },
@@ -79,7 +79,7 @@ module.exports = {
             <p>Tình trạng: Phiên đấu giá đã kết thúc</p>
             <p>Người mua: <b>${bidder_name}</b></p>
             <p>Giá bán: <b>${cost} đ</b></p>
-            <p>Xem chi tiết tại đường dẫn: <a href="http://localhost:3000/product/detail/${product_id}">ấn vô đây</a></p>
+            <p>Xem chi tiết tại đường dẫn: <a href="http://localhost:3000/product/detail?productid=${product_id}">ấn vô đây</a></p>
             <div>Thân</div>`
     }
   },
@@ -95,7 +95,7 @@ module.exports = {
             <p>Tình trạng: Bạn đã chiến thắng đấu giá sản phẩm này.</p>
             <p>Người bán: <b>${seller_name}</b></p>
             <p>Giá mua: <b>${cost} đ</b></p>
-            <p>Xem chi tiết tại đường dẫn: <a href="http://localhost:3000/product/detail/${product_id}">ấn vô đây</a></p>
+            <p>Xem chi tiết tại đường dẫn: <a href="http://localhost:3000/product/detail?productid=${product_id}">ấn vô đây</a></p>
             <div>Thân</div>`
     }
   },
@@ -111,7 +111,7 @@ module.exports = {
             <p>Tình trạng: <b>Bạn hiện đang giữ giá đấu giá của sản phẩm này.</b></p>
             <p>Người bán: <b>${seller_name}</b></p>
             <p>Giá mua hiện tại: <b>${cost} đ</b></p>
-            <p>Xem chi tiết tại đường dẫn: <a href="http://localhost:3000/product/detail/${product_id}">ấn vô đây</a></p>
+            <p>Xem chi tiết tại đường dẫn: <a href="http://localhost:3000/product/detail?productid=${product_id}">ấn vô đây</a></p>
             <div>Thân</div>`
     }
   },
@@ -125,7 +125,7 @@ module.exports = {
         html: `<p>Chào Bạn <b>${username}</b>,</p>
               <p>Sản phẩm: <b> ${product_name}</b> </p>
               <p>Tình trạng: <b>Sản phẩm đã được bán theo hình thức mua ngay</b></p>
-              <p>Xem chi tiết tại đường dẫn: <a href="http://localhost:3000/product/detail/${product_id}">ấn vô đây</a></p>
+              <p>Xem chi tiết tại đường dẫn: <a href="http://localhost:3000/product/detail?productid=${product_id}">ấn vô đây</a></p>
               <div>Thân</div>`
       }
     },
@@ -139,7 +139,21 @@ module.exports = {
       html: `<p>Chào Bạn <b>${username}</b>,</p>
             <p>Sản phẩm: <b> ${product_name}</b> </p>
             <p>Tình trạng: <b>Có người ra giá cao hơn bạn</b></p>
-            <p>Xem chi tiết tại đường dẫn: <a href="http://localhost:3000/product/detail/${product_id}">ấn vô đây</a></p>
+            <p>Xem chi tiết tại đường dẫn: <a href="http://localhost:3000/product/detail?productid=${product_id}">ấn vô đây</a></p>
+            <div>Thân</div>`
+    }
+  },
+  sendEmailBidderSuccessWhenChangeDescription(
+    product_id, name, emailReceive, full_name) {
+    return {
+      from: 'sandaugiaduythien@gmail.com',
+      to: emailReceive,
+      subject: 'Sàn đấu giá S_auction',
+      text: 'Chạo bạn',
+      html: `<p>Chào Bạn <b>${full_name}</b>,</p>
+            <p>Sản phẩm: <b> ${name}</b> </p>
+            <p>Tình trạng: <b>Người bán đã cập nhật thông tin mô tả</b></p>
+            <p>Xem chi tiết tại đường dẫn: <a href="http://localhost:3000/product/detail?productid=${product_id}">ấn vô đây</a></p>
             <div>Thân</div>`
     }
   },
@@ -155,7 +169,7 @@ module.exports = {
               <p>Tình trạng: Ai đó đã đấu giá sản phẩm của bạn</p>
               <p>Người mua: <b>${bidder_name}</b></p>
               <p>Giá bán: <b>${cost} đ</b></p>
-              <p>Xem chi tiết tại đường dẫn: <a href="http://localhost:3000/product/detail/${product_id}">ấn vô đây</a></p>
+              <p>Xem chi tiết tại đường dẫn: <a href="http://localhost:3000/product/detail?productid=${product_id}">ấn vô đây</a></p>
               <div>Thân</div>`
     }
   },
@@ -169,7 +183,7 @@ module.exports = {
       html: `<p>Chào Bạn <b>${username}</b>,</p>
               <p>Sản phẩm: <b> ${product_name}</b> </p>
               <p>Tình trạng: Người mua từ chối bạn được tham gia đấu giá</p>
-              <p>Xem chi tiết tại đường dẫn: <a href="http://localhost:3000/product/detail/${product_id}">ấn vô đây</a></p>
+              <p>Xem chi tiết tại đường dẫn: <a href="http://localhost:3000/product/detail?productid=${product_id}">ấn vô đây</a></p>
               <div>Thân</div>`
     }
   },

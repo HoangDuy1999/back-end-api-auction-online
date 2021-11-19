@@ -8,7 +8,8 @@ module.exports = {
      return db.select('ad.bidder_id')
      .from('auction_detail as ad')
      .max({ max_cost: ['ad.cost'] })
-     .where('ad.status', 1);
+     .where('ad.status', 1)
+     .andWhere('ad.auction_id', auction_id)
   },
   async findById(id) {
     const rows = await db.table('auction_detail').where('auction_detail_id', id);
@@ -16,6 +17,15 @@ module.exports = {
       return null;
     }
     return rows[0];
+  },
+  async findEmailByProductId(product_id){
+    return db.select('acc.email','acc.full_name', 'p.name', 'p.product_id')
+    .from('auction as a')
+    .leftJoin('auction_detail as ad', 'a.auction_id', 'ad.auction_id')
+    .leftJoin('account as acc', 'ad.bidder_id', 'acc.account_id')
+    .leftJoin('product as p', 'p.product_id', 'a.product_id')
+    .where('ad.status', 1)
+    .andWhere('a.product_id', product_id);
   },
   async findHistoryAuctionBidder(account_id){
     return db

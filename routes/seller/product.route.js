@@ -103,6 +103,7 @@ router.post('/', validate(schema), async (req, res) => {
   res.status(200).json({ message: 'thêm thành công sản phẩm' });
 });
 router.post('/reject_auction', validate(rejectAuctionSchema), async (req, res) => {
+  console.log(req.body);
   const rs_auction = await auctionModel.findById(req.body.auction_id);
   if (rs_auction == null) {
     res.status(400).json({ message: "Từ chối đấu giá đối với người này thành công" })
@@ -111,6 +112,7 @@ router.post('/reject_auction', validate(rejectAuctionSchema), async (req, res) =
   if (!rs) {
     return res.status(400).json({ message: "Từ chối đấu giá đối với người này không thành công" })
   }
+  console.log("ok1");
   // đang giữ giá
   if (rs_auction.bidder_id == req.body.account_id) {
     const rs_auction_detail = await auctionDetailModel.findAllByAuctionIdAndRejectId(
@@ -132,9 +134,11 @@ router.post('/reject_auction', validate(rejectAuctionSchema), async (req, res) =
       }
     }
   }
+  console.log("ok2");
   await auctionDetailModel.patchByAuctionAndAccountId(rs_auction.auction_id, req.body.account_id, {status: 0});
   const infomation_auction = await auctionModel.findByProductId(rs_auction.product_id);
   const information_auction_detail = await auctionDetailModel.findAuctionId(info_auction.auction_id);
+  console.log(infomation_auction);
   res.status(200).json({ message: "Từ chối đấu giá đối thành công", info_auction: infomation_auction, information_auction_detail: information_auction_detail })
 });
 router.patch('/', validate(schema, ["product_id", "description"]), async (req, res) => {

@@ -13,7 +13,7 @@ app.use(express.json());
 app.use(morgan('dev'));
 app.use(cors());
 
-autoCheckAuctionOver.Init();
+//autoCheckAuctionOver.Init();
 
 app.get('/', async function (req, res) {
   res.json({
